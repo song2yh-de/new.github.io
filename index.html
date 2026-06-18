@@ -42,7 +42,7 @@
       right: 0;
       z-index: 100;
       width: 100%;
-      height: 86px;
+      height: 68px;
       border-bottom: 1px solid rgba(255,255,255,0.5);
       display: flex;
       align-items: center;
@@ -57,7 +57,7 @@
       align-items: center;
       justify-content: space-between;
     }
-    .logo img { height: 38px; display: block; }
+    .logo img { width: 77px; height: auto; display: block; }
     .nav {
       display: flex;
       gap: 60px;
@@ -78,6 +78,9 @@
       gap: 16px;
       align-items: center;
     }
+    .gnb-lang-wrap {
+      position: relative;
+    }
     .gnb-lang {
       display: flex;
       align-items: center;
@@ -87,10 +90,44 @@
       border: 1px solid white;
       border-radius: 36px;
       cursor: pointer;
+      user-select: none;
     }
     .gnb-lang img { width: 18px; height: 18px; }
     .gnb-lang span { font-size: 12px; color: white; font-weight: 400; line-height: 16px; }
-    .gnb-lang .caret { width: 12px; height: 12px; }
+    .gnb-lang .caret { width: 12px; height: 12px; transition: transform 0.2s; }
+    .gnb-lang-wrap.open .caret { transform: rotate(180deg); }
+    .lang-dropdown {
+      display: none;
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      overflow: hidden;
+      min-width: 130px;
+      z-index: 200;
+    }
+    .gnb-lang-wrap.open .lang-dropdown { display: block; }
+    .lang-dropdown a {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 16px;
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--gray-25);
+      text-decoration: none;
+      transition: background 0.15s;
+      white-space: nowrap;
+    }
+    .lang-dropdown a:hover { background: var(--brand-99); }
+    .lang-dropdown a.active { font-weight: 600; color: var(--brand-40); }
+    .lang-dropdown a .lang-code {
+      font-size: 11px;
+      color: var(--gray-60);
+      margin-left: auto;
+    }
     .gnb-search, .gnb-menu {
       width: 42px; height: 42px;
       border-radius: 50%;
@@ -872,10 +909,18 @@
       <a href="#">SCL 소개</a>
     </nav>
     <div class="gnb">
-      <div class="gnb-lang">
-        <img src="https://www.figma.com/api/mcp/asset/6efcb8ba-368d-428a-bd63-dd00020100a3" alt="">
-        <span>KOR</span>
-        <img class="caret" src="https://www.figma.com/api/mcp/asset/7b895aad-f52b-4165-a262-aacf44c4fa61" alt="">
+      <div class="gnb-lang-wrap" id="langWrap">
+        <div class="gnb-lang" onclick="document.getElementById('langWrap').classList.toggle('open')">
+          <img src="https://www.figma.com/api/mcp/asset/6efcb8ba-368d-428a-bd63-dd00020100a3" alt="">
+          <span id="langLabel">KOR</span>
+          <img class="caret" src="https://www.figma.com/api/mcp/asset/7b895aad-f52b-4165-a262-aacf44c4fa61" alt="">
+        </div>
+        <div class="lang-dropdown">
+          <a href="#" class="active" onclick="selectLang(event,'KOR')">한국어 <span class="lang-code">KOR</span></a>
+          <a href="#" onclick="selectLang(event,'ENG')">English <span class="lang-code">ENG</span></a>
+          <a href="#" onclick="selectLang(event,'VIE')">Tiếng Việt <span class="lang-code">VIE</span></a>
+          <a href="#" onclick="selectLang(event,'CHN')">中文 <span class="lang-code">CHN</span></a>
+        </div>
       </div>
       <div class="gnb-search">
         <img src="https://www.figma.com/api/mcp/asset/1a41ee4a-93e4-47a7-8196-3c6d948fa5bd" alt="">
@@ -891,20 +936,20 @@
 <div class="quick-menu">
   <div class="quick-item">
     <div class="icon-wrap">
-      <img src="https://www.figma.com/api/mcp/asset/b0f247aa-f61f-4355-92ea-332bee7ba5a2" alt="">
+      <img src="https://www.figma.com/api/mcp/asset/50a83c4c-d267-4393-bd34-bc041eff83c0" alt="">
     </div>
     <p>결과조회</p>
   </div>
   <div class="quick-item">
     <div class="icon-wrap">
-      <img src="https://www.figma.com/api/mcp/asset/b0f247aa-f61f-4355-92ea-332bee7ba5a2" alt="">
+      <img src="https://www.figma.com/api/mcp/asset/50a83c4c-d267-4393-bd34-bc041eff83c0" alt="">
     </div>
     <p>항목조회</p>
   </div>
   <div class="quick-item">
     <div class="quick-new-badge"><span>N</span></div>
     <div class="icon-wrap">
-      <img src="https://www.figma.com/api/mcp/asset/b0f247aa-f61f-4355-92ea-332bee7ba5a2" alt="">
+      <img src="https://www.figma.com/api/mcp/asset/50a83c4c-d267-4393-bd34-bc041eff83c0" alt="">
     </div>
     <p>공문</p>
   </div>
@@ -1205,5 +1250,19 @@
   </div>
 </footer>
 
+<script>
+  function selectLang(e, code) {
+    e.preventDefault();
+    document.getElementById('langLabel').textContent = code;
+    document.querySelectorAll('.lang-dropdown a').forEach(a => a.classList.remove('active'));
+    e.currentTarget.classList.add('active');
+    document.getElementById('langWrap').classList.remove('open');
+  }
+  // 외부 클릭 시 드롭다운 닫기
+  document.addEventListener('click', function(e) {
+    const wrap = document.getElementById('langWrap');
+    if (wrap && !wrap.contains(e.target)) wrap.classList.remove('open');
+  });
+</script>
 </body>
 </html>
