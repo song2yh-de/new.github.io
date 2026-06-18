@@ -1,14 +1,1206 @@
-
-<!-- index.html -->
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>웹 호스팅</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SCL 서울의과학연구소</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --brand-30: #003e96;
+      --brand-40: #0058bc;
+      --brand-50: #188ddd;
+      --brand-60: #5bc2fd;
+      --brand-99: #eaf2f7;
+      --gray-10: #171717;
+      --gray-20: #1c1c1c;
+      --gray-25: #303030;
+      --gray-40: #5c5c5c;
+      --gray-60: #8a8a8a;
+      --gray-90: #c4c4c4;
+      --gray-95: #dcdcdc;
+      --gray-99: #f5f5f5;
+      --blue-20: #1549b3;
+      --white: #ffffff;
+    }
+
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: white;
+      min-width: 1200px;
+      overflow-x: hidden;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      width: 100%;
+      height: 86px;
+      border-bottom: 1px solid rgba(255,255,255,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 40px;
+      background: transparent;
+    }
+    .header-inner {
+      width: 100%;
+      max-width: 1840px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo img { height: 38px; display: block; }
+    .nav {
+      display: flex;
+      gap: 60px;
+      align-items: center;
+      height: 50px;
+    }
+    .nav a {
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: 600;
+      color: white;
+      line-height: 24px;
+      white-space: nowrap;
+    }
+    .nav a:hover { opacity: 0.8; }
+    .gnb {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+    .gnb-lang {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      height: 42px;
+      padding: 0 14px;
+      border: 1px solid white;
+      border-radius: 36px;
+      cursor: pointer;
+    }
+    .gnb-lang img { width: 18px; height: 18px; }
+    .gnb-lang span { font-size: 12px; color: white; font-weight: 400; line-height: 16px; }
+    .gnb-lang .caret { width: 12px; height: 12px; }
+    .gnb-search, .gnb-menu {
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .gnb-search { background: var(--brand-50); }
+    .gnb-menu { background: var(--gray-25); }
+    .gnb-search img, .gnb-menu img { width: 24px; height: 24px; }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 1000px;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+    }
+    .hero-bg img.hero-main {
+      position: absolute;
+      width: 179%;
+      height: 142.6%;
+      left: -33.09%;
+      top: -38.87%;
+      max-width: none;
+      object-fit: cover;
+    }
+    .hero-bg .overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(13,25,65,0.3);
+    }
+    .hero-bg img.hero-overlay {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .hero-text {
+      position: absolute;
+      left: 220px;
+      top: 355px;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+    }
+    .hero-title {
+      font-size: 80px;
+      line-height: 64px;
+    }
+    .hero-title .light { font-weight: 300; }
+    .hero-title .bold { font-weight: 600; }
+    .hero-sub {
+      font-size: 32px;
+      font-weight: 400;
+      line-height: 44px;
+    }
+
+    /* Search panel */
+    .hero-search {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      top: 713px;
+      width: 1600px;
+      background: rgba(255,255,255,0.9);
+      border-radius: 4px 4px 0 0;
+      display: flex;
+      gap: 60px;
+      align-items: center;
+      padding: 30px 60px 34px;
+    }
+    .search-form {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      height: 100px;
+    }
+    .search-form label {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--gray-25);
+      line-height: 20px;
+    }
+    .search-inputs {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .input-field {
+      background: white;
+      border: 1px solid var(--gray-90);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      padding: 16px 12px;
+      gap: 8px;
+      flex: 1;
+      box-shadow: 0px 1px 0.25px rgba(29,41,61,0.02);
+    }
+    .input-field img { width: 16px; height: 16px; flex-shrink: 0; }
+    .input-field span {
+      font-size: 14px;
+      color: var(--gray-40);
+      line-height: 20px;
+    }
+    .btn-login {
+      background: var(--brand-30);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 16px 24px;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 20px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .search-helper {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+    .search-helper .checkbox-wrap {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .search-helper .checkbox-box {
+      width: 16px; height: 16px;
+      border: 1px solid var(--gray-95);
+      border-radius: 4px;
+      background: white;
+    }
+    .search-helper span {
+      font-size: 12px;
+      color: var(--gray-40);
+      line-height: 16px;
+    }
+    .search-helper .divider {
+      width: 1px;
+      height: 10px;
+      background: var(--gray-90);
+    }
+
+    .search-inputs-item {
+      display: flex;
+      align-items: center;
+      width: 100%;
+    }
+    .select-field {
+      background: white;
+      border: 1px solid var(--gray-90);
+      border-radius: 8px 0 0 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 12px;
+      width: 200px;
+      flex-shrink: 0;
+      box-shadow: 0px 1px 0.25px rgba(29,41,61,0.02);
+      cursor: pointer;
+    }
+    .select-field span { font-size: 14px; color: var(--gray-40); line-height: 20px; }
+    .select-field img { width: 16px; height: 16px; }
+    .text-field {
+      background: white;
+      border-top: 1px solid var(--gray-90);
+      border-bottom: 1px solid var(--gray-90);
+      border-right: none;
+      display: flex;
+      align-items: center;
+      padding: 16px 12px;
+      flex: 1;
+      box-shadow: 0px 1px 0.25px rgba(29,41,61,0.02);
+    }
+    .text-field span { font-size: 14px; color: var(--gray-40); line-height: 20px; }
+    .btn-search {
+      background: var(--brand-30);
+      border: none;
+      border-radius: 0 8px 8px 0;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .btn-search img { width: 20px; height: 20px; }
+
+    /* Notice bar */
+    .notice-bar {
+      position: absolute;
+      left: 160px;
+      top: 877px;
+      width: 1600px;
+      background: rgba(5,54,123,0.7);
+      border-radius: 0 0 4px 4px;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      justify-content: center;
+      padding: 8px;
+    }
+    .notice-tag {
+      background: var(--gray-20);
+      color: white;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 20px;
+      padding: 4px 16px;
+      border-radius: 8px;
+      white-space: nowrap;
+    }
+    .notice-content {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      padding: 10px;
+      width: 660px;
+    }
+    .notice-content .notice-num {
+      color: white;
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 20px;
+      white-space: nowrap;
+    }
+    .notice-content .notice-text {
+      color: white;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 20px;
+      letter-spacing: 0.25px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .notice-new {
+      background: var(--brand-50);
+      width: 18px; height: 18px;
+      border-radius: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .notice-new span { color: white; font-size: 11px; font-weight: 600; line-height: 16px; }
+    .notice-date { color: white; font-size: 12px; font-weight: 400; line-height: 16px; padding: 10px; white-space: nowrap; }
+    .notice-nav { display: flex; gap: 8px; align-items: center; }
+    .notice-nav img { width: 20px; height: 20px; cursor: pointer; }
+
+    /* Quick menu */
+    .quick-menu {
+      position: absolute;
+      right: 12px;
+      top: 223px;
+      width: 80px;
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .quick-item {
+      border-bottom: 1px solid var(--gray-95);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 10px 0;
+      width: 100%;
+      cursor: pointer;
+      position: relative;
+    }
+    .quick-item:last-child { border-bottom: none; }
+    .quick-item .icon-wrap {
+      width: 40px; height: 40px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .quick-item .icon-wrap img { width: 24px; height: 24px; }
+    .quick-item p {
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--gray-25);
+      text-align: center;
+      line-height: 16px;
+    }
+    .quick-new-badge {
+      position: absolute;
+      top: 14px;
+      left: 48px;
+      background: var(--brand-50);
+      width: 13px; height: 13px;
+      border-radius: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .quick-new-badge span { color: white; font-size: 10px; font-weight: 900; line-height: 16px; }
+    .quick-phone {
+      background: var(--brand-99);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      height: 90px;
+      width: 100%;
+      text-align: center;
+      cursor: pointer;
+    }
+    .quick-phone .phone-label { font-size: 12px; font-weight: 400; color: var(--gray-25); line-height: 16px; }
+    .quick-phone .phone-num { font-size: 18px; font-weight: 700; color: var(--gray-25); line-height: 20px; }
+
+    /* Scroll top */
+    .scroll-top {
+      position: absolute;
+      right: 12px;
+      top: 877px;
+      width: 60px; height: 60px;
+      border-radius: 60px;
+      background: rgba(48,48,48,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .scroll-top img { width: 24px; height: 24px; }
+
+    /* ── SCL INSIGHT ── */
+    .insight-section {
+      position: relative;
+      width: 100%;
+      height: 1095px;
+      overflow: hidden;
+    }
+    .insight-bg {
+      position: absolute;
+      inset: 0;
+      background: var(--brand-99);
+    }
+    .insight-bg img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.3;
+    }
+    .insight-heading {
+      position: absolute;
+      top: 119px;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      white-space: nowrap;
+    }
+    .insight-heading h2 {
+      font-size: 32px;
+      font-weight: 600;
+      color: var(--gray-20);
+      line-height: 40px;
+    }
+    .insight-heading p {
+      margin-top: 15px;
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--gray-20);
+      line-height: 20px;
+    }
+    .insight-cards {
+      position: absolute;
+      top: 50%;
+      left: 160px;
+      transform: translateY(calc(-50% + 63.5px));
+      width: 1600px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .cards-row {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+    .news-card {
+      width: 385px;
+      height: 350px;
+      border-radius: 8px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+    }
+    .news-card-img {
+      height: 212px;
+      width: 100%;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+    .news-card-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .news-card-body {
+      background: white;
+      padding: 14px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 0;
+      border-radius: 4px;
+    }
+    .tag-news { color: var(--blue-20); font-size: 14px; font-weight: 400; line-height: 20px; }
+    .tag-society { color: #b31591; font-size: 14px; font-weight: 400; line-height: 20px; }
+    .tag-health { color: #2baa64; font-size: 14px; font-weight: 400; line-height: 20px; }
+    .tag-amr { color: #b38e15; font-size: 14px; font-weight: 400; line-height: 20px; }
+    .news-card-body h3 {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--gray-10);
+      line-height: 24px;
+    }
+    .news-card-body .date {
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--gray-60);
+      line-height: 16px;
+    }
+    /* Wide card */
+    .wide-card {
+      width: 790px;
+      height: 350px;
+      border-radius: 8px;
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .wide-card img.wide-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+    .wide-card-text {
+      position: absolute;
+      left: 40px;
+      top: 82px;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .wide-card-text h3 { font-size: 22px; font-weight: 600; line-height: 28px; }
+    .wide-card-text p { font-size: 16px; font-weight: 400; line-height: 24px; }
+    .wide-card-btns {
+      position: absolute;
+      top: 241px;
+      left: 43px;
+      display: flex;
+      gap: 6px;
+    }
+    .wide-card-btn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      height: 40px;
+      background: rgba(255,255,255,0.7);
+      border-radius: 4px;
+      padding: 4px 14px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .wide-card-btn span {
+      font-size: 14px;
+      font-weight: 400;
+      color: black;
+      line-height: 20px;
+      letter-spacing: 0.25px;
+      white-space: nowrap;
+    }
+    .wide-card-btn img { width: 16px; height: 16px; }
+
+    /* ── NETWORK ── */
+    .network-section {
+      position: relative;
+      width: 100%;
+      padding: 80px 0;
+      background: white;
+    }
+    .network-inner {
+      max-width: 1840px;
+      margin: 0 auto;
+      padding: 0 160px;
+      display: flex;
+      align-items: center;
+      gap: 60px;
+    }
+    .network-text { flex: 1; }
+    .network-text .arrow-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 15px;
+    }
+    .network-text h2 {
+      font-size: 32px;
+      font-weight: 600;
+      color: var(--brand-30);
+      line-height: 40px;
+      margin-bottom: 15px;
+    }
+    .network-text .arrow-link img { width: 20px; height: 20px; }
+    .network-text p {
+      font-size: 24px;
+      font-weight: 400;
+      color: var(--brand-30);
+      line-height: 32px;
+    }
+    .network-image {
+      flex-shrink: 0;
+      width: 600px;
+      height: 266px;
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+    }
+    .network-image img.net-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .network-image .img-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0,0,0,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px;
+    }
+    .network-image .img-caption span {
+      color: white;
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 24px;
+      white-space: nowrap;
+    }
+    .network-image .img-caption img { height: 10px; }
+
+    /* ── SPOTLIGHT ── */
+    .spotlight-section {
+      display: flex;
+      width: 100%;
+    }
+    .spotlight-left {
+      width: 960px;
+      height: 650px;
+      overflow: hidden;
+      position: relative;
+      flex-shrink: 0;
+    }
+    .spotlight-left img.spotlight-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .spotlight-text {
+      position: absolute;
+      left: 210px;
+      top: 95px;
+      width: 315px;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    .spotlight-text h2 { font-size: 32px; font-weight: 600; line-height: 40px; }
+    .spotlight-text p { font-size: 14px; font-weight: 400; line-height: 20px; }
+    .spotlight-preview {
+      position: absolute;
+      left: 210px;
+      top: 202px;
+      width: 600px;
+      height: 330px;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .spotlight-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .spotlight-right {
+      flex: 1;
+      background: var(--gray-99);
+      height: 650px;
+      overflow: hidden;
+      position: relative;
+    }
+    .spotlight-list {
+      position: absolute;
+      top: 50%;
+      left: 94px;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .spotlight-item {
+      width: 600px;
+      border-bottom: 1px solid var(--gray-95);
+      padding-bottom: 20px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      cursor: pointer;
+    }
+    .spotlight-item:last-child { border-bottom: none; }
+    .spotlight-item .item-text { display: flex; flex-direction: column; gap: 10px; }
+    .spotlight-item .item-text h3 {
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 24px;
+      white-space: nowrap;
+    }
+    .spotlight-item .item-text p {
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--gray-60);
+      line-height: 16px;
+    }
+    .spotlight-item.active .item-text h3 { color: var(--brand-40); }
+    .spotlight-item .arrow { width: 20px; height: 20px; flex-shrink: 0; margin-top: 2px; }
+    .spotlight-underline {
+      position: absolute;
+      bottom: calc(50% - 3px - 130px);
+      left: 785px;
+      width: 200px;
+      height: 3px;
+      background: var(--brand-60);
+    }
+
+    /* ── FOOTER ── */
+    .footer {
+      background: white;
+      padding: 39px 160px;
+      border-radius: 30px;
+    }
+    .footer-top {
+      border-bottom: 1px solid var(--gray-95);
+      padding-bottom: 40px;
+      margin-bottom: 20px;
+    }
+    .footer-row1 {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-logo img { height: 30px; }
+    .footer-contact {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .footer-contact .label {
+      font-size: 14px;
+      font-weight: 600;
+      color: black;
+      line-height: 22px;
+    }
+    .footer-contact .phone {
+      font-size: 28px;
+      font-weight: 600;
+      color: var(--brand-40);
+      line-height: 36px;
+    }
+    .footer-dropdown {
+      background: white;
+      border: 1px solid var(--gray-90);
+      border-radius: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 16px;
+      width: 200px;
+      box-shadow: 0px 1px 0.25px rgba(29,41,61,0.02);
+      cursor: pointer;
+    }
+    .footer-dropdown span { font-size: 14px; font-weight: 400; color: var(--gray-40); line-height: 20px; }
+    .footer-dropdown img { width: 16px; height: 16px; }
+    .footer-info { display: flex; flex-direction: column; gap: 7px; }
+    .footer-info-row {
+      display: flex;
+      gap: 30px;
+      align-items: center;
+      font-size: 14px;
+      line-height: 20px;
+    }
+    .footer-info-item { display: flex; gap: 10px; align-items: center; }
+    .footer-info-item .key { font-weight: 600; color: var(--gray-25); white-space: nowrap; }
+    .footer-info-item .val { font-weight: 400; color: #545454; letter-spacing: 0.25px; }
+    .footer-copy { font-size: 12px; font-weight: 400; color: var(--gray-60); line-height: 16px; }
+    .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 20px;
+    }
+    .footer-links {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+    .footer-links a {
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      line-height: 22px;
+    }
+    .footer-links a.muted { color: var(--gray-60); }
+    .footer-links a.active { color: black; }
+    .footer-sns { display: flex; gap: 10px; align-items: center; }
+    .sns-icon {
+      width: 36px; height: 36px;
+      background: #f2f2f2;
+      border-radius: 36px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .sns-icon img { width: 20px; height: 20px; object-fit: contain; }
+  </style>
 </head>
 <body>
-    git pages 입니다.
+
+<!-- ── HERO (includes sticky header) ── -->
+<div class="hero">
+  <div class="hero-bg">
+    <img class="hero-main" src="https://www.figma.com/api/mcp/asset/52256e0e-8a23-42d5-84a0-332f371dc1ba" alt="">
+    <div class="overlay"></div>
+    <img class="hero-overlay" src="https://www.figma.com/api/mcp/asset/8dd5a6fe-a4d0-4178-bd11-4e2abda468db" alt="">
+  </div>
+
+  <!-- Sticky header inside hero for overlay effect -->
+  <div class="header">
+    <div class="header-inner">
+      <a class="logo" href="#">
+        <img src="https://www.figma.com/api/mcp/asset/37c88d34-beb9-4039-ba1b-f2989c8ade5d" alt="SCL">
+      </a>
+      <nav class="nav">
+        <a href="#">검사안내</a>
+        <a href="#">검사부문</a>
+        <a href="#">연구·혁신</a>
+        <a href="#">고객지원</a>
+        <a href="#">소식·홍보</a>
+        <a href="#">SCL 소개</a>
+      </nav>
+      <div class="gnb">
+        <div class="gnb-lang">
+          <img src="https://www.figma.com/api/mcp/asset/6efcb8ba-368d-428a-bd63-dd00020100a3" alt="">
+          <span>KOR</span>
+          <img class="caret" src="https://www.figma.com/api/mcp/asset/7b895aad-f52b-4165-a262-aacf44c4fa61" alt="">
+        </div>
+        <div class="gnb-search">
+          <img src="https://www.figma.com/api/mcp/asset/1a41ee4a-93e4-47a7-8196-3c6d948fa5bd" alt="">
+        </div>
+        <div class="gnb-menu">
+          <img src="https://www.figma.com/api/mcp/asset/8088e8f7-9896-4dc9-afa7-a1ec233443b7" alt="">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-text">
+    <div class="hero-title">
+      <span class="light">매일의 </span><span class="bold">건강, </span><span class="light">미래의 </span><span class="bold">행복.</span>
+    </div>
+    <div class="hero-sub">
+      국내 최초 검체 검사 전문기관으로 시작해,&nbsp;&nbsp;<br>
+      이제는 세계가 인정하는 헬스케어 파트너로 나아갑니다.
+    </div>
+  </div>
+
+  <!-- Search panel -->
+  <div class="hero-search">
+    <!-- 결과조회 -->
+    <div class="search-form">
+      <label>결과조회</label>
+      <div class="search-inputs">
+        <div class="input-field">
+          <img src="https://www.figma.com/api/mcp/asset/ea0bd6d9-47a9-4193-b356-8391d4559814" alt="">
+          <span>아이디</span>
+        </div>
+        <div class="input-field">
+          <img src="https://www.figma.com/api/mcp/asset/9981f9c0-cf0f-4a31-8ff5-a0b09d4ae14a" alt="">
+          <span>비밀번호</span>
+        </div>
+        <button class="btn-login">로그인</button>
+      </div>
+      <div class="search-helper">
+        <div class="checkbox-wrap">
+          <div class="checkbox-box"></div>
+          <span>아이디 저장</span>
+        </div>
+        <div class="divider"></div>
+        <span>아이디/비밀번호 찾기</span>
+      </div>
+    </div>
+    <!-- 항목조회 -->
+    <div class="search-form">
+      <label>항목조회</label>
+      <div class="search-inputs-item">
+        <div class="select-field">
+          <span>전체</span>
+          <img src="https://www.figma.com/api/mcp/asset/543bc4e9-b448-4df7-8578-54442d2aa638" alt="">
+        </div>
+        <div class="text-field">
+          <span>검색어를 입력해주세요</span>
+        </div>
+        <button class="btn-search">
+          <img src="https://www.figma.com/api/mcp/asset/98b80f4b-6c56-42e1-a1ca-54a08cba4ce2" alt="">
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notice bar -->
+  <div class="notice-bar">
+    <div class="notice-tag">공문</div>
+    <div class="notice-content">
+      <span class="notice-num">[SCL 2026-043호]</span>
+      <span class="notice-text">VENTANA FOLR1(FOLR1-2.1) Assay 검사 외 8항목의 신규검사 및 일부 검사정 ...</span>
+      <div class="notice-new"><span>N</span></div>
+    </div>
+    <div class="notice-date">2026-05-29</div>
+    <div class="notice-nav">
+      <img src="https://www.figma.com/api/mcp/asset/52d0f94a-6e03-4afb-98f1-dddcc020833d" alt="이전">
+      <img src="https://www.figma.com/api/mcp/asset/3e2f8726-f199-415d-9484-f3b4ed6b7dc4" alt="다음">
+    </div>
+  </div>
+
+  <!-- Quick menu -->
+  <div class="quick-menu">
+    <div class="quick-item">
+      <div class="icon-wrap">
+        <img src="https://www.figma.com/api/mcp/asset/b0f247aa-f61f-4355-92ea-332bee7ba5a2" alt="">
+      </div>
+      <p>결과조회</p>
+    </div>
+    <div class="quick-item">
+      <div class="icon-wrap">
+        <img src="https://www.figma.com/api/mcp/asset/b0f247aa-f61f-4355-92ea-332bee7ba5a2" alt="">
+      </div>
+      <p>항목조회</p>
+    </div>
+    <div class="quick-item">
+      <div class="quick-new-badge"><span>N</span></div>
+      <div class="icon-wrap">
+        <img src="https://www.figma.com/api/mcp/asset/b0f247aa-f61f-4355-92ea-332bee7ba5a2" alt="">
+      </div>
+      <p>공문</p>
+    </div>
+    <div class="quick-phone">
+      <span class="phone-label">대표번호</span>
+      <div class="phone-num">1800<br>0119</div>
+    </div>
+  </div>
+
+  <!-- Scroll to top -->
+  <div class="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+    <img src="https://www.figma.com/api/mcp/asset/c064c4de-7387-49ca-89e6-6a003e4194d6" alt="">
+  </div>
+
+  <!-- Indicator -->
+  <div style="position:absolute;left:230px;top:575px;width:124px;height:24px;">
+    <div style="position:absolute;background:rgba(0,0,0,0.5);height:5px;left:0;top:10px;width:100px;border-radius:3px;"></div>
+    <div style="position:absolute;background:white;height:5px;left:0;top:10px;width:28px;border-radius:3px;"></div>
+    <img src="https://www.figma.com/api/mcp/asset/b06ebde0-1fb6-4c55-bfce-72b41afc29c0" alt="" style="position:absolute;right:0;top:0;width:24px;height:24px;">
+  </div>
+</div>
+
+<!-- ── SCL INSIGHT ── -->
+<div class="insight-section">
+  <div class="insight-bg">
+    <img src="https://www.figma.com/api/mcp/asset/7b2f7af1-e0b0-4ac8-bd0a-5d54d9dfeec8" alt="">
+  </div>
+  <div class="insight-heading">
+    <h2>SCL Insight</h2>
+    <p>최신 뉴스부터 업계 동향까지, 필요한 모든 정보를 한눈에 확인하세요</p>
+  </div>
+  <div class="insight-cards">
+    <!-- Row 1 -->
+    <div class="cards-row">
+      <div class="news-card">
+        <div class="news-card-img"><img src="https://www.figma.com/api/mcp/asset/5ffc190e-9fe7-44c9-b8f0-d919cf22bebf" alt=""></div>
+        <div class="news-card-body">
+          <span class="tag tag-news">News</span>
+          <h3>SCL그룹-강남세브란스-몽골국립의대병원 해외 의료지원<br>확대 및 의료환경 개선 위해 '맞손'</h3>
+          <span class="date">2026.05.26</span>
+        </div>
+      </div>
+      <div class="news-card">
+        <div class="news-card-img"><img src="https://www.figma.com/api/mcp/asset/38c82c1a-6dd3-4e4a-b439-f9a781b31229" alt=""></div>
+        <div class="news-card-body">
+          <span class="tag tag-news">News</span>
+          <h3>SCL, 성남시 독거 어르신 대상 '찾아가는 건강검진' 진행</h3>
+          <span class="date">2026.05.26</span>
+        </div>
+      </div>
+      <div class="wide-card">
+        <img class="wide-bg" src="https://www.figma.com/api/mcp/asset/d31c3e54-9d87-45c5-b605-1808fa9bb44a" alt="">
+        <div class="wide-card-text">
+          <h3>공문·신규검사 안내</h3>
+          <p>최신 기술과 신규 검사 항목 정보를 확인하세요</p>
+        </div>
+        <div class="wide-card-btns">
+          <a href="#" class="wide-card-btn">
+            <span>공문</span>
+            <img src="https://www.figma.com/api/mcp/asset/adb20b30-9641-4750-9987-e78697c4e4e8" alt="">
+          </a>
+          <a href="#" class="wide-card-btn">
+            <span>신규검사 안내</span>
+            <img src="https://www.figma.com/api/mcp/asset/adb20b30-9641-4750-9987-e78697c4e4e8" alt="">
+          </a>
+        </div>
+      </div>
+    </div>
+    <!-- Row 2 -->
+    <div class="cards-row">
+      <div class="news-card">
+        <div class="news-card-img"><img src="https://www.figma.com/api/mcp/asset/8e9e4ab0-9397-4d2b-8e9a-bd385a4cd7f4" alt=""></div>
+        <div class="news-card-body">
+          <span class="tag tag-news">News</span>
+          <h3>SCL, 대한임상화학회 춘계학술대회 참여</h3>
+          <span class="date">2026.05.26</span>
+        </div>
+      </div>
+      <div class="news-card">
+        <div class="news-card-img"><img src="https://www.figma.com/api/mcp/asset/992183fb-95f1-4c09-9bdf-275db87c20e4" alt=""></div>
+        <div class="news-card-body">
+          <span class="tag tag-society">사회공헌</span>
+          <h3>SCL그룹-서초구, 미래 세대 위해 탄소중립 실천 앞장</h3>
+          <span class="date">2026.05.26</span>
+        </div>
+      </div>
+      <div class="news-card">
+        <div class="news-card-img"><img src="https://www.figma.com/api/mcp/asset/c7c1d9c2-8cd8-43ae-949d-d78f45ca55f7" alt=""></div>
+        <div class="news-card-body">
+          <span class="tag tag-health">건강레시피</span>
+          <h3>야외활동의 불청객, 살인 진드기병 'SFTS' 핵심 가이드</h3>
+          <span class="date">2026.05.26</span>
+        </div>
+      </div>
+      <div class="news-card">
+        <div class="news-card-img"><img src="https://www.figma.com/api/mcp/asset/ecc79b6d-8fe1-4d96-88d6-6d47a001110b" alt=""></div>
+        <div class="news-card-body">
+          <span class="tag tag-amr">항균제 내성 소식</span>
+          <h3>항균제 내성 소식 Vol.5 No.1</h3>
+          <span class="date">2026.05.26</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── NETWORK ── -->
+<div class="network-section">
+  <div class="network-inner">
+    <div class="network-text">
+      <div class="arrow-link">
+        <h2>SCL 네트워크</h2>
+        <img src="https://www.figma.com/api/mcp/asset/f38a24ac-02a2-4a3b-8d6c-58afcae8dbaf" alt="">
+      </div>
+      <p>지역검사센터를 비롯해 전국 최대 규모 고객지원센터를 운영<br>신속·정확한 검사 결과를 제공하고 지역 의료 격차 해소를 위해 노력하고 있습니다.</p>
+    </div>
+    <div class="network-image">
+      <img class="net-img" src="https://www.figma.com/api/mcp/asset/42fffe98-6f88-4e6d-8f27-da6bb0559975" alt="SCL 광주의원">
+      <div class="img-caption">
+        <span>SCL 광주의원</span>
+        <img src="https://www.figma.com/api/mcp/asset/c778dd9b-c4c2-44cb-9610-e7c3aae68306" alt="">
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── SPOTLIGHT ── -->
+<div class="spotlight-section">
+  <div class="spotlight-left">
+    <img class="spotlight-bg" src="https://www.figma.com/api/mcp/asset/47a40a88-02fc-4748-b206-3c29c9e4105f" alt="">
+    <div class="spotlight-text">
+      <h2>SCL SpotLight</h2>
+      <p>최신 학술 리플릿 소개를 통해 유익한 지식을 확인해보세요</p>
+    </div>
+    <div class="spotlight-preview">
+      <img src="https://www.figma.com/api/mcp/asset/62de61b7-7b3b-48ec-a8b3-e7b3a09bf077" alt="">
+    </div>
+  </div>
+  <div class="spotlight-right">
+    <div class="spotlight-list">
+      <div class="spotlight-item active">
+        <div class="item-text">
+          <h3>SCL 병리 검사 부문</h3>
+          <p>Precision Diagnosis with Digital Pathology System<br>정확하고 신뢰할 수 있는 병리 진단</p>
+        </div>
+        <img class="arrow" src="https://www.figma.com/api/mcp/asset/fa98e5cc-8ee8-4b6b-8755-8e47d4cf738e" alt="">
+      </div>
+      <div class="spotlight-item">
+        <div class="item-text">
+          <h3>VENTANA FOLR1 (FOLR1-2.1) 검사</h3>
+          <p>고등급 장액성 상피성 난소암 및 난관암, 원발성 복막암의<br>치료약제(mirvetuximab soravtansine) 적용 환자 식별을 위한 동반진단검사</p>
+        </div>
+        <img class="arrow" src="https://www.figma.com/api/mcp/asset/604fa74f-db91-483b-8a48-04563f2c6177" alt="">
+      </div>
+      <div class="spotlight-item">
+        <div class="item-text">
+          <h3>내분비 교란물질 프로파일 검사</h3>
+          <p>질량분석법(LC-MS/MS)을 이용한 내분비 교란물질(환경호르몬) 측정</p>
+        </div>
+        <img class="arrow" src="https://www.figma.com/api/mcp/asset/604fa74f-db91-483b-8a48-04563f2c6177" alt="">
+      </div>
+      <div class="spotlight-item">
+        <div class="item-text">
+          <h3>SCL 미생물 통계 프로그램 안내</h3>
+          <p>일반배양 동정균별 항균제 감수성 패턴과 혈액배양 월별 평균 채혈량 모니터링을 위한 프로그램 사용 안내</p>
+        </div>
+        <img class="arrow" src="https://www.figma.com/api/mcp/asset/604fa74f-db91-483b-8a48-04563f2c6177" alt="">
+      </div>
+    </div>
+    <div class="spotlight-underline"></div>
+  </div>
+</div>
+
+<!-- ── FOOTER ── -->
+<footer class="footer">
+  <div class="footer-top">
+    <div class="footer-row1">
+      <div class="footer-logo">
+        <img src="https://www.figma.com/api/mcp/asset/37c88d34-beb9-4039-ba1b-f2989c8ade5d" alt="SCL">
+      </div>
+      <div class="footer-contact">
+        <span class="label">대표번호</span>
+        <span class="phone">1800-0119</span>
+        <div class="footer-dropdown">
+          <span>관련사이트</span>
+          <img src="https://www.figma.com/api/mcp/asset/543bc4e9-b448-4df7-8578-54442d2aa638" alt="">
+        </div>
+      </div>
+    </div>
+    <div class="footer-info">
+      <div class="footer-info-row">
+        <div class="footer-info-item">
+          <span class="key">주소</span>
+          <span class="val">경기도 용인시 기흥구 흥덕1로 13 흥덕IT밸리 A동 (재)서울의과학연구소</span>
+        </div>
+        <div class="footer-info-item">
+          <span class="key">TEL</span>
+          <span class="val">1800-0119</span>
+        </div>
+        <div class="footer-info-item">
+          <span class="key">FAX</span>
+          <span class="val">02-790-6509</span>
+        </div>
+      </div>
+      <p class="footer-copy">Copyright © Seoul Clinical Laboratories. All rights reserved.</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-links">
+      <a href="#" class="muted">인트라넷</a>
+      <a href="#" class="active">개인정보처리방침</a>
+      <a href="#" class="muted">원격지원</a>
+    </div>
+    <div class="footer-sns">
+      <div class="sns-icon">
+        <img src="https://www.figma.com/api/mcp/asset/7b10e093-95f2-474d-a84a-dadc5c6adf39" alt="Blog">
+      </div>
+      <div class="sns-icon">
+        <img src="https://www.figma.com/api/mcp/asset/fc669e48-eddd-4f8d-9327-607113ef5edd" alt="YouTube">
+      </div>
+    </div>
+  </div>
+</footer>
+
 </body>
 </html>
