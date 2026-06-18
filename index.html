@@ -583,6 +583,29 @@
     .notice-nav { display: flex; gap: 8px; align-items: center; }
     .notice-nav img { width: 20px; height: 20px; cursor: pointer; }
 
+    /* Quick chat (standalone button above quick menu) */
+    .quick-chat-btn {
+      position: fixed;
+      right: 22px;
+      top: 157px;
+      z-index: 99;
+      width: 60px; height: 60px;
+      border-radius: 60px;
+      border: 1px solid rgba(255,255,255,0.5);
+      background: linear-gradient(128deg, rgba(169,151,193,0.6) 5%, rgba(74,98,186,0.6) 91%), white;
+      overflow: hidden;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    }
+    .quick-chat-btn img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
     /* Quick menu */
     .quick-menu {
       position: fixed;
@@ -596,8 +619,6 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-    }
-    .quick-menu {
       box-shadow: 0 4px 24px rgba(0,0,0,0.12);
     }
     .quick-item {
@@ -621,15 +642,6 @@
       justify-content: center;
     }
     .quick-item .icon-wrap img { width: 24px; height: 24px; }
-    .quick-chat-wrap {
-      width: 44px; height: 44px;
-      border-radius: 60px;
-      border: 1px solid rgba(255,255,255,0.5);
-      background: linear-gradient(128deg, rgba(169,151,193,0.6) 5%, rgba(74,98,186,0.6) 91%);
-      overflow: hidden;
-      padding: 4px;
-    }
-    .quick-chat-img { width: 100% !important; height: 100% !important; object-fit: cover; border-radius: 50%; }
     .quick-item p {
       font-size: 12px;
       font-weight: 400;
@@ -1197,35 +1209,34 @@
 
 <!-- ── SCROLL TO TOP ── -->
 <div class="scroll-top" id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})">
-  <img src="https://www.figma.com/api/mcp/asset/c064c4de-7387-49ca-89e6-6a003e4194d6" alt="">
+  <img src="https://www.figma.com/api/mcp/asset/bd5f29b2-c0c3-4393-abb4-979926c38ce2" alt="">
+</div>
+
+<!-- ── QUICK CHAT (별도 버튼) ── -->
+<div class="quick-chat-btn">
+  <img src="https://www.figma.com/api/mcp/asset/a2c5ba9b-1526-4ba9-91de-40c41ff2bb6c" alt="챗봇">
 </div>
 
 <!-- ── FIXED QUICK MENU ── -->
 <div class="quick-menu">
   <div class="quick-item">
     <div class="icon-wrap">
-      <img src="https://www.figma.com/api/mcp/asset/50a83c4c-d267-4393-bd34-bc041eff83c0" alt="">
+      <img src="https://www.figma.com/api/mcp/asset/020d794b-99d5-43b7-b8b0-a1005c5d7441" alt="결과조회">
     </div>
     <p>결과조회</p>
   </div>
   <div class="quick-item">
     <div class="icon-wrap">
-      <img src="https://www.figma.com/api/mcp/asset/50a83c4c-d267-4393-bd34-bc041eff83c0" alt="">
+      <img src="https://www.figma.com/api/mcp/asset/6d47d9d6-ef14-4cb3-b631-978f4b23bbb3" alt="항목조회">
     </div>
     <p>항목조회</p>
   </div>
   <div class="quick-item">
     <div class="quick-new-badge"><span>N</span></div>
     <div class="icon-wrap">
-      <img src="https://www.figma.com/api/mcp/asset/50a83c4c-d267-4393-bd34-bc041eff83c0" alt="">
+      <img src="https://www.figma.com/api/mcp/asset/03db5ec0-237b-479c-a2fa-eae8e360bc25" alt="공문">
     </div>
     <p>공문</p>
-  </div>
-  <div class="quick-item">
-    <div class="icon-wrap quick-chat-wrap">
-      <img src="https://www.figma.com/api/mcp/asset/fb160f93-31d9-4c9d-9a3f-640bdd58dd1e" alt="챗봇" class="quick-chat-img">
-    </div>
-    <p>챗봇</p>
   </div>
   <div class="quick-phone">
     <span class="phone-label">대표번호</span>
