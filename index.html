@@ -64,7 +64,7 @@
       align-items: center;
       justify-content: space-between;
     }
-    .logo img { width: 77px; height: auto; display: block; }
+    .logo img { width: 77px; height: 33px; display: block; object-fit: contain; }
     .nav {
       display: flex;
       gap: 60px;
@@ -167,7 +167,7 @@
     .header-search-overlay {
       position: fixed;
       top: 0; left: 0; right: 0;
-      z-index: 99;
+      z-index: 200;
       background: rgba(0,20,60,0.97);
       height: 0;
       overflow: hidden;
@@ -1211,6 +1211,17 @@
       <img src="https://www.figma.com/api/mcp/asset/50a83c4c-d267-4393-bd34-bc041eff83c0" alt="">
     </div>
     <p>공문</p>
+  </div>
+  <div class="quick-item">
+    <div class="icon-wrap">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2Z" fill="#188ddd"/>
+        <circle cx="8" cy="11" r="1.2" fill="white"/>
+        <circle cx="12" cy="11" r="1.2" fill="white"/>
+        <circle cx="16" cy="11" r="1.2" fill="white"/>
+      </svg>
+    </div>
+    <p>챗봇</p>
   </div>
   <div class="quick-phone">
     <span class="phone-label">대표번호</span>
