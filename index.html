@@ -8,6 +8,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;600;700;900&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
 
     :root {
       --brand-30: #003e96;
@@ -49,6 +50,12 @@
       justify-content: center;
       padding: 0 40px;
       background: transparent;
+      transition: background 0.3s, border-color 0.3s;
+    }
+    .header.scrolled {
+      background: rgba(0,22,70,0.96);
+      border-bottom-color: rgba(255,255,255,0.15);
+      backdrop-filter: blur(12px);
     }
     .header-inner {
       width: 100%;
@@ -72,7 +79,21 @@
       line-height: 24px;
       white-space: nowrap;
     }
-    .nav a:hover { opacity: 0.8; }
+    .nav a {
+      position: relative;
+    }
+    .nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0; right: 0;
+      height: 2px;
+      background: white;
+      transform: scaleX(0);
+      transition: transform 0.2s;
+    }
+    .nav a:hover::after { transform: scaleX(1); }
+    .nav a:hover { opacity: 0.9; }
     .gnb {
       display: flex;
       gap: 16px;
@@ -353,6 +374,10 @@
       color: var(--gray-40);
       line-height: 20px;
     }
+    .input-field:focus-within {
+      border-color: var(--brand-50);
+      box-shadow: 0 0 0 3px rgba(24,141,221,0.15);
+    }
     .btn-login {
       background: var(--brand-30);
       color: white;
@@ -364,7 +389,9 @@
       line-height: 20px;
       cursor: pointer;
       white-space: nowrap;
+      transition: background 0.2s;
     }
+    .btn-login:hover { background: var(--brand-40); }
     .search-helper {
       display: flex;
       gap: 16px;
@@ -375,11 +402,29 @@
       align-items: center;
       gap: 4px;
     }
+    .search-helper .checkbox-wrap { cursor: pointer; }
     .search-helper .checkbox-box {
       width: 16px; height: 16px;
       border: 1px solid var(--gray-95);
       border-radius: 4px;
       background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .search-helper .checkbox-box.checked {
+      background: var(--brand-40);
+      border-color: var(--brand-40);
+    }
+    .search-helper .checkbox-box.checked::after {
+      content: '';
+      width: 9px; height: 5px;
+      border-left: 2px solid white;
+      border-bottom: 2px solid white;
+      transform: rotate(-45deg) translateY(-1px);
+      display: block;
     }
     .search-helper span {
       font-size: 12px;
@@ -410,8 +455,33 @@
       box-shadow: 0px 1px 0.25px rgba(29,41,61,0.02);
       cursor: pointer;
     }
+    .select-field { position: relative; }
     .select-field span { font-size: 14px; color: var(--gray-40); line-height: 20px; }
-    .select-field img { width: 16px; height: 16px; }
+    .select-field img { width: 16px; height: 16px; transition: transform 0.2s; }
+    .select-field.open img { transform: rotate(180deg); }
+    .select-dropdown {
+      display: none;
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0;
+      background: white;
+      border: 1px solid var(--gray-90);
+      border-radius: 8px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+      z-index: 50;
+      min-width: 160px;
+      overflow: hidden;
+    }
+    .select-field.open .select-dropdown { display: block; }
+    .select-dropdown div {
+      padding: 10px 14px;
+      font-size: 14px;
+      color: var(--gray-25);
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .select-dropdown div:hover { background: var(--brand-99); }
+    .select-dropdown div.selected { font-weight: 600; color: var(--brand-40); }
     .text-field {
       background: white;
       border-top: 1px solid var(--gray-90);
@@ -448,6 +518,8 @@
       flex-shrink: 0;
     }
     .btn-search img { width: 20px; height: 20px; }
+    .btn-search { transition: background 0.2s; }
+    .btn-search:hover { background: var(--brand-40); }
 
     /* Notice bar */
     .notice-bar {
@@ -525,6 +597,9 @@
       flex-direction: column;
       align-items: center;
     }
+    .quick-menu {
+      box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+    }
     .quick-item {
       border-bottom: 1px solid var(--gray-95);
       display: flex;
@@ -534,7 +609,9 @@
       width: 100%;
       cursor: pointer;
       position: relative;
+      transition: background 0.15s;
     }
+    .quick-item:hover { background: var(--gray-99); }
     .quick-item:last-child { border-bottom: none; }
     .quick-item .icon-wrap {
       width: 40px; height: 40px;
@@ -590,8 +667,50 @@
       align-items: center;
       justify-content: center;
       cursor: pointer;
+      z-index: 99;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
     }
+    .scroll-top.visible { opacity: 1; pointer-events: auto; }
     .scroll-top img { width: 24px; height: 24px; }
+
+    /* ── CARD HOVER ── */
+    .news-card {
+      cursor: pointer;
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .news-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.12);
+    }
+    .news-card-img img {
+      transition: transform 0.35s;
+    }
+    .news-card:hover .news-card-img img {
+      transform: scale(1.05);
+    }
+    .wide-card { cursor: pointer; }
+    .wide-card img.wide-bg { transition: transform 0.35s; }
+    .wide-card:hover img.wide-bg { transform: scale(1.04); }
+
+    /* ── NETWORK IMAGE HOVER ── */
+    .network-image { cursor: pointer; }
+    .network-image img.net-img { transition: transform 0.35s; }
+    .network-image:hover img.net-img { transform: scale(1.04); }
+
+    /* ── FOOTER HOVER ── */
+    .footer-links a { transition: color 0.15s; }
+    .footer-links a.muted:hover { color: var(--gray-25); }
+    .sns-icon { transition: transform 0.2s, background 0.2s; }
+    .sns-icon:hover { transform: scale(1.1); background: var(--brand-99); }
+
+    /* ── SPOTLIGHT HOVER ── */
+    .spotlight-preview img { transition: transform 0.35s; }
+    .spotlight-preview:hover img { transform: scale(1.04); }
+    .spotlight-item { transition: opacity 0.15s; }
+    .spotlight-item:hover { opacity: 0.75; }
+    .spotlight-item.active:hover { opacity: 1; }
 
     /* ── SCL INSIGHT ── */
     .insight-section {
@@ -1067,6 +1186,11 @@
   </div>
 </div>
 
+<!-- ── SCROLL TO TOP ── -->
+<div class="scroll-top" id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <img src="https://www.figma.com/api/mcp/asset/c064c4de-7387-49ca-89e6-6a003e4194d6" alt="">
+</div>
+
 <!-- ── FIXED QUICK MENU ── -->
 <div class="quick-menu">
   <div class="quick-item">
@@ -1129,7 +1253,7 @@
         <button class="btn-login">로그인</button>
       </div>
       <div class="search-helper">
-        <div class="checkbox-wrap">
+        <div class="checkbox-wrap" onclick="toggleCheckbox(this)">
           <div class="checkbox-box"></div>
           <span>아이디 저장</span>
         </div>
@@ -1141,9 +1265,18 @@
     <div class="search-form">
       <label>항목조회</label>
       <div class="search-inputs-item">
-        <div class="select-field">
-          <span>전체</span>
+        <div class="select-field" id="categorySelect" onclick="toggleCategorySelect(event)">
+          <span id="categoryLabel">전체</span>
           <img src="https://www.figma.com/api/mcp/asset/543bc4e9-b448-4df7-8578-54442d2aa638" alt="">
+          <div class="select-dropdown" id="categoryDropdown">
+            <div class="selected" onclick="pickCategory(event,'전체')">전체</div>
+            <div onclick="pickCategory(event,'혈액')">혈액</div>
+            <div onclick="pickCategory(event,'소변')">소변</div>
+            <div onclick="pickCategory(event,'미생물')">미생물</div>
+            <div onclick="pickCategory(event,'면역')">면역</div>
+            <div onclick="pickCategory(event,'분자진단')">분자진단</div>
+            <div onclick="pickCategory(event,'병리')">병리</div>
+          </div>
         </div>
         <div class="text-field">
           <input type="text" placeholder="검색어를 입력해주세요" autocomplete="off">
@@ -1168,11 +1301,6 @@
       <img src="https://www.figma.com/api/mcp/asset/52d0f94a-6e03-4afb-98f1-dddcc020833d" alt="이전">
       <img src="https://www.figma.com/api/mcp/asset/3e2f8726-f199-415d-9484-f3b4ed6b7dc4" alt="다음">
     </div>
-  </div>
-
-  <!-- Scroll to top -->
-  <div class="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
-    <img src="https://www.figma.com/api/mcp/asset/c064c4de-7387-49ca-89e6-6a003e4194d6" alt="">
   </div>
 
   <!-- Indicator -->
@@ -1301,28 +1429,28 @@
   </div>
   <div class="spotlight-right">
     <div class="spotlight-list">
-      <div class="spotlight-item active">
+      <div class="spotlight-item active" onclick="activateSpotlight(this)">
         <div class="item-text">
           <h3>SCL 병리 검사 부문</h3>
           <p>Precision Diagnosis with Digital Pathology System<br>정확하고 신뢰할 수 있는 병리 진단</p>
         </div>
         <img class="arrow" src="https://www.figma.com/api/mcp/asset/fa98e5cc-8ee8-4b6b-8755-8e47d4cf738e" alt="">
       </div>
-      <div class="spotlight-item">
+      <div class="spotlight-item" onclick="activateSpotlight(this)">
         <div class="item-text">
           <h3>VENTANA FOLR1 (FOLR1-2.1) 검사</h3>
           <p>고등급 장액성 상피성 난소암 및 난관암, 원발성 복막암의<br>치료약제(mirvetuximab soravtansine) 적용 환자 식별을 위한 동반진단검사</p>
         </div>
         <img class="arrow" src="https://www.figma.com/api/mcp/asset/604fa74f-db91-483b-8a48-04563f2c6177" alt="">
       </div>
-      <div class="spotlight-item">
+      <div class="spotlight-item" onclick="activateSpotlight(this)">
         <div class="item-text">
           <h3>내분비 교란물질 프로파일 검사</h3>
           <p>질량분석법(LC-MS/MS)을 이용한 내분비 교란물질(환경호르몬) 측정</p>
         </div>
         <img class="arrow" src="https://www.figma.com/api/mcp/asset/604fa74f-db91-483b-8a48-04563f2c6177" alt="">
       </div>
-      <div class="spotlight-item">
+      <div class="spotlight-item" onclick="activateSpotlight(this)">
         <div class="item-text">
           <h3>SCL 미생물 통계 프로그램 안내</h3>
           <p>일반배양 동정균별 항균제 감수성 패턴과 혈액배양 월별 평균 채혈량 모니터링을 위한 프로그램 사용 안내</p>
@@ -1394,21 +1522,85 @@
     e.currentTarget.classList.add('active');
     document.getElementById('langWrap').classList.remove('open');
   }
-  document.addEventListener('click', function(e) {
-    const wrap = document.getElementById('langWrap');
-    if (wrap && !wrap.contains(e.target)) wrap.classList.remove('open');
-  });
 
   /* ── Header search overlay ── */
   function openHeaderSearch() {
-    const overlay = document.getElementById('headerSearch');
-    overlay.classList.add('open');
+    document.getElementById('headerSearch').classList.add('open');
     setTimeout(() => document.getElementById('headerSearchInput').focus(), 200);
   }
   function closeHeaderSearch() {
     document.getElementById('headerSearch').classList.remove('open');
     document.getElementById('headerSearchInput').value = '';
   }
+
+  /* ── Checkbox toggle ── */
+  function toggleCheckbox(wrap) {
+    wrap.querySelector('.checkbox-box').classList.toggle('checked');
+  }
+
+  /* ── Category select dropdown ── */
+  function toggleCategorySelect(e) {
+    e.stopPropagation();
+    document.getElementById('categorySelect').classList.toggle('open');
+  }
+  function pickCategory(e, val) {
+    e.stopPropagation();
+    document.getElementById('categoryLabel').textContent = val;
+    document.querySelectorAll('#categoryDropdown div').forEach(d => d.classList.remove('selected'));
+    e.currentTarget.classList.add('selected');
+    document.getElementById('categorySelect').classList.remove('open');
+  }
+
+  /* ── Spotlight click ── */
+  function activateSpotlight(el) {
+    document.querySelectorAll('.spotlight-item').forEach(i => i.classList.remove('active'));
+    el.classList.add('active');
+  }
+
+  /* ── Notice carousel ── */
+  const notices = [
+    { tag: '공문', num: '[SCL 2026-043호]', text: 'VENTANA FOLR1(FOLR1-2.1) Assay 검사 외 8항목의 신규검사 및 일부 검사정 ...', date: '2026-05-29', isNew: true },
+    { tag: '공문', num: '[SCL 2026-042호]', text: '2026년 상반기 신규 분자진단 검사 항목 도입 안내', date: '2026-05-22', isNew: false },
+    { tag: '공지', num: '[공지]', text: '서울의과학연구소 창립 50주년 기념 행사 안내', date: '2026-05-15', isNew: false },
+    { tag: '공지', num: '[공지]', text: '2026년 추석 연휴 기간 검사 운영 및 결과 보고 안내', date: '2026-04-30', isNew: false },
+  ];
+  let noticeIdx = 0;
+  function renderNotice() {
+    const n = notices[noticeIdx];
+    document.querySelector('.notice-tag').textContent = n.tag;
+    document.querySelector('.notice-num').textContent = n.num;
+    document.querySelector('.notice-text').textContent = n.text;
+    document.querySelector('.notice-date').textContent = n.date;
+    const badge = document.querySelector('.notice-new');
+    badge.style.display = n.isNew ? 'flex' : 'none';
+  }
+  document.querySelector('.notice-nav img:first-child').addEventListener('click', () => {
+    noticeIdx = (noticeIdx - 1 + notices.length) % notices.length;
+    renderNotice();
+  });
+  document.querySelector('.notice-nav img:last-child').addEventListener('click', () => {
+    noticeIdx = (noticeIdx + 1) % notices.length;
+    renderNotice();
+  });
+
+  /* ── Scroll behaviors ── */
+  window.addEventListener('scroll', function() {
+    const y = window.scrollY;
+    // Header solid on scroll
+    document.querySelector('.header').classList.toggle('scrolled', y > 60);
+    // Scroll-to-top button visibility
+    document.getElementById('scrollTopBtn').classList.toggle('visible', y > 300);
+  });
+
+  /* ── Close dropdowns on outside click ── */
+  document.addEventListener('click', function(e) {
+    const langWrap = document.getElementById('langWrap');
+    if (langWrap && !langWrap.contains(e.target)) langWrap.classList.remove('open');
+    const catSel = document.getElementById('categorySelect');
+    if (catSel && !catSel.contains(e.target)) catSel.classList.remove('open');
+  });
+
+  /* ── ESC closes search ── */
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') closeHeaderSearch();
   });
