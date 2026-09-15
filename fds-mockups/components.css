@@ -1,0 +1,515 @@
+/* =========================================================
+   롯데카드 FDS_2026 · Component Library
+   tokens.css를 먼저 로드한 뒤 이 파일을 로드할 것.
+   design-corrections.md의 규칙(Table/Grid 분류, spacing, 레이아웃 패턴)이
+   전부 이 파일 안에 구현되어 있다 — 새 화면은 이 클래스들을 재사용하고
+   콘텐츠(마크업·데이터)만 채워넣으면 된다.
+   ========================================================= */
+
+/* ---------------------------------------------------------- Reset / base */
+*{ box-sizing:border-box; }
+html,body{ height:auto; }
+body{
+  margin:0;
+  min-height:100vh;
+  display:flex; flex-direction:column;
+  background:var(--bg-base);
+  color:var(--text-secondary);
+  font-family:var(--font-base);
+  font-size:var(--fs-13);
+  line-height:1.4;
+  -webkit-font-smoothing:antialiased;
+  padding-inline:0;
+}
+img{ max-width:100%; }
+[hidden]{ display:none !important; }
+button{ font-family:inherit; }
+input[type="radio"], input[type="checkbox"]{ accent-color:var(--form-control-selected); }
+:focus-visible{ outline:2px solid var(--border-focus); outline-offset:1px; }
+
+/* ---------------------------------------------------------- GNB header
+   재사용: 모든 화면 공통. 메뉴 항목/활성 탭만 화면마다 교체 */
+.gnb{
+  background:var(--header-bg);
+  border-bottom:1px solid var(--header-line);
+  display:flex; align-items:center;
+  height:52px;
+  padding-inline:var(--sp-20);
+  gap:var(--sp-24);
+  color:var(--header-fc);
+}
+.gnb__logo{
+  font-size:var(--fs-16); font-weight:800; letter-spacing:.2px;
+  display:flex; align-items:center; gap:6px; white-space:nowrap;
+}
+.gnb__logo .mark{
+  width:20px; height:20px; border-radius:5px;
+  background:linear-gradient(135deg,var(--p-brand-500),var(--p-brand-100));
+  display:inline-block;
+}
+.gnb__menu{ display:flex; align-items:stretch; height:100%; gap:var(--sp-24); flex:1; overflow-x:auto; }
+.gnb__menu button{
+  background:none; border:0; color:var(--p-slate-350); font-size:var(--fs-14); font-weight:700;
+  cursor:pointer; padding:0; height:100%; white-space:nowrap; position:relative;
+}
+.gnb__menu button:hover{ color:var(--header-icon-hover); }
+.gnb__menu button[aria-current="page"]{ color:var(--header-fc); }
+.gnb__menu button[aria-current="page"]::after{
+  content:""; position:absolute; left:0; right:0; bottom:0; height:2px; background:var(--p-base-white);
+}
+.gnb__utils{ display:flex; align-items:center; gap:var(--sp-16); flex-shrink:0; }
+.gnb__icons{ display:flex; align-items:center; gap:14px; }
+.gnb__icons .ico{
+  width:18px; height:18px; display:grid; place-items:center; color:var(--header-icon);
+  position:relative; cursor:pointer;
+}
+.gnb__icons .ico:hover{ color:var(--header-icon-hover); }
+.gnb__icons .ico svg{ width:16px; height:16px; }
+.gnb__icons .ico .badge{
+  position:absolute; top:-7px; right:-9px; background:var(--badge-bg); color:var(--badge-fc);
+  font-size:9px; font-weight:800; line-height:1; padding:2.5px 4px; border-radius:8px; min-width:14px; text-align:center;
+}
+.gnb__user{ display:flex; align-items:center; gap:6px; font-size:var(--fs-12); color:var(--header-fc); font-weight:700; white-space:nowrap; }
+.gnb__user svg{ width:14px; height:14px; color:var(--header-icon); }
+.gnb__clock{ display:flex; align-items:center; gap:5px; font-size:var(--fs-11); color:var(--p-slate-350); font-variant-numeric:tabular-nums; white-space:nowrap; }
+
+/* ---------------------------------------------------------- Page tabs (2depth)
+   재사용: 모든 화면 공통. 탭 목록/활성 탭만 화면마다 교체 */
+.pagetabbar{
+  background:var(--pagetab-bg); display:flex; align-items:stretch; height:34px; padding-inline:var(--sp-8);
+}
+.pagetabbar__nav{
+  display:flex; align-items:center; color:var(--pagetab-btn-fc); cursor:pointer; padding-inline:6px;
+}
+.pagetabbar__nav svg{ width:14px; height:14px; }
+.pagetabbar__tabs{ display:flex; align-items:stretch; gap:2px; flex:1; overflow-x:auto; }
+.pagetab{
+  display:flex; align-items:center; gap:8px; padding-inline:14px; font-size:var(--fs-12); font-weight:700;
+  background:var(--pagetab-inactive-bg); color:var(--pagetab-inactive-fc);
+  border-bottom:2px solid var(--pagetab-inactive-line); white-space:nowrap; cursor:pointer;
+}
+.pagetab[data-home]{ padding-inline:12px; }
+.pagetab[data-active]{
+  background:var(--pagetab-active-bg); color:var(--pagetab-active-fc); border-bottom-color:var(--pagetab-active-line);
+}
+.pagetab button{
+  background:none; border:0; color:inherit; opacity:.7; cursor:pointer; font-size:11px; line-height:1; padding:0;
+}
+.pagetab button:hover{ opacity:1; }
+.pagetabbar__close{ display:flex; align-items:center; padding-inline:8px; color:var(--pagetab-btn-fc); cursor:pointer; }
+.pagetabbar__close svg{ width:14px; height:14px; }
+
+/* ---------------------------------------------------------- Layout shell
+   design-corrections.md 8번 — 메인/서브 화면 분리 패턴.
+   .shell > .grid2 > ( .surface--flat(메인) , .subscreen > .panel(서브) )
+   좌/우 1컬럼 구성이 아닌 화면(등록·상세형, 일정형 등)은 .grid2 대신
+   새 레이아웃 클래스를 이 파일에 추가해서 확장할 것 — 화면 파일 안에서
+   레이아웃을 새로 짜지 말 것. */
+.shell{ flex:1; display:flex; }
+.grid2{
+  display:flex; align-items:stretch; gap:0; width:100%;
+}
+@media (max-width: 1100px){ .grid2{ flex-direction:column; } }
+
+.surface--flat{
+  flex:0 1 640px; min-width:420px; padding:var(--sp-20);
+}
+
+.subscreen{
+  flex:1; min-width:480px;
+  background:var(--bg-subtle); border-radius:0; padding:var(--sp-20);
+}
+@media (max-width: 1100px){ .surface--flat, .subscreen{ flex:1 1 auto; min-width:0; } }
+.panel{
+  background:var(--bg-base); border:1px solid var(--border-division); border-radius:var(--rad-lg);
+  padding:var(--sp-20); box-shadow:0 2px 10px rgba(20,35,67,.07);
+}
+
+.panel-head{
+  display:flex; align-items:center; justify-content:space-between; margin-bottom:var(--sp-8);
+}
+.tit{
+  margin:0; font-size:var(--fs-16); font-weight:800; color:var(--text-tit);
+  display:flex; align-items:center; gap:8px;
+}
+.tit::before{ content:""; width:4px; height:14px; background:var(--text-tit); border-radius:2px; }
+/* 주의: .tit/.subtit를 <h2>/<h3> 같은 heading 태그에 붙일 때 브라우저 기본 margin이
+   남아있으면 안 됨(design-corrections.md 9-1). 위 margin:0이 그 리셋 역할. */
+.detail-toggle{
+  display:flex; align-items:center; gap:4px; font-size:var(--fs-12); color:var(--text-tertiary); font-weight:700; cursor:pointer;
+  background:none; border:0; padding:0; font-family:inherit;
+}
+.detail-toggle svg{ width:12px; height:12px; transition:transform .15s ease; }
+.detail-toggle[aria-expanded="true"] svg{ transform:rotate(180deg); }
+
+/* ---------------------------------------------------------- Search form */
+.searchform{
+  display:flex; flex-direction:column; gap:var(--sp-12);
+  background:var(--search-bg); border:1px solid var(--search-border); border-radius:var(--rad-md);
+  padding:var(--sp-16); margin-bottom:var(--sp-20);
+}
+.field-row{ display:flex; align-items:flex-start; gap:var(--sp-12); flex-wrap:wrap; }
+.field-label{
+  width:64px; flex-shrink:0; font-size:var(--fs-12); font-weight:700; color:var(--form-label-text);
+  padding-top:7px;
+}
+.field-body{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; flex:1; }
+.checkbox-label{
+  display:inline-flex; align-items:center; gap:4px; font-size:var(--fs-12); color:var(--form-label-text); font-weight:400; cursor:pointer;
+}
+
+.seg{ display:flex; border:1px solid var(--form-input-border); border-radius:var(--rad-sm); overflow:hidden; }
+.seg button{
+  background:var(--btn-default-bg); border:0; border-right:1px solid var(--form-input-border);
+  color:var(--btn-default-fg); font-size:var(--fs-12); font-weight:700; padding:6px 12px; cursor:pointer;
+}
+.seg button:last-child{ border-right:0; }
+.seg button:hover{ background:var(--btn-default-bg-hover); }
+.seg button[aria-pressed="true"]{ background:var(--btn-primary-bg); color:var(--btn-primary-fg); }
+
+select, .input, input[type="date"], input[type="text"]{
+  height:30px; border:1px solid var(--form-input-border); border-radius:var(--rad-sm);
+  background:var(--form-input-bg); color:var(--form-input-text); font-size:var(--fs-12);
+  font-family:inherit; padding:0 8px;
+}
+select:focus, input:focus{ outline:none; border-color:var(--form-input-border-focus); }
+select{ min-width:96px; appearance:none; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23555555' stroke-width='1.4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 8px center; padding-right:22px; }
+input::placeholder{ color:var(--form-input-text-placeholder); }
+.daterange{ display:flex; align-items:center; gap:6px; }
+.daterange input{ width:126px; }
+.daterange span{ color:var(--text-tertiary); }
+
+.btnbar{ display:flex; justify-content:center; gap:8px; padding-top:var(--sp-4); }
+
+/* ---------------------------------------------------------- Buttons
+   재사용: btn--search(조회류), btn--primary(강조), btn--default(일반),
+   btn--icon(아이콘 전용). btn--sm은 밀도 높은 영역(액션바 등)에 추가. */
+.btn{
+  height:32px; padding:0 18px; border-radius:var(--rad-sm); font-size:var(--fs-13); font-weight:800;
+  cursor:pointer; display:inline-flex; align-items:center; gap:6px; border:1px solid transparent;
+}
+.btn:hover{ filter:brightness(1.02); }
+.btn--primary{ background:var(--btn-primary-bg); color:var(--btn-primary-fg); }
+.btn--primary:hover{ background:var(--btn-primary-bg-hover); }
+.btn--search{ background:var(--btn-search-bg); color:var(--btn-search-fg); }
+.btn--search:hover{ background:var(--btn-search-bg-hover); }
+.btn--default{ background:var(--btn-default-bg); color:var(--btn-default-fg); border-color:var(--btn-default-border); }
+.btn--default:hover{ background:var(--btn-default-bg-hover); }
+.btn--sm{ height:26px; padding:0 10px; font-size:var(--fs-11); font-weight:700; border-radius:var(--rad-sm); }
+.btn--icon{
+  background:var(--btn-icon-bg); color:var(--btn-icon-fg); border-color:var(--btn-icon-border);
+  width:26px; padding:0; justify-content:center;
+}
+.btn--icon:hover{ background:var(--btn-default-bg-hover); }
+.btn--icon svg{ width:14px; height:14px; }
+/* 브랜드 컬러(풀컬러) 아이콘을 btn--icon에 넣을 땐 이 line-icon 기본 사이즈(14px)를
+   그대로 쓰지 말고, 아이콘 전용 클래스를 추가해 사이즈를 오버라이드할 것
+   (예: .btn--icon svg.excel-icon{ width:18px; height:16px; overflow:visible; }) */
+
+.actionrow{ display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
+
+/* ---------------------------------------------------------- 타이틀 서브헤딩 */
+.subtit{ margin:0 0 var(--sp-8); font-size:var(--fs-13); font-weight:800; color:var(--text-primary); }
+
+/* ---------------------------------------------------------- Table / Grid 공용 셀 구조
+   design-corrections.md 1번: 라벨:값 패널=table, 선택 가능한 레코드 리스트=grid.
+   래퍼 div에 .tablewrap.grid 또는 .tablewrap.table 클래스를 붙여서 분기한다. */
+.tablewrap{ overflow-x:auto; border-radius:var(--rad-sm); border:1px solid transparent; }
+table{ width:100%; border-collapse:collapse; font-size:var(--fs-12); }
+thead th{
+  font-weight:700; height:var(--row-h-default); padding:0 8px; white-space:nowrap; text-align:center;
+  border-bottom:1px solid transparent; border-right:1px solid transparent;
+}
+thead th:last-child{ border-right:0; }
+tbody td{
+  height:var(--row-h-default); padding:0 8px; text-align:center; white-space:nowrap;
+  border-bottom:1px solid transparent; border-right:1px solid transparent;
+}
+tbody td:last-child{ border-right:0; }
+tbody tr:hover{ background:var(--bg-subtle); }
+
+/* -- grid variant --
+   header/border는 외곽+헤더하단+헤더내부 세로선까지 전부 적용,
+   바디는 기본 border(gray/100) 사용 (design-corrections.md 4번) */
+.tablewrap.grid{ border-color:var(--grid-header-border); }
+.tablewrap.grid thead th{ background:var(--grid-header-bg); color:var(--grid-header-text); border-bottom-color:var(--grid-header-border); border-right-color:var(--grid-header-border); }
+.tablewrap.grid tbody td{ color:var(--grid-row-text); border-bottom-color:var(--grid-border); border-right-color:var(--grid-border); }
+.tablewrap.grid tbody tr{ background:var(--grid-row-bg); }
+.tablewrap.grid tbody tr[data-selected]{ background:var(--grid-row-bg-selected); }
+
+/* -- table variant (라벨:값 패널이 아니라 정적 조회 테이블이 필요할 때) -- */
+.tablewrap.table{ border-color:var(--table-header-border); }
+.tablewrap.table thead th{ background:var(--table-header-bg); color:var(--table-header-text); border-bottom-color:var(--table-header-border); border-right-color:var(--table-border); }
+.tablewrap.table tbody td{ color:var(--table-row-text); border-bottom-color:var(--table-border); border-right-color:var(--table-border); }
+.tablewrap.table tbody tr{ background:var(--table-row-bg); }
+.tablewrap.table tbody tr[data-selected]{ background:var(--table-row-bg-selected); }
+
+.icon-btn{ display:inline-grid; place-items:center; width:20px; height:20px; color:var(--text-tertiary); cursor:pointer; }
+.icon-btn svg{ width:14px; height:14px; }
+.status-flag{ display:inline-flex; align-items:center; justify-content:center; width:16px; height:16px; }
+.status-flag svg{ width:12px; height:12px; }
+.status-flag.neutral{ color:var(--p-gray-250); }
+.status-flag.up{ color:var(--feedback-error); }
+.status-flag.both svg:first-child{ color:var(--feedback-error); }
+.status-flag.both svg:last-child{ color:var(--p-info-500); }
+.status-flag.both{ display:inline-flex; flex-direction:column; gap:1px; width:auto; height:auto; }
+
+/* ---------------------------------------------------------- Chip (상태 표시)
+   재사용: 완료류=회색(--chip-g-*), 진행중류=브랜드(--chip-*). design-corrections.md 6번 */
+.pill{
+  display:inline-block; padding:2px 8px; border-radius:10px; font-size:var(--fs-11); font-weight:700;
+}
+.pill--done{ background:var(--chip-g-bg); color:var(--chip-g-fc); }
+.pill--wip{ background:var(--chip-bg); color:var(--chip-fc); }
+
+/* ---------------------------------------------------------- 라벨:값 요약 패널 (table 분류)
+   재사용: 상세정보 요약, 메타정보 등 "선택 불가한 라벨:값" 데이터에 사용 */
+.resultmeta{
+  display:grid; grid-template-columns:repeat(4, auto 1fr); gap:0;
+  border:1px solid var(--table-header-border); border-radius:var(--rad-sm); overflow:hidden; margin:0 0 var(--sp-20);
+  font-size:var(--fs-12);
+}
+.resultmeta dt{
+  background:var(--table-header-bg); color:var(--table-header-text); font-weight:700;
+  padding:8px 10px; border-bottom:1px solid var(--table-border); border-right:1px solid var(--table-border);
+  display:flex; align-items:center;
+}
+.resultmeta dd{
+  margin:0; padding:8px 10px; color:var(--text-secondary); border-bottom:1px solid var(--table-border);
+  border-right:1px solid var(--table-border); display:flex; align-items:center; min-width:0;
+  overflow:hidden; text-overflow:ellipsis;
+}
+@media (max-width: 640px){ .resultmeta{ grid-template-columns:auto 1fr auto 1fr; } }
+
+.resulttable-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:var(--sp-8); }
+.resulttable-head .subtit{ margin:0; }
+
+/* ---------------------------------------------------------- 값 강조 유틸(검사결과류) */
+.lab-hl{ font-weight:800; }
+.lab-hl.h{ color:var(--feedback-error); }
+.lab-hl.l{ color:var(--p-info-700,#1549b3); }
+.lab-value{ font-weight:800; color:var(--text-primary); font-variant-numeric:tabular-nums; }
+.lab-value.h{ color:var(--feedback-error); }
+.lab-value.l{ color:var(--p-info-700,#1549b3); }
+.refrange{ color:var(--text-tertiary); }
+.rowcheck{ width:16px; height:16px; accent-color:var(--form-control-selected); }
+
+.scrollnote{ display:flex; align-items:center; justify-content:flex-end; gap:6px; font-size:var(--fs-11); color:var(--text-tertiary); margin-top:8px; }
+
+/* ---------------------------------------------------------- 본문 + 우측 전체높이 패널 레이아웃
+   재사용: 카드/그리드가 여러 행으로 쌓이는 메인 영역 옆에, 배분영역류(실시간 모니터링 등)처럼
+   화면 상단부터 하단까지 항상 떠 있어야 하는 패널을 붙일 때 사용. .grid2(메인/서브 2분할, 검색+결과류)와는
+   다른 패턴 — 저건 좌/우 모두 콘텐츠 성격이고, 이건 좌측 콘텐츠가 여러 섹션으로 쌓이고 우측은 고정 폭
+   사이드 패널이라는 점이 다름. */
+/* 화면 공통 여백 규칙: 좌우 마진 20px, 상하/콘텐츠 사이 간격 16px */
+.dash{ padding:var(--sp-16) var(--sp-20); }
+.dash-layout{ display:flex; gap:var(--sp-16); align-items:stretch; }
+.dash-main{ flex:1; min-width:0; display:flex; flex-direction:column; gap:var(--sp-16); }
+/* 배분 영역 — 박스(카드)로 감싸지 않고 좌측에 구분선 하나로만 메인 영역과 나눈다.
+   상단/하단 구분선(.section-divider)과 같은 원칙: 면(배경색/박스)이 아니라 선으로 구조를 정리. */
+.dash-side{
+  flex:0 0 420px; min-width:320px; display:flex;
+  border-left:1px solid var(--border-division); padding-left:var(--sp-16);
+}
+.dash-side > .card{ flex:1; min-width:0; min-height:0; }
+.dash-side > .card > .card__body{ flex:1; min-height:0; overflow-y:auto; }
+.dash-side[hidden]{ display:none; }
+@media (max-width: 1400px){ .dash-layout{ flex-direction:column; } .dash-side{ flex:1 1 auto; border-left:0; border-top:1px solid var(--border-division); padding-left:0; padding-top:var(--sp-16); } }
+
+/* ---------------------------------------------------------- Dashboard card (정보 조회형 다중 패널)
+   design.md 8장 "정보 조회형" — info-blocks-row에 여러 info-card를 배치하는 패턴.
+   .grid2(메인/서브 2분할)와는 다른 레이아웃 — 밀도 높은 다중 패널 대시보드용. */
+.cardrow{ display:flex; gap:var(--sp-12); align-items:flex-start; flex-wrap:wrap; }
+.cardrow > .card{ flex:1 1 0; min-width:280px; }
+.card{
+  background:var(--bg-base); border:1px solid var(--border-division); border-radius:var(--rad-md);
+  overflow:hidden; display:flex; flex-direction:column;
+}
+/* 메인 화면 레벨 정보 패널(가맹점정보류)은 박스로 감싸지 않는다 — .surface--flat과 같은 원칙.
+   타이틀 하단 구분선만 남기고, 카드 자체엔 테두리/배경 박스를 두지 않는다. */
+.card--flat{ border:0; border-radius:0; background:transparent; }
+/* 타이틀 → 콘텐츠 간격은 title/gap-primary와 동일하게 space/8로 통일 (design-corrections.md 9-1) */
+.card--flat .card__head{ padding-inline:0; padding-bottom:0; }
+.card--flat .card__body{ padding-inline:0; padding-top:var(--sp-8); }
+.card--flat .card__foot{ padding-inline:0; padding-bottom:0; }
+/* cardstack 안에서 카드 사이 간격은 오직 .cardstack의 gap 값만으로 결정한다.
+   head의 top padding·foot의 bottom padding이 얹히면 실제 여백이 의도한 값보다 커지므로 0으로 둔다. */
+.cardstack > .card--flat:not(:first-child) .card__head{ padding-top:0; }
+/* card__foot이 없는 카드는 card__body가 사실상 마지막 요소라, 기본 padding-bottom(12px)이
+   cardstack gap 위에 그대로 얹혀 다음 카드와의 간격이 의도한 값보다 커진다. */
+.cardstack > .card--flat:not(:last-child) .card__body:last-child{ padding-bottom:0; }
+/* cardrow의 최상위 칼럼(단일 카드든 cardstack이든) 사이는 세로선 없이 여백으로만 구분한다 */
+.cardrow > .card--flat, .cardrow > .cardstack{ padding-right:var(--sp-16); }
+.cardrow > .card--flat:last-child, .cardrow > .cardstack:last-child{ padding-right:0; }
+/* 카드 타이틀 = .tit과 같은 "타이틀 레벨" 컴포넌트(design.md 7장 "tit: 섹션·카드 타이틀").
+   dark bar 배경이 아니라 .tit과 동일하게 text-tit 색 + 좌측 accent bar로 표현한다. */
+.card__head{
+  background:var(--bg-base); color:var(--text-secondary); font-size:var(--fs-12); font-weight:800;
+  min-height:28px; padding:6px var(--sp-12);
+  display:flex; align-items:center; justify-content:space-between; gap:8px; flex-wrap:wrap;
+}
+.card__head > span:first-child{ color:var(--text-tit); display:flex; align-items:center; gap:6px; }
+/* 탭/버튼 없이 타이틀만 있는 헤더(FDS회원정보류)는 min-height:28px 박스 안에서 세로 중앙정렬되면
+   텍스트 아래 보이지 않는 여백이 생겨 title→content 실측 간격이 8px보다 커진다. 텍스트를 헤더 박스
+   하단에 붙여서 card__body의 padding-top:8px만이 실제 보이는 간격이 되게 한다. */
+.card__head > span:first-child:only-child{ align-self:flex-end; }
+.card__head > span:first-child::before{ content:""; width:3px; height:12px; background:var(--text-tit); border-radius:2px; flex-shrink:0; }
+.card__head .card__actions{ display:flex; align-items:center; gap:10px; font-weight:400; color:var(--text-secondary); }
+.card__head .linklike{
+  background:none; border:0; color:var(--text-link); font-size:var(--fs-11); cursor:pointer; padding:0; text-decoration:underline;
+}
+.card__tabs{ display:flex; height:24px; gap:2px; align-items:center; }
+.card__tabs button{
+  background:none; border:0; border-radius:var(--rad-sm); color:var(--text-tertiary); font-size:var(--fs-12); font-weight:700; padding-inline:var(--sp-12);
+  height:100%; cursor:pointer;
+}
+.card__tabs button[aria-selected="true"]{ background:var(--btn-primary-bg); color:var(--btn-primary-fg); }
+.card__body{ padding:var(--sp-12); flex:1; min-width:0; }
+.card__foot{ padding:0 var(--sp-12) var(--sp-12); display:flex; gap:6px; flex-wrap:wrap; }
+.card__radio{ display:flex; align-items:center; gap:4px; font-size:var(--fs-12); color:var(--text-secondary); cursor:pointer; }
+
+/* metagrid 위에 붙는 그룹 구분 바 (예: "국내"/"해외") — table/header/bg-group 레벨 */
+.group-bar{
+  background:var(--table-header-bg-group); color:var(--table-header-text); font-weight:700; font-size:var(--fs-11);
+  padding:4px 8px; border:1px solid var(--table-header-border-group); margin:0;
+}
+
+/* 촘촘한 라벨:값 필드 그리드 (가맹점정보류 요약 패널) — table 분류, .resultmeta의 고밀도 버전 */
+.metagrid{
+  margin:0; display:grid; grid-template-columns:auto 1fr auto 1fr; font-size:var(--fs-11);
+  border-top:1px solid var(--table-border); border-left:1px solid var(--table-border);
+}
+/* 위에 group-bar가 붙는 경우 그 바텀 보더가 위쪽 테두리를 대신하므로 겹치지 않게 제거 */
+.group-bar + .metagrid{ border-top:0; }
+.metagrid dt{
+  background:var(--table-header-bg); color:var(--table-header-text); font-weight:700;
+  padding:4px 8px; border-bottom:1px solid var(--table-border); border-right:1px solid var(--table-border);
+  display:flex; align-items:center; white-space:nowrap;
+}
+.metagrid dd{
+  margin:0; padding:4px 8px; border-bottom:1px solid var(--table-border); border-right:1px solid var(--table-border);
+  display:flex; align-items:center; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:var(--text-secondary);
+}
+.metagrid dd[data-span]{ grid-column:span 3; }
+
+/* .metagrid의 <table> 버전 — 좌측에 rowspan 그룹 라벨(회원/가맹점 등)이 필요할 때 사용.
+   CSS grid는 auto-flow와 명시적 rowspan을 함께 쓰기 어려워서, 진짜 rowspan이 필요한 경우만 이걸 쓴다. */
+.metatable{ width:100%; border-collapse:collapse; font-size:var(--fs-11); border-top:1px solid var(--table-border); border-left:1px solid var(--table-border); }
+.metatable th, .metatable td{ height:var(--row-h-monitoring); border-bottom:1px solid var(--table-border); border-right:1px solid var(--table-border); padding:4px 8px; text-align:left; font-weight:400; }
+.metatable th.group{
+  background:var(--table-header-bg-group); color:var(--table-header-text); font-weight:700;
+  text-align:center; vertical-align:middle; white-space:nowrap; width:1%;
+}
+.metatable td.label{ background:var(--table-header-bg); color:var(--table-header-text); font-weight:700; white-space:nowrap; width:1%; }
+.metatable td.value{ color:var(--text-secondary); }
+
+/* 고밀도 모니터링 그리드 — row-height/monitoring 적용 (design.md 3장) */
+.tablewrap.grid--dense thead th, .tablewrap.grid--dense tbody td{ height:var(--row-h-monitoring); font-size:var(--fs-11); }
+
+/* 2단 그룹 헤더의 상위 행(예: 총계/분실도난/e-Fraud/위조) — table/header/bg-group 레벨 */
+.tablewrap.table th.th-group{ background:var(--table-header-bg-group); border-color:var(--table-header-border-group); }
+
+/* 인라인 서브탭 (국내/해외류) — Table-tab 토큰 */
+.subtabs{ display:flex; gap:2px; }
+.subtabs button{
+  background:var(--tabletab-inactive-bg); color:var(--tabletab-inactive-fc); border:1px solid var(--tabletab-inactive-line);
+  font-size:var(--fs-12); font-weight:700; height:26px; padding-inline:14px; cursor:pointer; border-radius:var(--rad-sm) var(--rad-sm) 0 0;
+  white-space:nowrap;
+}
+/* 좁은 카드 헤더(카드 타이틀 자리에 탭이 들어가는 경우)용 축소 사이즈 — 한 줄 유지 */
+.subtabs--compact button{ height:22px; padding-inline:8px; font-size:var(--fs-11); }
+/* 탭이 바로 위에서 캡핑하는 테이블은 위쪽 테두리를 없애 탭과 하나로 붙어 보이게 */
+.tablewrap--capped{ border-top:0; border-radius:0 0 var(--rad-sm) var(--rad-sm); }
+.subtabs button[aria-selected="true"]{ background:var(--tabletab-active-bg); color:var(--tabletab-active-fc); border-color:var(--tabletab-active-bg); }
+
+/* 하단 전환 탭 (회원메모/가맹점메모류) — Area-tab 토큰 */
+.areatabs{ display:flex; gap:var(--sp-16); border-bottom:1px solid var(--border-default); flex-wrap:wrap; }
+.areatabs button{
+  background:none; border:0; border-bottom:2px solid transparent; color:var(--areatab-inactive-fc);
+  font-size:var(--fs-13); font-weight:700; height:34px; padding:0 2px; cursor:pointer;
+}
+.areatabs button[aria-selected="true"]{ color:var(--areatab-active-fc); border-bottom-color:var(--areatab-active-line); }
+
+/* Grid-tab 2 (design.md 4장) — 옅은 브랜드 필 형태. 국내/해외류, 조치영역 탭류에 사용 */
+.gridtabs2{ display:flex; gap:2px; }
+.gridtabs2 button{
+  background:var(--gridtab2-inactive-bg); color:var(--gridtab2-inactive-fc); border:1px solid var(--gridtab2-inactive-line);
+  font-size:var(--fs-12); font-weight:700; height:26px; padding-inline:14px; cursor:pointer; border-radius:var(--rad-sm);
+}
+.gridtabs2 button[aria-selected="true"]{ background:var(--gridtab2-active-bg); color:var(--gridtab2-active-fc); border-color:var(--gridtab2-active-bg); }
+
+/* ---------------------------------------------------------- 작은 정사각 아이콘 버튼 (새로고침/핀/다운로드/토글 등) */
+.icon-sq{
+  width:24px; height:24px; display:inline-grid; place-items:center; border:1px solid var(--btn-default-border);
+  border-radius:var(--rad-sm); background:var(--btn-default-bg); cursor:pointer; color:var(--text-secondary); flex-shrink:0;
+}
+.icon-sq:hover{ background:var(--btn-default-bg-hover); }
+.icon-sq svg{ width:12px; height:12px; }
+.icon-sq--round{ border-radius:50%; }
+
+/* 정렬 가능한 테이블 헤더 (▲▼ 아이콘) */
+th.sortable{ cursor:pointer; }
+th.sortable .sort-ic{ display:inline-flex; flex-direction:column; gap:0; margin-left:2px; vertical-align:middle; color:var(--grid-header-icon); }
+th.sortable .sort-ic svg{ width:7px; height:7px; }
+
+/* ---------------------------------------------------------- KPI 통계 타일 (실시간 모니터링류) */
+.statrow{ display:flex; align-items:stretch; gap:0; border:1px solid var(--border-division); border-radius:var(--rad-md); overflow:hidden; }
+.stat{ flex:1; padding:8px 10px; display:flex; flex-direction:column; gap:2px; border-right:1px solid var(--border-division); min-width:0; }
+.stat:last-child{ border-right:0; }
+.stat__label{ font-size:var(--fs-11); color:var(--text-tertiary); font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.stat__num{ font-size:var(--fs-18); font-weight:800; color:var(--text-primary); font-variant-numeric:tabular-nums; display:flex; align-items:baseline; gap:4px; }
+.stat__num .stat__pct{ font-size:var(--fs-11); font-weight:700; color:var(--feedback-success); }
+.stat--muted .stat__num{ color:var(--text-tertiary); }
+
+.section-subhead{ display:flex; align-items:center; justify-content:space-between; margin:var(--sp-12) 0 6px; }
+.section-subhead .tit-mini{ font-size:var(--fs-13); font-weight:800; color:var(--text-primary); }
+.section-subhead .tit-mini small{ font-weight:400; color:var(--text-tertiary); margin-left:4px; }
+
+/* ---------------------------------------------------------- 조치 영역(하단, 기본 접힘) — 가로 스크롤 탭바 + 토글 */
+.actionbar{ border-top:1px solid var(--border-default); }
+.actionbar__toggle{
+  display:flex; align-items:center; gap:4px; background:none; border:0; color:var(--text-tertiary);
+  font-size:var(--fs-11); font-weight:700; padding:8px var(--sp-8) 8px 0; cursor:pointer;
+}
+.actionbar__toggle svg{ width:10px; height:10px; transition:transform .15s ease; }
+.actionbar__toggle[aria-expanded="true"] svg{ transform:rotate(180deg); }
+.actionbar__tabs{ display:flex; align-items:stretch; gap:0; margin-top:var(--sp-8); }
+.actionbar__tabs .scrollnav{ display:flex; align-items:center; color:var(--text-tertiary); cursor:pointer; padding-inline:4px; flex-shrink:0; }
+.actionbar__tabs .scrollnav svg{ width:14px; height:14px; }
+.actionbar__tablist{
+  display:flex; gap:2px; overflow-x:auto; flex:1; scroll-behavior:smooth;
+  scrollbar-width:none; -ms-overflow-style:none;
+}
+.actionbar__tablist::-webkit-scrollbar{ display:none; }
+.actionbar__tabs .scrollnav[data-disabled="true"]{ opacity:.35; cursor:default; }
+.actionbar__tablist button{
+  background:var(--gridtab2-inactive-bg); color:var(--gridtab2-inactive-fc); border:1px solid var(--gridtab2-inactive-line);
+  border-radius:var(--rad-sm); font-size:var(--fs-12); font-weight:700; height:26px; padding-inline:14px; white-space:nowrap; cursor:pointer;
+}
+.actionbar__tablist button[aria-selected="true"]{ background:var(--gridtab2-active-bg); color:var(--gridtab2-active-fc); border-color:var(--gridtab2-active-bg); }
+
+/* 조치영역 탭 콘텐츠 공통 — 여러 화면이 조치영역을 공유하므로 여기서 한 번만 정의한다.
+   화면별 로컬 <style>에 중복 정의하지 말 것: 여기를 고치면 조치영역을 쓰는 모든 화면에 함께 반영된다. */
+.actionpanel{ padding-top:var(--sp-16); }
+.bottomrow{ display:flex; gap:var(--sp-16); align-items:flex-start; }
+.bottomleft{ flex:1; min-width:0; }
+.memopanel{ width:300px; flex-shrink:0; border:1px solid var(--border-division); border-radius:var(--rad-md); padding:var(--sp-12); display:flex; flex-direction:column; gap:8px; }
+.memopanel__head{ display:flex; align-items:center; justify-content:space-between; background:var(--bg-separation); padding:8px; border-radius:var(--rad-sm); }
+/* 타이틀(탭) 아래 붙는 라디오 등 필터 바 — 배경 bg/separation(brand/10)로 강조. .memopanel__head와 같은 톤 */
+.radiobar{ display:flex; align-items:center; gap:10px; background:var(--bg-separation); padding:6px 8px; border-radius:var(--rad-sm); margin-bottom:var(--sp-8); }
+.memopanel textarea{ height:70px; resize:none; border:1px solid var(--form-input-border); border-radius:var(--rad-sm); padding:8px; font:inherit; font-size:var(--fs-11); color:var(--form-input-text); }
+.memopanel__foot{ text-align:right; font-size:var(--fs-11); color:var(--text-tertiary); }
+
+/* 섹션 구분용 2단 라인 (진한 1px + 옅은 3px) — 원장영역↔그리드영역 사이(.dash-main 안)에만 적용되고,
+   배분 영역(.dash-side)은 하나로 이어진 영역이라 선이 그 위로는 지나가지 않는다.
+   좌측 화면 끝까지만 번진다(.dash 좌측 여백 상쇄). */
+.section-divider{
+  height:0; border-top:1px solid var(--p-gray-200); border-bottom:3px solid var(--p-gray-100);
+  flex-shrink:0;
+  margin-left:calc(-1 * var(--sp-20));
+  margin-right:calc(-1 * var(--sp-16));
+}
+
+/* ---------------------------------------------------------- small helpers */
+.flex-grow{ flex:1 1 auto; }
+.sr-only{ position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
