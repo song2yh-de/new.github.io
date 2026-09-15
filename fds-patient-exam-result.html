@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>수진자 검사결과 조회 - 롯데카드 FDS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    /* ---- Primitives ---- */
+    --brand-900:#142343; --brand-850:#1e325c; --brand-800:#19326b; --brand-700:#0e37aa;
+    --brand-600:#113fe4; --brand-500:#2b55f4; --brand-100:#bacbfc; --brand-50:#e0e8ff;
+    --brand-30:#ecf1fe; --brand-10:#f4f6fb;
+
+    --gray-900:#111111; --gray-850:#222222; --gray-825:#353739; --gray-800:#333333;
+    --gray-700:#555555; --gray-600:#666666; --gray-500:#777777; --gray-400:#888888;
+    --gray-300:#9e9e9e; --gray-250:#a9a9a9; --gray-200:#bbbbbb; --gray-150:#cecece;
+    --gray-120:#d6d6d6; --gray-100:#e2e2e2; --gray-85:#f7f7f7; --gray-75:#f2f2f2;
+    --gray-50:#f6f6f6; --gray-25:#fafafa;
+
+    --slate-650:#3d475f; --slate-500:#64728c; --slate-350:#a9adb9; --slate-300:#b0b5c1;
+    --slate-200:#d0d6db; --slate-150:#dee2e5; --slate-100:#e3e6eb;
+
+    --blue-600:#265fba;
+
+    --white:#ffffff; --black:#000000;
+    --white-90:#ffffffe5; --white-50:#ffffff80; --white-30:#ffffff4d;
+
+    --status-error-50:#ffe8e8; --status-error-500:#e82323; --status-error-600:#cc3333; --status-error-700:#b32525;
+    --status-warning-bg:#fcf9ec;
+    --status-info-700:#1549b3;
+    --orange-50:#fff4e9;
+
+    /* ---- Number ---- */
+    --space-4:4px; --space-8:8px; --space-12:12px; --space-16:16px; --space-20:20px; --space-24:24px;
+    --radius-sm:4px; --radius-md:6px; --radius-lg:8px;
+    --row-h-default:36px; --row-h-monitoring:26px;
+
+    /* ---- Semantic: text ---- */
+    --text-primary: var(--gray-900);
+    --text-secondary: var(--gray-850);
+    --text-tertiary: var(--gray-500);
+    --text-disabled: var(--gray-400);
+    --text-inverse: var(--white);
+    --text-label: var(--gray-700);
+
+    /* background */
+    --bg-base: var(--white);
+    --bg-subtle: var(--gray-50);
+    --bg-muted: var(--gray-100);
+    --bg-inverse: var(--brand-900);
+
+    /* border */
+    --border-default: var(--gray-200);
+    --border-strong: var(--gray-300);
+    --border-focus: var(--brand-500);
+    --border-division: var(--gray-120);
+
+    /* action */
+    --action-primary: var(--slate-500);
+    --action-search: var(--brand-800);
+    --action-destructive: var(--status-error-500);
+
+    /* feedback */
+    --feedback-error: var(--status-error-500);
+    --feedback-error-bg: var(--status-error-50);
+
+    /* button */
+    --btn-primary-bg: var(--brand-700);
+    --btn-primary-fg: var(--text-inverse);
+    --btn-search-bg: var(--action-search);
+    --btn-search-bg-hover: var(--brand-900);
+    --btn-search-fg: var(--text-inverse);
+    --btn-default-bg: var(--bg-base);
+    --btn-default-bg-hover: var(--bg-muted);
+    --btn-default-fg: var(--gray-850);
+    --btn-default-border: var(--border-default);
+    --btn-icon-bg: var(--brand-10);
+    --btn-icon-fg: var(--gray-600);
+    --btn-icon-border: var(--gray-200);
+
+    /* form */
+    --form-input-bg: var(--bg-base);
+    --form-input-bg-disabled: var(--bg-muted);
+    --form-input-border: var(--border-default);
+    --form-input-border-focus: var(--border-focus);
+    --form-input-text: var(--text-secondary);
+    --form-input-text-placeholder: var(--text-tertiary);
+    --form-control-bg: var(--bg-base);
+    --form-control-border: var(--gray-500);
+    --form-control-selected: var(--action-primary);
+    --form-control-check: var(--text-inverse);
+    --form-label-text: var(--text-primary);
+    --form-select-caret: var(--text-secondary);
+
+    /* table (라벨:값 패널) */
+    --table-header-bg: var(--brand-10);
+    --table-header-text: var(--text-secondary);
+    --table-header-border: var(--slate-200);
+    --table-row-bg: var(--bg-base);
+    --table-row-text: var(--text-secondary);
+    --table-border: var(--gray-100);
+
+    /* grid (레코드 리스트) */
+    --grid-header-bg: var(--slate-100);
+    --grid-header-text: var(--gray-800);
+    --grid-header-border: var(--gray-150);
+    --grid-row-bg: var(--bg-base);
+    --grid-row-bg-selected: var(--orange-50);
+    --grid-row-text: var(--text-secondary);
+    --grid-border: var(--gray-100);
+
+    /* chip */
+    --chip-fc: var(--brand-600);
+    --chip-bg: var(--brand-50);
+    --chip-g-fc: var(--gray-600);
+    --chip-g-bg: var(--gray-100);
+
+    /* header (GNB) */
+    --header-bg: var(--brand-900);
+    --header-line: var(--black);
+    --header-bar: var(--slate-650);
+    --header-fc: var(--white);
+    --header-icon: var(--slate-350);
+    --header-icon-hover: var(--white);
+    --header-logout-bg: #0c1425;
+
+    /* page-tab */
+    --page-tab-bg: var(--brand-850);
+    --page-tab-active-bg: var(--brand-900);
+    --page-tab-active-line: var(--white-50);
+    --page-tab-active-fc: var(--white);
+    --page-tab-inactive-bg: var(--brand-800);
+    --page-tab-inactive-line: var(--white-30);
+    --page-tab-inactive-fc: var(--slate-350);
+  }
+
+  html, body {
+    font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--text-secondary);
+    background: var(--bg-base);
+    min-width: 1440px;
+  }
+  body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  button { font-family: inherit; cursor: pointer; }
+  input, select { font-family: inherit; }
+  svg { display: block; }
+  [hidden] { display: none !important; }
+
+  /* ============ GNB ============ */
+  .gnb {
+    height: 56px;
+    background: var(--header-bg);
+    border-bottom: 1px solid var(--header-line);
+    display: flex;
+    align-items: center;
+    padding: 0 var(--space-20);
+    gap: var(--space-24);
+    flex: 0 0 auto;
+  }
+  .gnb-logo {
+    color: var(--header-fc);
+    font-size: var(--fs-18, 18px);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+  }
+  .gnb-nav {
+    display: flex;
+    align-items: center;
+    gap: var(--space-24);
+    flex: 1;
+    height: 100%;
+  }
+  .gnb-nav a {
+    color: var(--header-icon);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 700;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+  }
+  .gnb-nav a.active {
+    color: var(--header-fc);
+    border-bottom-color: var(--brand-500);
+  }
+  .gnb-nav a:hover { color: var(--header-icon-hover); }
+
+  .gnb-right {
+    display: flex;
+    align-items: center;
+    gap: var(--space-16);
+    flex: 0 0 auto;
+  }
+  .gnb-icons {
+    display: flex;
+    align-items: center;
+    gap: var(--space-12);
+  }
+  .gnb-icon-btn {
+    position: relative;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    border-radius: var(--radius-sm);
+    color: var(--header-icon);
+  }
+  .gnb-icon-btn:hover { color: var(--header-icon-hover); background: rgba(255,255,255,0.06); }
+  .gnb-icon-btn .badge {
+    position: absolute;
+    top: -2px;
+    right: -4px;
+    min-width: 15px;
+    height: 15px;
+    padding: 0 3px;
+    border-radius: 999px;
+    background: var(--status-error-500);
+    color: var(--white);
+    font-size: 9px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+  }
+  .gnb-divider { width: 1px; height: 20px; background: var(--header-bar); }
+  .gnb-user {
+    display: flex;
+    align-items: center;
+    gap: var(--space-8);
+    color: var(--header-fc);
+    font-size: 13px;
+    white-space: nowrap;
+  }
+  .gnb-user b { font-weight: 700; }
+  .gnb-clock {
+    color: var(--header-icon);
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  /* ============ Page-tab ============ */
+  .page-tabs {
+    height: 38px;
+    background: var(--page-tab-bg);
+    display: flex;
+    align-items: stretch;
+    flex: 0 0 auto;
+    padding: 0 var(--space-8);
+  }
+  .page-tab-nav-btn {
+    width: 28px;
+    flex: 0 0 auto;
+    border: none;
+    background: transparent;
+    color: var(--page-tab-inactive-fc);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .page-tab-nav-btn:hover { color: var(--white); }
+  .page-tab-list {
+    display: flex;
+    align-items: stretch;
+    gap: 2px;
+    flex: 1;
+    min-width: 0;
+  }
+  .page-tab {
+    display: flex;
+    align-items: center;
+    gap: var(--space-8);
+    padding: 0 var(--space-16);
+    background: var(--page-tab-inactive-bg);
+    border-bottom: 2px solid var(--page-tab-inactive-line);
+    color: var(--page-tab-inactive-fc);
+    font-size: 13px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  .page-tab.active {
+    background: var(--page-tab-active-bg);
+    border-bottom-color: var(--page-tab-active-line);
+    color: var(--page-tab-active-fc);
+  }
+  .page-tab .home-ic { display: flex; }
+  .page-tab .close-x {
+    border: none;
+    background: transparent;
+    color: inherit;
+    opacity: 0.7;
+    width: 14px; height: 14px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .page-tab .close-x:hover { opacity: 1; }
+  .page-tab-close-all {
+    width: 32px;
+    flex: 0 0 auto;
+    border: none;
+    background: transparent;
+    color: var(--page-tab-inactive-fc);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .page-tab-close-all:hover { color: var(--white); }
+
+  /* ============ Layout: main/sub split ============ */
+  .layout {
+    flex: 1;
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    min-height: 0;
+  }
+  .main-left {
+    flex: 1;
+    min-width: 0;
+    background: var(--bg-base);
+    padding: var(--space-20);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-20);
+  }
+  .sub-right {
+    flex: 0 0 660px;
+    background: var(--bg-subtle);
+    border-radius: 0;
+    padding: var(--space-20);
+    display: flex;
+    flex-direction: column;
+  }
+  .sub-card {
+    background: var(--bg-base);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 2px 10px rgba(20,35,67,0.08);
+    padding: var(--space-20);
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+  }
+  .sub-card .info-table { margin-bottom: var(--space-16); }
+  .sub-card .grid-wrapper { flex: 1; min-height: 0; }
+
+  /* ============ Section title ============ */
+  .section-title-row {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin: 0 0 var(--space-8) 0;
+  }
+  .tit, .subtit {
+    margin: 0 0 var(--space-8) 0;
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--text-primary);
+  }
+  .section-title-row .tit, .section-title-row .subtit { margin: 0; }
+
+  .detail-toggle {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    border: 1px solid var(--btn-default-border);
+    background: var(--btn-default-bg);
+    color: var(--btn-default-fg);
+    border-radius: var(--radius-sm);
+    padding: 6px 10px;
+    font-size: 12px;
+    font-weight: 700;
+  }
+  .detail-toggle:hover { background: var(--btn-default-bg-hover); }
+  .detail-toggle .chevron {
+    transition: transform 0.15s ease;
+    display: flex;
+  }
+  .detail-toggle[aria-expanded="true"] .chevron { transform: rotate(180deg); }
+
+  /* ============ Search area ============ */
+  .search-section {
+    display: flex;
+    flex-direction: column;
+  }
+  .search-fields {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-12) var(--space-16);
+  }
+  .field-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-8);
+  }
+  .field-row .field-label {
+    width: 64px;
+    flex: 0 0 auto;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--form-label-text);
+    text-align: right;
+  }
+
+  .segmented {
+    display: inline-flex;
+    border: 1px solid var(--form-input-border);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+  }
+  .segmented button {
+    border: none;
+    border-right: 1px solid var(--form-input-border);
+    background: var(--bg-base);
+    color: var(--text-secondary);
+    font-size: 12px;
+    padding: 7px 12px;
+  }
+  .segmented button:last-child { border-right: none; }
+  .segmented button:hover { background: var(--btn-default-bg-hover); }
+  .segmented button.active {
+    background: var(--brand-700);
+    color: var(--text-inverse);
+    font-weight: 700;
+  }
+
+  .ipt, select.ipt {
+    height: 32px;
+    padding: 0 var(--space-8);
+    border: 1px solid var(--form-input-border);
+    border-radius: var(--radius-sm);
+    background: var(--form-input-bg);
+    color: var(--form-input-text);
+    font-size: 12px;
+  }
+  .ipt:focus, select.ipt:focus { outline: none; border-color: var(--form-input-border-focus); }
+  .ipt::placeholder { color: var(--form-input-text-placeholder); }
+  select.ipt {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path d='M1 1L5 5L9 1' stroke='%23555555' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    padding-right: 24px;
+  }
+  .date-range { display: flex; align-items: center; gap: var(--space-4); }
+  .date-range .ipt { width: 118px; }
+  .ipt.w-select { width: 128px; }
+  .ipt.w-text { width: 130px; }
+
+  .search-actions { display: flex; align-items: center; gap: var(--space-8); margin-left: auto; }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-4);
+    height: 32px;
+    padding: 0 var(--space-16);
+    border-radius: var(--radius-sm);
+    font-size: 12px;
+    font-weight: 700;
+    border: 1px solid transparent;
+    white-space: nowrap;
+  }
+  .btn-search { background: var(--btn-search-bg); color: var(--btn-search-fg); }
+  .btn-search:hover { background: var(--btn-search-bg-hover); }
+  .btn-default { background: var(--btn-default-bg); color: var(--btn-default-fg); border-color: var(--btn-default-border); }
+  .btn-default:hover { background: var(--btn-default-bg-hover); }
+  .btn-icon {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    background: var(--btn-icon-bg);
+    color: var(--btn-icon-fg);
+    border-color: var(--btn-icon-border);
+  }
+  .btn-icon:hover { background: var(--brand-30); }
+  .btn-icon .xlsx-ic { width: 16px; height: 16px; }
+
+  /* Detail search panel */
+  .detail-search-panel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
+    padding-top: var(--space-12);
+    border-top: 1px solid var(--border-division);
+  }
+  .checkbox-group { display: flex; align-items: center; gap: var(--space-12); }
+  .checkbox-item { display: flex; align-items: center; gap: var(--space-4); font-size: 12px; color: var(--form-label-text); }
+  .checkbox-item input[type="checkbox"] {
+    width: 15px; height: 15px;
+    accent-color: var(--form-control-selected);
+  }
+
+  /* ============ Patient list grid ============ */
+  .grid-wrapper {
+    border: 1px solid var(--grid-header-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+  .grid-scroll { overflow: auto; flex: 1; min-height: 0; }
+
+  .patient-grid { display: grid; grid-template-columns: 108px 88px 76px 46px 46px 100px 66px 60px 78px; min-width: 668px; }
+  .patient-grid .g-head, .patient-grid .g-cell {
+    display: flex; align-items: center; justify-content: center;
+    padding: 0 var(--space-8);
+    font-size: 12px;
+    border-bottom: 1px solid var(--grid-header-border);
+    border-right: 1px solid var(--grid-header-border);
+  }
+  .patient-grid .g-head {
+    height: var(--row-h-default);
+    background: var(--grid-header-bg);
+    color: var(--grid-header-text);
+    font-weight: 700;
+  }
+  .patient-grid .g-head:last-child, .patient-grid .g-cell:last-child { border-right: none; }
+  .patient-grid .g-row { display: contents; }
+  .patient-grid .g-cell {
+    height: var(--row-h-default);
+    background: var(--grid-row-bg);
+    color: var(--grid-row-text);
+    border-bottom-color: var(--grid-border);
+    border-right-color: var(--grid-border);
+    cursor: pointer;
+  }
+  .patient-grid .g-row.selected .g-cell { background: var(--grid-row-bg-selected); }
+  .patient-grid .g-row:hover .g-cell { background: var(--bg-subtle); }
+  .patient-grid .g-row.selected:hover .g-cell { background: var(--grid-row-bg-selected); }
+  .patient-grid .col-name { justify-content: flex-start; }
+
+  .icon-btn-mini {
+    width: 22px; height: 22px;
+    border: none; background: transparent;
+    color: var(--gray-500);
+    display: flex; align-items: center; justify-content: center;
+    border-radius: var(--radius-sm);
+  }
+  .icon-btn-mini:hover { background: var(--bg-muted); color: var(--gray-700); }
+
+  .trend { display: flex; align-items: center; justify-content: center; }
+  .trend.neutral { color: var(--gray-300); }
+  .trend.up { color: var(--status-error-500); }
+  .trend.both { display: flex; gap: 2px; }
+  .trend.both .up-tri { color: var(--status-error-500); }
+  .trend.both .down-tri { color: var(--status-info-700); }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 20px;
+    padding: 0 var(--space-8);
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  .chip-progress { background: var(--chip-bg); color: var(--chip-fc); }
+  .chip-done { background: var(--chip-g-bg); color: var(--chip-g-fc); }
+
+  /* ============ Right: title + actions ============ */
+  .right-actions { display: flex; align-items: center; gap: var(--space-8); }
+
+  /* ============ Info summary (table) ============ */
+  .info-table {
+    display: grid;
+    grid-template-columns: 108px 1fr 108px 1fr;
+    border: 1px solid var(--table-header-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+  .info-table .t-label, .info-table .t-value {
+    display: flex;
+    align-items: center;
+    padding: 0 var(--space-12);
+    height: 36px;
+    font-size: 12px;
+    border-bottom: 1px solid var(--table-border);
+    border-right: 1px solid var(--table-border);
+  }
+  .info-table .t-label {
+    background: var(--table-header-bg);
+    color: var(--table-header-text);
+    font-weight: 700;
+  }
+  .info-table .t-value {
+    background: var(--table-row-bg);
+    color: var(--table-row-text);
+  }
+  .info-table > :nth-last-child(-n+4) { border-bottom: none; }
+  .info-table > :nth-child(4n) { border-right: none; }
+
+  /* ============ Exam result detail grid ============ */
+  .exam-grid { display: grid; grid-template-columns: 34px 88px minmax(140px,1.4fr) 64px 200px 44px 92px 56px; min-width: 700px; }
+  .exam-grid .g-head, .exam-grid .g-cell {
+    display: flex; align-items: center; justify-content: center;
+    padding: 0 var(--space-8);
+    font-size: 12px;
+    text-align: center;
+    border-bottom: 1px solid var(--table-border);
+    border-right: 1px solid var(--table-border);
+  }
+  .exam-grid .g-head {
+    height: 34px;
+    background: var(--grid-header-bg);
+    color: var(--grid-header-text);
+    font-weight: 700;
+    border-bottom-color: var(--grid-header-border);
+  }
+  .exam-grid .g-head:first-child, .exam-grid .g-head:last-child,
+  .exam-grid .g-cell:first-child, .exam-grid .g-cell:last-child { border-right: none; }
+  .exam-grid .g-row { display: contents; }
+  .exam-grid .g-cell {
+    height: 34px;
+    background: var(--bg-base);
+    color: var(--grid-row-text);
+  }
+  .exam-grid .col-item { justify-content: flex-start; text-align: left; }
+  .exam-grid .col-ref { justify-content: flex-start; text-align: left; color: var(--text-tertiary); }
+  .exam-grid input[type="checkbox"] { width: 14px; height: 14px; accent-color: var(--form-control-selected); }
+  .hl-badge { font-weight: 800; font-size: 12px; }
+  .hl-badge.h { color: var(--status-error-500); }
+  .hl-badge.l { color: var(--status-info-700); }
+
+  .exam-footer {
+    margin-top: var(--space-8);
+    text-align: right;
+    font-size: 11px;
+    color: var(--text-tertiary);
+  }
+</style>
+</head>
+<body>
+
+  <!-- ============ GNB ============ -->
+  <header class="gnb">
+    <div class="gnb-logo">롯데카드 FDS</div>
+    <nav class="gnb-nav">
+      <a href="#">운영관리</a>
+      <a href="#">모니터링</a>
+      <a href="#" class="active">실적현황</a>
+      <a href="#">CASE관리</a>
+      <a href="#">리스트</a>
+      <a href="#">정보유출</a>
+      <a href="#">코드</a>
+    </nav>
+    <div class="gnb-right">
+      <div class="gnb-icons">
+        <button class="gnb-icon-btn" title="전화상담" aria-label="전화상담">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        </button>
+        <button class="gnb-icon-btn" title="발신" aria-label="발신">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></svg>
+        </button>
+        <button class="gnb-icon-btn" title="헤드셋" aria-label="헤드셋">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>
+        </button>
+        <button class="gnb-icon-btn" title="수신" aria-label="수신">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M16 2 5 13"/><path d="M8 2h8v8"/><path d="M9 19H5v-4"/><path d="m5 19 6-6"/></svg>
+        </button>
+        <button class="gnb-icon-btn" title="메신저" aria-label="메신저">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </button>
+        <button class="gnb-icon-btn" title="알림" aria-label="알림">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <span class="badge">99</span>
+        </button>
+        <button class="gnb-icon-btn" title="쪽지" aria-label="쪽지">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+        </button>
+        <button class="gnb-icon-btn" title="문서함" aria-label="문서함">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 20V6a2 2 0 0 1 2-2h5l2 2h7a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4z"/></svg>
+        </button>
+      </div>
+      <div class="gnb-divider"></div>
+      <div class="gnb-user"><b>박길동</b>님</div>
+      <div class="gnb-clock">28:36:59</div>
+    </div>
+  </header>
+
+  <!-- ============ Page-tab ============ -->
+  <div class="page-tabs">
+    <button class="page-tab-nav-btn" aria-label="이전 탭">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+    <div class="page-tab-list">
+      <div class="page-tab">
+        <span class="home-ic">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+        </span>
+        Home
+      </div>
+      <div class="page-tab active">
+        메세지처리이력
+        <button class="close-x" aria-label="탭 닫기">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18"/><path d="M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="page-tab">
+        사고현황분석
+        <button class="close-x" aria-label="탭 닫기">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18"/><path d="M6 6l12 12"/></svg>
+        </button>
+      </div>
+    </div>
+    <button class="page-tab-nav-btn" aria-label="다음 탭">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+    </button>
+    <button class="page-tab-close-all" aria-label="전체 탭 닫기">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9l6 6M15 9l-6 6"/></svg>
+    </button>
+  </div>
+
+  <!-- ============ Layout ============ -->
+  <div class="layout">
+
+    <!-- ===== LEFT: main screen (search + patient list) ===== -->
+    <main class="main-left">
+
+      <section class="search-section">
+        <div class="section-title-row">
+          <h2 class="tit">검색영역</h2>
+          <button class="detail-toggle" id="detailToggleBtn" aria-expanded="false" aria-controls="detailSearchPanel">
+            상세검색
+            <span class="chevron">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+            </span>
+          </button>
+        </div>
+
+        <div class="search-fields">
+          <div class="field-row">
+            <label class="field-label">기간</label>
+            <select class="ipt w-select">
+              <option>접수일자</option>
+              <option>보고일자</option>
+            </select>
+          </div>
+
+          <div class="field-row">
+            <div class="segmented" id="periodSegment">
+              <button type="button" class="active">전체</button>
+              <button type="button">1일</button>
+              <button type="button">3일</button>
+              <button type="button">1주일</button>
+              <button type="button">1개월</button>
+              <button type="button">3개월</button>
+            </div>
+          </div>
+
+          <div class="field-row">
+            <label class="field-label">날짜</label>
+            <div class="date-range">
+              <input type="date" class="ipt" value="2026-05-01">
+              <span>~</span>
+              <input type="date" class="ipt" value="2026-05-31">
+            </div>
+          </div>
+
+          <div class="field-row">
+            <label class="field-label">검사진행</label>
+            <select class="ipt w-select">
+              <option>전체</option>
+              <option>검사중</option>
+              <option>완료</option>
+            </select>
+          </div>
+
+          <div class="field-row">
+            <label class="field-label">수진자명</label>
+            <input type="text" class="ipt w-text" placeholder="수진자명">
+          </div>
+
+          <div class="field-row">
+            <label class="field-label">차트번호</label>
+            <input type="text" class="ipt w-text" placeholder="차트번호">
+          </div>
+
+          <div class="search-actions">
+            <button class="btn btn-search">조회</button>
+            <button class="btn btn-default">초기화</button>
+          </div>
+        </div>
+
+        <div class="detail-search-panel" id="detailSearchPanel" hidden>
+          <div class="search-fields">
+            <div class="field-row">
+              <label class="field-label">생년월일</label>
+              <input type="date" class="ipt w-text">
+            </div>
+            <div class="field-row">
+              <label class="field-label">검체번호</label>
+              <input type="text" class="ipt w-text" placeholder="검체번호">
+            </div>
+            <div class="field-row">
+              <label class="field-label">항목명</label>
+              <select class="ipt w-select"><option>전체</option></select>
+            </div>
+            <div class="field-row">
+              <label class="field-label">검사분야</label>
+              <select class="ipt w-select"><option>전체</option></select>
+            </div>
+            <div class="field-row">
+              <label class="field-label">검체구분</label>
+              <div class="checkbox-group">
+                <label class="checkbox-item"><input type="checkbox" checked> 일반</label>
+                <label class="checkbox-item"><input type="checkbox" checked> 조직</label>
+                <label class="checkbox-item"><input type="checkbox" checked> 세포</label>
+              </div>
+            </div>
+            <div class="field-row">
+              <label class="field-label">COVID19</label>
+              <select class="ipt w-select"><option>전체</option></select>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="grid-wrapper" style="min-height:0;">
+        <div class="grid-scroll">
+          <div class="patient-grid" id="patientGrid">
+            <div class="g-row g-headrow">
+              <div class="g-head">접수일자</div>
+              <div class="g-head">차트번호</div>
+              <div class="g-head">수진자</div>
+              <div class="g-head">성별</div>
+              <div class="g-head">나이</div>
+              <div class="g-head">검체번호</div>
+              <div class="g-head">이전결과</div>
+              <div class="g-head">상태</div>
+              <div class="g-head">검사진행</div>
+            </div>
+            <!-- rows injected by JS -->
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ===== RIGHT: sub screen (exam result) ===== -->
+    <aside class="sub-right">
+      <div class="sub-card">
+
+        <div class="section-title-row">
+          <h3 class="subtit">검사결과</h3>
+          <div class="right-actions">
+            <button class="btn btn-default">검사결과이력조회</button>
+            <button class="btn btn-default">결과지출력</button>
+            <button class="btn btn-default">추가검사</button>
+            <button class="btn btn-default">오더의뢰지</button>
+            <button class="btn btn-icon" title="엑셀결과받기" aria-label="엑셀결과받기">
+              <svg class="xlsx-ic" viewBox="0 0 24 24" fill="none">
+                <rect x="2" y="3" width="20" height="18" rx="2" fill="#1c7a3e"/>
+                <path d="M7 8l4 8M11 8l-4 8" stroke="white" stroke-width="1.6" stroke-linecap="round"/>
+                <path d="M14 8h5v1.4h-3.4v1.9H18v1.4h-2.4V16H14z" fill="white"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="info-table" id="infoTable">
+          <div class="t-label">수진자</div><div class="t-value">신영덕</div>
+          <div class="t-label">차트번호</div><div class="t-value">9800024</div>
+          <div class="t-label">접수일자</div><div class="t-value">2026-04-05</div>
+          <div class="t-label">주민등록번호</div><div class="t-value">660212-1******</div>
+          <div class="t-label">담당의/과/병동</div><div class="t-value">이현석/내과/</div>
+          <div class="t-label">성별</div><div class="t-value">M</div>
+          <div class="t-label">나이</div><div class="t-value">60</div>
+          <div class="t-label">검체종류</div><div class="t-value">Serum, EDRA W/B</div>
+          <div class="t-label">검체번호</div><div class="t-value">G038892</div>
+          <div class="t-label">의료기관</div><div class="t-value">홍당무병원</div>
+          <div class="t-label">병원코드</div><div class="t-value">123454</div>
+          <div class="t-label">접수번호</div><div class="t-value">232323</div>
+          <div class="t-label">실거주지</div><div class="t-value">&nbsp;</div>
+          <div class="t-label">&nbsp;</div><div class="t-value">&nbsp;</div>
+        </div>
+
+        <div class="grid-wrapper">
+          <div class="grid-scroll">
+            <div class="exam-grid" id="examGrid">
+              <div class="g-row g-headrow">
+                <div class="g-head"><input type="checkbox" aria-label="전체선택"></div>
+                <div class="g-head">보험코드</div>
+                <div class="g-head">검사항목</div>
+                <div class="g-head">결과</div>
+                <div class="g-head">참고치</div>
+                <div class="g-head">H/L</div>
+                <div class="g-head">보고일자</div>
+                <div class="g-head">이전결과</div>
+              </div>
+              <!-- rows injected by JS -->
+            </div>
+          </div>
+        </div>
+        <div class="exam-footer">보고일자 2026-05-27 기준 · 총 14건</div>
+      </div>
+    </aside>
+  </div>
+
+<script>
+  // ---- Detail search toggle ----
+  var toggleBtn = document.getElementById('detailToggleBtn');
+  var panel = document.getElementById('detailSearchPanel');
+  toggleBtn.addEventListener('click', function () {
+    var expanded = toggleBtn.getAttribute('aria-expanded') === 'true';
+    toggleBtn.setAttribute('aria-expanded', String(!expanded));
+    panel.hidden = expanded;
+  });
+
+  // ---- Period segmented buttons ----
+  document.getElementById('periodSegment').addEventListener('click', function (e) {
+    var btn = e.target.closest('button');
+    if (!btn) return;
+    this.querySelectorAll('button').forEach(function (b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+  });
+
+  // ---- Icon helpers ----
+  function magnifierIcon() {
+    return '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>';
+  }
+  function trendIcon(kind) {
+    if (kind === 'up') {
+      return '<span class="trend up"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4l9 16H3z"/></svg></span>';
+    }
+    if (kind === 'both') {
+      return '<span class="trend both">' +
+        '<svg class="up-tri" width="9" height="9" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4l9 16H3z"/></svg>' +
+        '<svg class="down-tri" width="9" height="9" viewBox="0 0 24 24" fill="currentColor"><path d="M12 20L3 4h18z"/></svg>' +
+        '</span>';
+    }
+    return '<span class="trend neutral"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3l5 7H7z"/><path d="M12 21l-5-7h10z"/></svg></span>';
+  }
+
+  // ---- Patient list data ----
+  var patients = [
+    ['2026-05-06','9800026','김성현','F',66,'neutral','검사중'],
+    ['2026-05-06','9800025','박지연','M',61,'neutral','검사중'],
+    ['2026-04-05','9800024','신영덕','M',60,'up','완료'],
+    ['2026-04-05','9800023','이정범','M',66,'neutral','완료'],
+    ['2026-04-05','9800022','송임호','M',79,'neutral','검사중'],
+    ['2026-04-05','9800021','이진열','M',64,'neutral','검사중'],
+    ['2026-04-05','9800020','이해철','M',76,'neutral','완료'],
+    ['2026-03-05','9800019','박희찬','F',60,'both','완료'],
+    ['2026-03-05','9800018','이광구','M',56,'neutral','완료'],
+    ['2026-03-05','9800017','김용미','F',61,'up','완료'],
+    ['2026-03-05','9800016','한상종','M',46,'neutral','완료'],
+    ['2026-03-05','9800015','박종윤','F',63,'neutral','완료'],
+    ['2026-03-05','9800014','김학진','M',60,'neutral','완료'],
+    ['2026-02-05','9800013','하진주','F',48,'neutral','완료']
+  ];
+  var SELECTED_INDEX = 2; // 신영덕
+
+  var grid = document.getElementById('patientGrid');
+  patients.forEach(function (p, idx) {
+    var row = document.createElement('div');
+    row.className = 'g-row' + (idx === SELECTED_INDEX ? ' selected' : '');
+    row.setAttribute('data-idx', idx);
+    var chipClass = p[6] === '검사중' ? 'chip-progress' : 'chip-done';
+    row.innerHTML =
+      '<div class="g-cell">' + p[0] + '</div>' +
+      '<div class="g-cell">' + p[1] + '</div>' +
+      '<div class="g-cell col-name">' + p[2] + '</div>' +
+      '<div class="g-cell">' + p[3] + '</div>' +
+      '<div class="g-cell">' + p[4] + '</div>' +
+      '<div class="g-cell">G038892</div>' +
+      '<div class="g-cell"><button class="icon-btn-mini" aria-label="이전결과 조회" title="이전결과 조회">' + magnifierIcon() + '</button></div>' +
+      '<div class="g-cell">' + trendIcon(p[5]) + '</div>' +
+      '<div class="g-cell"><span class="chip ' + chipClass + '">' + p[6] + '</span></div>';
+    grid.appendChild(row);
+  });
+
+  grid.addEventListener('click', function (e) {
+    var row = e.target.closest('.g-row');
+    if (!row || row.classList.contains('g-headrow')) return;
+    grid.querySelectorAll('.g-row.selected').forEach(function (r) { r.classList.remove('selected'); });
+    row.classList.add('selected');
+  });
+
+  // ---- Exam result detail grid ----
+  var examRows = [
+    ['D180004Z','Potein, total','7.1','6.6 – 8.7 g/dL',''],
+    ['D188004Z','Albumin','4.1','3.5 – 5.2 g/dL',''],
+    ['D184004Z','A/G ratio','1.4','1.1 – 2.5',''],
+    ['D220004Z','BUN','11','8 – 22 mg/dL',''],
+    ['D230004Z','Creatinine','1.04','M : 0.70 – 1.30 mg/dL',''],
+    ['D300004Z','Uric acid','112','70 – 99 mg/dL','H'],
+    ['D186004Z','Glucose','0.8','≤ 1.3 mg/dL',''],
+    ['D185004Z','Bilirubin, total','23','< 40 U/L',''],
+    ['D189004Z','AST(GOT)','32','< 40 U/L',''],
+    ['D187004Z','AST(GPT)','43','M : 10 – 71 U/L',''],
+    ['D261004Z','GGT (γ-GTP)','73','Adult : 38 – 113 U/L',''],
+    ['D263004Z','ALP','138','Desirable < 200 mg/dL',''],
+    ['D266004Z','Cholesterol, total','226','Normal < 150 mg/dL','H'],
+    ['D185004Z','Triglyceride(TG)','38','Low < 40 mg/dL / High ≥ 60','L']
+  ];
+
+  var examGrid = document.getElementById('examGrid');
+  examRows.forEach(function (r) {
+    var row = document.createElement('div');
+    row.className = 'g-row';
+    var hl = r[4] ? '<span class="hl-badge ' + r[4].toLowerCase() + '">' + r[4] + '</span>' : '';
+    row.innerHTML =
+      '<div class="g-cell"><input type="checkbox"></div>' +
+      '<div class="g-cell">' + r[0] + '</div>' +
+      '<div class="g-cell col-item">' + r[1] + '</div>' +
+      '<div class="g-cell">' + r[2] + '</div>' +
+      '<div class="g-cell col-ref">' + r[3] + '</div>' +
+      '<div class="g-cell">' + hl + '</div>' +
+      '<div class="g-cell">2026-05-27</div>' +
+      '<div class="g-cell"><button class="icon-btn-mini" aria-label="이전결과 조회" title="이전결과 조회">' + magnifierIcon() + '</button></div>';
+    examGrid.appendChild(row);
+  });
+</script>
+</body>
+</html>
