@@ -1,0 +1,353 @@
+<!doctype html>
+<title>수진자 검사결과 조회</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="tokens.css" />
+<link rel="stylesheet" href="components.css" />
+
+<header class="gnb">
+  <div class="gnb__logo"><span class="mark" aria-hidden="true"></span>롯데카드 FDS</div>
+  <nav class="gnb__menu" aria-label="주 메뉴">
+    <button type="button">운영관리</button>
+    <button type="button">모니터링</button>
+    <button type="button" aria-current="page">실적현황</button>
+    <button type="button">CASE관리</button>
+    <button type="button">리스트</button>
+    <button type="button">정보유출</button>
+    <button type="button">코드</button>
+  </nav>
+  <div class="gnb__utils">
+    <div class="gnb__icons">
+      <span class="ico" title="전화상담"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.1-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .3 2 .6 2.9a2 2 0 0 1-.5 2.1L8 10a16 16 0 0 0 6 6l1.3-1.2a2 2 0 0 1 2.1-.5c.9.3 1.9.5 2.9.6a2 2 0 0 1 1.7 2z"/></svg></span>
+      <span class="ico" title="발신"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.1-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7"/></svg></span>
+      <span class="ico" title="헤드셋"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1v-6h3zM3 19a2 2 0 0 0 2 2h1v-6H3z"/></svg></span>
+      <span class="ico" title="수신"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1"/></svg></span>
+      <span class="ico" title="메신저"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
+      <span class="ico" title="알림"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg><span class="badge">99</span></span>
+      <span class="ico" title="쪽지"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span>
+      <span class="ico" title="문서함"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></span>
+    </div>
+    <div class="gnb__user">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      박길동
+    </div>
+    <div class="gnb__clock">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+      <span id="sessionClock">28:36:59</span>
+    </div>
+  </div>
+</header>
+
+<div class="pagetabbar">
+  <div class="pagetabbar__nav" title="이전"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></div>
+  <div class="pagetabbar__nav" title="다음"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></div>
+  <div class="pagetabbar__tabs">
+    <div class="pagetab" data-home>Home</div>
+    <div class="pagetab" data-active>메세지처리이력 <button type="button" aria-label="탭 닫기">✕</button></div>
+    <div class="pagetab">사고현황분석 <button type="button" aria-label="탭 닫기">✕</button></div>
+  </div>
+  <div class="pagetabbar__close" title="전체 닫기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg></div>
+</div>
+
+<main class="shell">
+  <div class="grid2">
+
+    <!-- ===================== 좌측: 검색영역 + 수진자 목록 (메인 화면 — 카드 없음) ===================== -->
+    <section class="surface--flat" aria-labelledby="searchTit">
+      <div class="panel-head">
+        <h2 class="tit" id="searchTit">검색영역</h2>
+        <button type="button" class="detail-toggle" id="advancedToggle" aria-expanded="false" aria-controls="advancedFields">
+          상세검색 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+      </div>
+
+      <form class="searchform" onsubmit="return false">
+        <div class="field-row">
+          <label class="field-label" for="periodType">기간</label>
+          <div class="field-body">
+            <select id="periodType">
+              <option>접수일자</option>
+              <option>보고일자</option>
+            </select>
+            <div class="seg" role="group" aria-label="조회 기간 단축">
+              <button type="button" aria-pressed="true">전체</button>
+              <button type="button">1일</button>
+              <button type="button">3일</button>
+              <button type="button">1주일</button>
+              <button type="button">1개월</button>
+              <button type="button">3개월</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <label class="field-label" for="dateFrom">날짜</label>
+          <div class="field-body">
+            <div class="daterange">
+              <input type="date" id="dateFrom" value="2026-05-01" />
+              <span>–</span>
+              <input type="date" id="dateTo" value="2026-05-31" />
+            </div>
+            <label class="field-label" for="progress" style="width:auto;padding-top:0">검사진행</label>
+            <select id="progress" style="min-width:110px">
+              <option>전체</option>
+              <option>검사중</option>
+              <option>완료</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <label class="field-label" for="patientName1">수진자명</label>
+          <div class="field-body">
+            <input type="text" id="patientName1" class="input" placeholder="수진자명" style="width:150px" />
+            <label class="field-label" for="patientName2" style="width:auto;padding-top:0">수진자명</label>
+            <input type="text" id="patientName2" class="input" placeholder="차트번호" style="width:150px" />
+          </div>
+        </div>
+
+        <div id="advancedFields" hidden>
+          <div class="field-row">
+            <label class="field-label" for="birthDate">생년월일</label>
+            <div class="field-body">
+              <input type="date" id="birthDate" style="width:150px" />
+              <label class="field-label" for="specimenNo" style="width:auto;padding-top:0">검체번호</label>
+              <input type="text" id="specimenNo" class="input" placeholder="검체번호" style="width:150px" />
+            </div>
+          </div>
+
+          <div class="field-row">
+            <label class="field-label" for="itemName">항목명</label>
+            <div class="field-body">
+              <select id="itemName" style="min-width:150px"><option>전체</option></select>
+              <label class="field-label" for="testField" style="width:auto;padding-top:0">검사분야</label>
+              <select id="testField" style="min-width:150px"><option>전체</option></select>
+            </div>
+          </div>
+
+          <div class="field-row">
+            <span class="field-label">검체구분</span>
+            <div class="field-body">
+              <label class="checkbox-label"><input type="checkbox" class="rowcheck" checked /> 일반</label>
+              <label class="checkbox-label"><input type="checkbox" class="rowcheck" checked /> 조직</label>
+              <label class="checkbox-label"><input type="checkbox" class="rowcheck" checked /> 세포</label>
+              <label class="field-label" for="covid19" style="width:auto;padding-top:0">COVID19</label>
+              <select id="covid19" style="min-width:110px"><option>전체</option></select>
+            </div>
+          </div>
+        </div>
+
+        <div class="btnbar">
+          <button type="submit" class="btn btn--search">조회</button>
+          <button type="reset" class="btn btn--default">초기화</button>
+        </div>
+      </form>
+
+      <h3 class="subtit">수진자 목록</h3>
+      <div class="tablewrap grid">
+        <table>
+          <thead>
+            <tr>
+              <th>접수일자</th><th>차트번호</th><th>수진자</th><th>성별</th><th>나이</th>
+              <th>검체번호</th><th>이전결과</th><th>상태</th><th>검사진행</th>
+            </tr>
+          </thead>
+          <tbody id="patientRows"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ===================== 우측: 검사결과 (서브 화면 — 회색 배경 위 흰 카드) ===================== -->
+    <div class="subscreen">
+      <section class="panel" aria-labelledby="resultTit">
+        <div class="panel-head">
+          <h2 class="tit" id="resultTit">검사결과</h2>
+          <div class="actionrow">
+            <button type="button" class="btn btn--default btn--sm">검사결과이력조회</button>
+            <button type="button" class="btn btn--default btn--sm">결과지출력</button>
+            <button type="button" class="btn btn--default btn--sm">추가검사</button>
+            <button type="button" class="btn btn--default btn--sm">오더의뢰지</button>
+            <button type="button" class="btn btn--sm btn--icon" title="엑셀결과받기" aria-label="엑셀결과받기">
+              <svg class="excel-icon" width="68" height="66" viewBox="0 0 68 66" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g filter="url(#filter0_d_315_5975)">
+                  <g style="mix-blend-mode:multiply" opacity="0.2">
+                    <g style="mix-blend-mode:multiply" opacity="0.2">
+                      <path d="M60.4201 0H17.1401C15.6489 0 14.4401 1.20888 14.4401 2.70008V55.0001C14.4401 56.4911 15.6489 57.7001 17.1401 57.7001H60.4201C61.9113 57.7001 63.1201 56.4911 63.1201 55.0001V2.70008C63.1201 1.20888 61.9113 0 60.4201 0Z" fill="white"/>
+                    </g>
+                  </g>
+                  <g style="mix-blend-mode:multiply" opacity="0.12">
+                    <g style="mix-blend-mode:multiply" opacity="0.12">
+                      <path d="M60.4201 3.05176e-05H17.1401C15.6489 3.05176e-05 14.4401 1.20885 14.4401 2.70005V55.0001C14.4401 56.4913 15.6489 57.7001 17.1401 57.7001H60.4201C61.9113 57.7001 63.1201 56.4913 63.1201 55.0001V2.70005C63.1201 1.20885 61.9113 3.05176e-05 60.4201 3.05176e-05Z" fill="white"/>
+                    </g>
+                  </g>
+                  <path d="M39.68 6.10394e-05H17.14C16.7864 4.10394e-05 16.4362 0.0700193 16.1098 0.205959C15.7832 0.341879 15.487 0.541081 15.2378 0.792061C14.9886 1.04308 14.7916 1.34088 14.6582 1.66828C14.5246 1.99588 14.4574 2.34648 14.46 2.70008V14.4201H39.68V6.10394e-05Z" fill="#21A366"/>
+                  <path d="M60.4601 6.10352e-05H39.6801V14.4201H63.1001V2.70008C63.1055 1.99268 62.8309 1.31188 62.3363 0.80612C61.8419 0.30034 61.1673 0.010601 60.4601 6.10352e-05Z" fill="#33C481"/>
+                  <path d="M63.1201 28.8401H39.6801V43.2601H63.1201V28.8401Z" fill="#107C41"/>
+                  <path d="M39.68 43.2601V28.8401H14.46V54.9801C14.4572 55.3355 14.5254 55.6877 14.66 56.0165C14.7948 56.3453 14.9936 56.6439 15.2448 56.8953C15.496 57.1465 15.7948 57.3453 16.1236 57.4799C16.4524 57.6147 16.8046 57.6827 17.16 57.6801H60.46C60.8152 57.6827 61.1676 57.6147 61.4964 57.4799C61.8252 57.3453 62.1238 57.1465 62.375 56.8953C62.6264 56.6439 62.8252 56.3453 62.9598 56.0165C63.0946 55.6877 63.1626 55.3355 63.16 54.9801V43.2601H39.68Z" fill="#185C37"/>
+                  <path d="M39.6801 14.4201H14.4401V28.8401H39.6801V14.4201Z" fill="#107C41"/>
+                  <path d="M63.1201 14.4201H39.6801V28.8401H63.1201V14.4201Z" fill="#21A366"/>
+                </g>
+                <g style="mix-blend-mode:multiply" opacity="0.48">
+                  <g style="mix-blend-mode:multiply" opacity="0.48">
+                    <path d="M29.7601 12.6201H2.70012C1.20896 12.6201 0.00012207 13.8289 0.00012207 15.3201V42.3801C0.00012207 43.8713 1.20896 45.0801 2.70012 45.0801H29.7601C31.2513 45.0801 32.4601 43.8713 32.4601 42.3801V15.3201C32.4601 13.8289 31.2513 12.6201 29.7601 12.6201Z" fill="white"/>
+                  </g>
+                </g>
+                <g style="mix-blend-mode:multiply" opacity="0.24">
+                  <g style="mix-blend-mode:multiply" opacity="0.24">
+                    <path d="M29.7601 12.6201H2.7C1.20882 12.6201 0 13.8289 0 15.3201V42.3801C0 43.8711 1.20882 45.0801 2.7 45.0801H29.7601C31.2511 45.0801 32.4601 43.8711 32.4601 42.3801V15.3201C32.4601 13.8289 31.2511 12.6201 29.7601 12.6201Z" fill="white"/>
+                  </g>
+                </g>
+                <g filter="url(#filter1_d_315_5975)">
+                  <path d="M29.7601 12.6201H2.70012C1.20896 12.6201 0.00012207 13.8289 0.00012207 15.3201V42.3801C0.00012207 43.8713 1.20896 45.0801 2.70012 45.0801H29.7601C31.2513 45.0801 32.4601 43.8713 32.4601 42.3801V15.3201C32.4601 13.8289 31.2513 12.6201 29.7601 12.6201Z" fill="#107C41"/>
+                  <path opacity="0.5" d="M29.7601 12.6201H2.70012C1.20895 12.6201 0.00012207 13.8289 0.00012207 15.3201V42.3801C0.00012207 43.8713 1.20895 45.0801 2.70012 45.0801H29.7601C31.2513 45.0801 32.4601 43.8713 32.4601 42.3801V15.3201C32.4601 13.8289 31.2513 12.6201 29.7601 12.6201Z" fill="url(#paint0_linear_315_5975)" style="mix-blend-mode:soft-light"/>
+                  <path d="M8.46008 37.6201L14.0801 28.8401L8.86008 20.0601H13.0601L15.9001 25.6601C16.1601 26.1801 16.3401 26.5801 16.4401 26.8401C16.6201 26.4201 16.8201 26.0001 17.0201 25.6001L20.0601 20.0601H23.9201L18.6001 28.8401L24.0801 37.7001H20.0801L16.7801 31.5601C16.6301 31.2981 16.5031 31.0239 16.4001 30.7401C16.3045 31.0205 16.1771 31.2889 16.0201 31.5401L12.4601 37.6201H8.46008Z" fill="white"/>
+                </g>
+                <defs>
+                  <filter id="filter0_d_315_5975" x="10.4401" y="0" width="56.7201" height="65.7001" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                    <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                    <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                    <feOffset dy="4"/>
+                    <feGaussianBlur stdDeviation="2"/>
+                    <feComposite in2="hardAlpha" operator="out"/>
+                    <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.12 0"/>
+                    <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_315_5975"/>
+                    <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_315_5975" result="shape"/>
+                  </filter>
+                  <filter id="filter1_d_315_5975" x="0.00012207" y="12.6201" width="40.46" height="40.46" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                    <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                    <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                    <feOffset dx="4" dy="4"/>
+                    <feGaussianBlur stdDeviation="2"/>
+                    <feComposite in2="hardAlpha" operator="out"/>
+                    <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.22 0"/>
+                    <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_315_5975"/>
+                    <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_315_5975" result="shape"/>
+                  </filter>
+                  <linearGradient id="paint0_linear_315_5975" x1="5.64012" y1="10.5001" x2="26.8201" y2="47.1801" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="white" stop-opacity="0.5"/>
+                    <stop offset="1" stop-opacity="0.7"/>
+                  </linearGradient>
+                </defs>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <dl class="resultmeta">
+          <dt>수진자</dt><dd>신영덕</dd><dt>차트번호</dt><dd>9800024</dd><dt>접수일자</dt><dd>2026-04-05</dd><dt>주민등록번호</dt><dd>660212-1******</dd>
+          <dt>담당의/과/병동</dt><dd>이현석/내과/</dd><dt>성별</dt><dd>M</dd><dt>나이</dt><dd>60</dd><dt>검체종류</dt><dd>Serum, EDRA W/B</dd>
+          <dt>검체번호</dt><dd>G038892</dd><dt>의료기관</dt><dd>홍당무병원</dd><dt>병원코드</dt><dd>123454</dd><dt>접수번호</dt><dd>232323</dd>
+          <dt>실거주지</dt><dd colspan="3" style="grid-column:2 / -1">&nbsp;</dd>
+        </dl>
+
+        <div class="resulttable-head">
+          <h3 class="subtit">검사결과 상세</h3>
+        </div>
+        <div class="tablewrap grid">
+          <table>
+            <thead>
+              <tr>
+                <th style="width:30px"><input type="checkbox" class="rowcheck" aria-label="전체 선택" /></th>
+                <th>보험코드</th><th>검사항목</th><th>결과</th><th>참고치</th><th>H/L</th><th>보고일자</th><th>이전결과</th>
+              </tr>
+            </thead>
+            <tbody id="labRows"></tbody>
+          </table>
+        </div>
+        <div class="scrollnote">보고일자 2026-05-27 기준 · 총 <span id="labCount"></span>건</div>
+      </section>
+    </div>
+
+  </div>
+</main>
+
+<script>
+  const upIcon = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 4 4 16h16z"/></svg>';
+  const downIcon = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 20 4 8h16z"/></svg>';
+  const neutralIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 9l5-5 5 5M7 15l5 5 5-5"/></svg>';
+  const searchIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>';
+
+  function statusFlag(kind){
+    if(kind === 'up') return `<span class="status-flag up" title="지표 상승">${upIcon}</span>`;
+    if(kind === 'both') return `<span class="status-flag both" title="지표 변동"><span>${upIcon}</span><span>${downIcon}</span></span>`;
+    return `<span class="status-flag neutral" title="변동 없음">${neutralIcon}</span>`;
+  }
+
+  const patients = [
+    ['2026-05-06','9800026','김성현','F',66,'검사중','neutral'],
+    ['2026-05-06','9800025','박지연','M',61,'검사중','neutral'],
+    ['2026-04-05','9800024','신영덕','M',60,'완료','up',true],
+    ['2026-04-05','9800023','이정범','M',66,'완료','neutral'],
+    ['2026-04-05','9800022','송임호','M',79,'검사중','neutral'],
+    ['2026-04-05','9800021','이진열','M',64,'검사중','neutral'],
+    ['2026-04-05','9800020','이해철','M',76,'완료','neutral'],
+    ['2026-03-05','9800019','박희찬','F',60,'완료','both'],
+    ['2026-03-05','9800018','이광구','M',56,'완료','neutral'],
+    ['2026-03-05','9800017','김용미','F',61,'완료','up'],
+    ['2026-03-05','9800016','한상종','M',46,'완료','neutral'],
+    ['2026-03-05','9800015','박종윤','F',63,'완료','neutral'],
+    ['2026-03-05','9800014','김학진','M',60,'완료','neutral'],
+    ['2026-02-05','9800013','하진주','F',48,'완료','neutral'],
+  ];
+
+  document.getElementById('patientRows').innerHTML = patients.map(function(p){
+    var date=p[0], chart=p[1], name=p[2], sex=p[3], age=p[4], progress=p[5], flag=p[6], selected=p[7];
+    var pillClass = progress === '완료' ? 'pill--done' : 'pill--wip';
+    return '<tr' + (selected ? ' data-selected' : '') + '>' +
+      '<td>' + date + '</td>' +
+      '<td>' + chart + '</td>' +
+      '<td style="text-align:left">' + name + '</td>' +
+      '<td>' + sex + '</td>' +
+      '<td>' + age + '</td>' +
+      '<td>G038892</td>' +
+      '<td><span class="icon-btn" title="이전결과 보기">' + searchIcon + '</span></td>' +
+      '<td>' + statusFlag(flag) + '</td>' +
+      '<td><span class="pill ' + pillClass + '">' + progress + '</span></td>' +
+    '</tr>';
+  }).join('');
+
+  const labs = [
+    ['D180004Z','Potein, total','7.1','6.6 – 8.7 g/dL',''],
+    ['D188004Z','Albumin','4.1','3.5 – 5.2 g/dL',''],
+    ['D184004Z','A/G ratio','1.4','1.1 – 2.5',''],
+    ['D220004Z','BUN','11','8 – 22 mg/dL',''],
+    ['D230004Z','Creatinine','1.04','M : 0.70 – 1.30 mg/dL',''],
+    ['D300004Z','Uric acid','112','70 – 99 mg/dL','H'],
+    ['D186004Z','Glucose','0.8','≤ 1.3 mg/dL',''],
+    ['D185004Z','Bilirubin, total','23','< 40 U/L',''],
+    ['D189004Z','AST(GOT)','32','< 40 U/L',''],
+    ['D187004Z','AST(GPT)','43','M : 10 – 71 U/L',''],
+    ['D261004Z','GGT (γ-GTP)','73','Adult : 38 – 113 U/L',''],
+    ['D263004Z','ALP','138','Desirable < 200 mg/dL',''],
+    ['D266004Z','Cholesterol, total','226','Normal < 150 mg/dL','H'],
+    ['D185004Z','Triglyceride(TG)','38','Low < 40 mg/dL / High ≥ 60','L'],
+  ];
+
+  document.getElementById('labRows').innerHTML = labs.map(function(l){
+    var code=l[0], name=l[1], value=l[2], range=l[3], hl=l[4];
+    var hlClass = hl === 'H' ? 'h' : (hl === 'L' ? 'l' : '');
+    return '<tr>' +
+      '<td><input type="checkbox" class="rowcheck" aria-label="' + name + ' 선택" /></td>' +
+      '<td>' + code + '</td>' +
+      '<td style="text-align:left">' + name + '</td>' +
+      '<td><span class="lab-value ' + hlClass + '">' + value + '</span></td>' +
+      '<td class="refrange" style="text-align:left">' + range + '</td>' +
+      '<td>' + (hl ? '<span class="lab-hl ' + hlClass + '">' + hl + '</span>' : '') + '</td>' +
+      '<td>2026-05-27</td>' +
+      '<td><span class="icon-btn" title="이전결과 보기">' + searchIcon + '</span></td>' +
+    '</tr>';
+  }).join('');
+
+  document.getElementById('labCount').textContent = labs.length;
+
+  var advToggle = document.getElementById('advancedToggle');
+  var advFields = document.getElementById('advancedFields');
+  advToggle.addEventListener('click', function(){
+    var willOpen = advFields.hidden;
+    advFields.hidden = !willOpen;
+    advToggle.setAttribute('aria-expanded', String(willOpen));
+  });
+</script>
