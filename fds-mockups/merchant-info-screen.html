@@ -31,7 +31,7 @@
   .grid-section{ flex:1; min-height:160px; display:flex; flex-direction:column; }
   .grid-section .tablewrap{ flex:1; min-height:0; overflow-y:auto; }
   .actionbar{ flex-shrink:0; }
-  #actionContent{ height:180px; overflow-y:auto; }
+  #actionContent{ height:208px; overflow-y:auto; }
 
   /* 조치영역(.actionpanel/.memopanel 등) + 배분영역(.dash-side 내부 스크롤 체인) 공통 스타일은
      components.css에 있다 — 여기서 재정의하지 말 것 */
@@ -269,20 +269,20 @@
 
       <!-- 패널: 회원메모 -->
       <div class="actionpanel" data-panel="member-memo">
-        <div class="filterline" style="justify-content:space-between;">
-          <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
-            <label class="checkbox-label"><input type="radio" name="memoTarget1" /> 인당</label>
-            <label class="checkbox-label"><input type="radio" name="memoTarget1" checked /> 카드당</label>
-            <label class="checkbox-label"><input type="checkbox" class="rowcheck" /> 녹취메모</label>
-            <select style="min-width:70px"><option>-</option></select>
-          </div>
-          <div style="display:flex;align-items:center;gap:10px;">
-            <span class="countnote">조회건수 : 7건</span>
-            <button type="button" class="btn btn--search btn--sm">조회</button>
-          </div>
-        </div>
         <div class="bottomrow">
           <div class="bottomleft">
+            <div class="filterline filterline--tint" style="justify-content:space-between;">
+              <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+                <label class="checkbox-label"><input type="radio" name="memoTarget1" /> 인당</label>
+                <label class="checkbox-label"><input type="radio" name="memoTarget1" checked /> 카드당</label>
+                <label class="checkbox-label"><input type="checkbox" class="rowcheck" /> 녹취메모</label>
+                <select style="min-width:70px"><option>-</option></select>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;">
+                <span class="countnote">조회건수 : 7건</span>
+                <button type="button" class="btn btn--search btn--sm">조회</button>
+              </div>
+            </div>
             <div class="tablewrap grid grid--dense">
               <table>
                 <thead>

@@ -226,7 +226,9 @@ tbody td{
   border-bottom:1px solid transparent; border-right:1px solid transparent;
 }
 tbody td:last-child{ border-right:0; }
-tbody tr:hover{ background:var(--bg-subtle); }
+/* hover는 선택 가능한 레코드 리스트(grid)에만 필요하다 — 정적 라벨:값 테이블(.table/.metatable)은
+   상호작용 요소가 아니므로 hover를 주지 않는다 (design-corrections.md 1번, table/grid 분류). */
+.tablewrap.grid tbody tr:hover{ background:var(--bg-subtle); }
 
 /* -- grid variant --
    header/border는 외곽+헤더하단+헤더내부 세로선까지 전부 적용,
@@ -473,7 +475,7 @@ th.sortable .sort-ic svg{ width:7px; height:7px; }
 }
 .actionbar__toggle svg{ width:10px; height:10px; transition:transform .15s ease; }
 .actionbar__toggle[aria-expanded="true"] svg{ transform:rotate(180deg); }
-.actionbar__tabs{ display:flex; align-items:stretch; gap:0; margin-top:var(--sp-8); }
+.actionbar__tabs{ display:flex; align-items:flex-end; gap:0; margin-top:var(--sp-8); margin-bottom:10px; }
 .actionbar__tabs .scrollnav{ display:flex; align-items:center; color:var(--text-tertiary); cursor:pointer; padding-inline:4px; flex-shrink:0; }
 .actionbar__tabs .scrollnav svg{ width:14px; height:14px; }
 .actionbar__tablist{
@@ -490,13 +492,17 @@ th.sortable .sort-ic svg{ width:7px; height:7px; }
 
 /* 조치영역 탭 콘텐츠 공통 — 여러 화면이 조치영역을 공유하므로 여기서 한 번만 정의한다.
    화면별 로컬 <style>에 중복 정의하지 말 것: 여기를 고치면 조치영역을 쓰는 모든 화면에 함께 반영된다. */
-.actionpanel{ padding-top:var(--sp-16); }
+/* 탭 아래 여백은 .actionbar__tabs의 margin-bottom(10px)이 이미 제공하므로 여기서 또 주지 않는다
+   (두 규칙이 겹치면 실제 간격이 의도보다 커진다) */
+.actionpanel{ padding-top:0; }
 .bottomrow{ display:flex; gap:var(--sp-16); align-items:flex-start; }
 .bottomleft{ flex:1; min-width:0; }
 .memopanel{ width:300px; flex-shrink:0; border:1px solid var(--border-division); border-radius:var(--rad-md); padding:var(--sp-12); display:flex; flex-direction:column; gap:8px; }
 .memopanel__head{ display:flex; align-items:center; justify-content:space-between; background:var(--bg-separation); padding:8px; border-radius:var(--rad-sm); }
 /* 타이틀(탭) 아래 붙는 라디오 등 필터 바 — 배경 bg/separation(brand/10)로 강조. .memopanel__head와 같은 톤 */
 .radiobar{ display:flex; align-items:center; gap:10px; background:var(--bg-separation); padding:6px 8px; border-radius:var(--rad-sm); margin-bottom:var(--sp-8); }
+/* 조회영역(라디오+인풋+조회버튼 등)을 배경색으로 구분할 때 .filterline에 조합해서 쓴다 */
+.filterline--tint{ background:var(--bg-separation); padding:6px 8px; border-radius:var(--rad-sm); }
 .memopanel textarea{ height:70px; resize:none; border:1px solid var(--form-input-border); border-radius:var(--rad-sm); padding:8px; font:inherit; font-size:var(--fs-11); color:var(--form-input-text); }
 .memopanel__foot{ text-align:right; font-size:var(--fs-11); color:var(--text-tertiary); }
 
