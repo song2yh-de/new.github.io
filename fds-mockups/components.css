@@ -4,7 +4,33 @@
    design-corrections.md의 규칙(Table/Grid 분류, spacing, 레이아웃 패턴)이
    전부 이 파일 안에 구현되어 있다 — 새 화면은 이 클래스들을 재사용하고
    콘텐츠(마크업·데이터)만 채워넣으면 된다.
-   ========================================================= */
+
+   실제 사용 예시는 component-catalog.html에서 렌더링된 채로 확인할 것.
+   새 컴포넌트를 추가하면 그 페이지에도 예시 블록을 함께 추가한다.
+
+   -- 목차 (헤더 문구로 Ctrl+F) ----------------------------------
+   Reset / base
+   GNB header
+   Page tabs (2depth)
+   Layout shell                    — .grid2 메인/서브 2분할
+   Search form
+   Buttons
+   타이틀 서브헤딩
+   Table / Grid 공용 셀 구조        — table vs grid 판단 기준
+   Chip (상태 표시)
+   라벨:값 요약 패널                — .resultmeta
+   값 강조 유틸(검사결과류)
+   본문 + 우측 전체높이 패널 레이아웃 — .dash-layout/.dash-side 배분영역
+   Dashboard card                  — .card, 그 안에 하위 섹션 4개:
+     · 카드 시스템 (.card/.card--flat/.cardrow/.cardstack)
+     · 라벨:값 보조 컴포넌트 (.group-bar/.metagrid/.metatable)
+     · 그리드/테이블 헬퍼 (.grid--dense/.th-group)
+     · 탭 종류 (.subtabs/.areatabs/.gridtabs2)
+   작은 정사각 아이콘 버튼
+   KPI 통계 타일                   — .statrow, 하위: .section-subhead
+   조치 영역                       — .actionbar, 회원메모 등 화면 공용 패턴
+   small helpers
+   ================================================================= */
 
 /* ---------------------------------------------------------- Reset / base */
 *{ box-sizing:border-box; }
@@ -320,7 +346,9 @@ tbody td:last-child{ border-right:0; }
 
 /* ---------------------------------------------------------- Dashboard card (정보 조회형 다중 패널)
    design.md 8장 "정보 조회형" — info-blocks-row에 여러 info-card를 배치하는 패턴.
-   .grid2(메인/서브 2분할)와는 다른 레이아웃 — 밀도 높은 다중 패널 대시보드용. */
+   .grid2(메인/서브 2분할)와는 다른 레이아웃 — 밀도 높은 다중 패널 대시보드용.
+   주의: 이 섹션 헤더 아래 네 묶음(카드 시스템 / 라벨:값 보조 컴포넌트 / 그리드 헬퍼 / 탭 3종)은
+   성격이 다르니, 코드는 여기 그대로 두되 아래 하위 헤더로 구분해뒀다 — 찾을 땐 하위 헤더로 검색할 것. */
 .cardrow{ display:flex; gap:var(--sp-12); align-items:flex-start; flex-wrap:wrap; }
 .cardrow > .card{ flex:1 1 0; min-width:280px; }
 .card{
@@ -370,6 +398,7 @@ tbody td:last-child{ border-right:0; }
 .card__foot{ padding:0 var(--sp-12) var(--sp-12); display:flex; gap:6px; flex-wrap:wrap; }
 .card__radio{ display:flex; align-items:center; gap:4px; font-size:var(--fs-12); color:var(--text-secondary); cursor:pointer; }
 
+/* -- 하위 섹션: 라벨:값 보조 컴포넌트 (table 분류 — 267행 .resultmeta의 형제뻘) -- */
 /* metagrid 위에 붙는 그룹 구분 바 (예: "국내"/"해외") — table/header/bg-group 레벨 */
 .group-bar{
   background:var(--table-header-bg-group); color:var(--table-header-text); font-weight:700; font-size:var(--fs-11);
@@ -405,12 +434,16 @@ tbody td:last-child{ border-right:0; }
 .metatable td.label{ background:var(--table-header-bg); color:var(--table-header-text); font-weight:700; white-space:nowrap; width:1%; }
 .metatable td.value{ color:var(--text-secondary); }
 
+/* -- 하위 섹션: 그리드/테이블 헬퍼 (214행 Table/Grid 공용 셀 구조의 확장) -- */
 /* 고밀도 모니터링 그리드 — row-height/monitoring 적용 (design.md 3장) */
 .tablewrap.grid--dense thead th, .tablewrap.grid--dense tbody td{ height:var(--row-h-monitoring); font-size:var(--fs-11); }
 
 /* 2단 그룹 헤더의 상위 행(예: 총계/분실도난/e-Fraud/위조) — table/header/bg-group 레벨 */
 .tablewrap.table th.th-group{ background:var(--table-header-bg-group); border-color:var(--table-header-border-group); }
 
+/* -- 하위 섹션: 탭 종류 (겉모양이 비슷해도 용도/토큰이 다르다 — component-catalog.html #tabs 참고)
+   .card__tabs(카드 헤더 안, 363행)·.actionbar__tablist(조치영역 전용, 481행)와 함께
+   화면 전체에서 쓰이는 탭이 이 파일에 총 5곳 흩어져 있다. */
 /* 인라인 서브탭 (국내/해외류) — Table-tab 토큰 */
 .subtabs{ display:flex; gap:2px; }
 .subtabs button{
@@ -463,6 +496,7 @@ th.sortable .sort-ic svg{ width:7px; height:7px; }
 .stat__num .stat__pct{ font-size:var(--fs-11); font-weight:700; color:var(--feedback-success); }
 .stat--muted .stat__num{ color:var(--text-tertiary); }
 
+/* -- 하위 섹션: 화면 내 구획 소제목 (KPI 타일과 무관 — 배분영역 등에서 "실시간"/"검색" 같은 구획 나눌 때 사용) -- */
 .section-subhead{ display:flex; align-items:center; justify-content:space-between; margin:var(--sp-12) 0 6px; }
 .section-subhead .tit-mini{ font-size:var(--fs-13); font-weight:800; color:var(--text-primary); }
 .section-subhead .tit-mini small{ font-weight:400; color:var(--text-tertiary); margin-left:4px; }
