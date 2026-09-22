@@ -1,0 +1,678 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap">
+  <style>
+    :root{
+      --p-brand-900:#142343; --p-brand-850:#1e325c; --p-brand-800:#19326b;
+      --p-brand-700:#0e37aa; --p-brand-600:#113fe4; --p-brand-500:#2b55f4;
+      --p-brand-100:#bacbfc; --p-brand-50:#e0e8ff; --p-brand-30:#ecf1fe; --p-brand-10:#f4f6fb;
+      --p-gray-900:#111111; --p-gray-850:#222222; --p-gray-825:#353739; --p-gray-800:#333333;
+      --p-gray-700:#555555; --p-gray-650:#5f6368; --p-gray-600:#666666; --p-gray-500:#777777;
+      --p-gray-400:#888888; --p-gray-300:#9e9e9e; --p-gray-250:#a9a9a9; --p-gray-200:#bbbbbb;
+      --p-gray-150:#cecece; --p-gray-120:#d6d6d6; --p-gray-100:#e2e2e2; --p-gray-85:#f7f7f7;
+      --p-gray-75:#f2f2f2; --p-gray-50:#f6f6f6; --p-gray-25:#fafafa;
+      --p-slate-650:#3d475f; --p-slate-350:#a9adb9; --p-slate-300:#b0b5c1; --p-slate-200:#d0d6db; --p-slate-100:#e3e6eb;
+      --p-blue-600:#265fba;
+      --p-base-white:#ffffff; --p-base-white-90:#ffffffe5; --p-base-white-50:#ffffff80; --p-base-white-30:#ffffff4d;
+      --p-error-50:#ffe8e8; --p-error-500:#e82323; --p-error-600:#cc3333; --p-error-700:#b32525;
+      --p-warning-50:#fcf9ec; --p-warning-500:#f6bc00; --p-warning-700:#eda200;
+      --p-info-50:#f4f9ff; --p-info-500:#4c79d4; --p-info-700:#1549b3;
+      --p-success-300:#c1e9c4; --p-success-700:#10b21b;
+      --p-red-400:#f15d5d; --p-red-50:#fdf2f2;
+      --p-orange-50:#fff4e9; --p-cyan-50:#e0f6fd; --p-lime-50:#f2ffe2;
+
+      --text-primary:var(--p-gray-900); --text-secondary:var(--p-gray-850); --text-tertiary:var(--p-gray-500);
+      --text-disabled:var(--p-gray-400); --text-inverse:var(--p-base-white); --text-link:var(--p-brand-700);
+      --text-tit:var(--p-blue-600); --text-label:var(--p-gray-700);
+      --bg-base:var(--p-base-white); --bg-subtle:var(--p-gray-50); --bg-muted:var(--p-gray-100);
+      --bg-inverse:var(--p-brand-900); --bg-separation:var(--p-brand-10);
+      --border-default:var(--p-gray-200); --border-strong:var(--p-gray-300); --border-focus:var(--p-brand-500); --border-division:var(--p-gray-120);
+      --action-primary:#64728c; --action-primary-hover:var(--p-brand-700); --action-secondary:var(--p-brand-50); --action-search:var(--p-brand-800);
+      --action-destructive:var(--p-error-500); --action-destructive-hover:var(--p-error-700);
+      --feedback-error:var(--p-error-500); --feedback-error-bg:var(--p-error-50);
+      --feedback-warning:var(--p-warning-500); --feedback-warning-bg:var(--p-warning-50);
+      --feedback-info:var(--p-info-500); --feedback-info-bg:var(--p-info-50);
+      --feedback-success:var(--p-success-700); --feedback-success-bg:var(--p-success-300);
+      --btn-primary-bg:var(--p-brand-700); --btn-primary-bg-hover:var(--action-primary-hover); --btn-primary-fg:var(--text-inverse);
+      --btn-search-bg:var(--action-search); --btn-search-bg-hover:var(--p-brand-900); --btn-search-fg:var(--text-inverse);
+      --btn-secondary-bg:var(--p-brand-50); --btn-secondary-fg:var(--p-brand-500); --btn-secondary-fg-hover:var(--p-brand-700); --btn-secondary-border:var(--p-brand-500);
+      --btn-default-bg:var(--bg-base); --btn-default-bg-hover:var(--bg-muted); --btn-default-fg:var(--p-gray-850); --btn-default-border:var(--border-default);
+      --btn-disabled-bg:var(--p-gray-50); --btn-disabled-fg:var(--p-gray-200); --btn-disabled-border:var(--p-gray-100);
+      --btn-icon-bg:var(--p-brand-10); --btn-icon-fg:var(--p-gray-600); --btn-icon-border:var(--p-gray-200);
+      --form-input-bg:var(--bg-base); --form-input-bg-disabled:var(--bg-muted);
+      --form-input-border:var(--border-default); --form-input-border-focus:var(--border-focus); --form-input-border-muted:var(--p-gray-200);
+      --form-input-text:var(--text-secondary); --form-input-text-placeholder:var(--text-tertiary);
+      --form-control-border:var(--p-gray-500); --form-control-selected:var(--action-primary);
+      --form-label-text:var(--text-primary); --form-select-caret:var(--text-secondary);
+      --table-header-bg:var(--p-brand-10); --table-header-bg-group:var(--p-slate-100);
+      --table-header-text:var(--text-secondary); --table-header-required:var(--p-error-500);
+      --table-header-border:var(--p-slate-200); --table-header-border-group:var(--p-slate-200);
+      --table-row-bg:var(--bg-base); --table-row-bg-selected:var(--feedback-warning-bg); --table-row-text:var(--text-secondary);
+      --table-row-text-error:var(--feedback-error); --table-row-text-blue:var(--p-brand-600,#113fe4);
+      --table-border:var(--p-gray-100);
+      --grid-header-bg:var(--p-slate-100); --grid-header-text:var(--p-gray-800); --grid-header-icon:var(--p-gray-300);
+      --grid-header-border:var(--p-gray-150);
+      --grid-row-bg:var(--bg-base); --grid-row-bg-selected:var(--p-orange-50); --grid-row-text:var(--text-secondary);
+      --grid-row-bg-error:var(--feedback-error-bg); --grid-row-text-error:var(--feedback-error);
+      --grid-row-bg-blue:var(--p-cyan-50); --grid-row-text-blue:var(--p-info-700);
+      --grid-row-bg-green:var(--p-lime-50);
+      --grid-border:var(--p-gray-100);
+      --chip-fc:var(--p-brand-600); --chip-bg:var(--p-brand-50);
+      --chip-g-fc:var(--p-gray-600); --chip-g-bg:var(--p-gray-100);
+      --header-bg:var(--p-brand-900); --header-line:#000000; --header-bar:var(--p-slate-650);
+      --header-fc:var(--p-base-white); --header-icon:var(--p-slate-350); --header-icon-hover:var(--p-base-white);
+      --pagetab-bg:var(--p-brand-850); --pagetab-active-bg:var(--p-brand-900); --pagetab-active-line:var(--p-base-white-50); --pagetab-active-fc:var(--p-base-white);
+      --pagetab-inactive-bg:var(--p-brand-800); --pagetab-inactive-line:var(--p-base-white-30); --pagetab-inactive-fc:var(--p-slate-350);
+      --pagetab-btn-bg:var(--p-brand-800); --pagetab-btn-line:var(--p-slate-300); --pagetab-btn-fc:#bdc0c9;
+      --tabletab-active-bg:var(--p-blue-600); --tabletab-active-fc:var(--text-inverse);
+      --tabletab-inactive-fc:var(--p-gray-400); --tabletab-inactive-bg:var(--bg-base); --tabletab-inactive-line:var(--p-gray-100);
+      --gridtab2-active-bg:var(--p-brand-30); --gridtab2-active-fc:var(--p-brand-700);
+      --gridtab2-inactive-fc:var(--p-gray-400); --gridtab2-inactive-bg:var(--bg-base); --gridtab2-inactive-line:var(--p-gray-100);
+      --badge-bg:var(--p-error-500); --badge-fc:var(--p-base-white);
+      --fs-30:1.875rem; --fs-26:1.625rem; --fs-22:1.375rem; --fs-18:1.125rem; --fs-16:1rem;
+      --fs-14:0.875rem; --fs-13:0.8125rem; --fs-12:0.75rem; --fs-11:0.6875rem; --fs-10:0.625rem;
+      --sp-4:4px; --sp-8:8px; --sp-12:12px; --sp-16:16px; --sp-20:20px; --sp-24:24px;
+      --rad-sm:4px; --rad-md:6px; --rad-lg:8px;
+      --row-h-default:36px; --row-h-monitoring:26px;
+      --font-base:'Noto Sans KR','NanumSquare Neo','Malgun Gothic',-apple-system,sans-serif;
+    }
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; margin:0; }
+    body{
+      min-height:0; display:flex; flex-direction:column; overflow:hidden;
+      background:var(--bg-base); color:var(--text-secondary); font-family:var(--font-base);
+      font-size:var(--fs-13); line-height:1.4; -webkit-font-smoothing:antialiased;
+    }
+    a{ color:var(--text-link); }
+    a:hover{ color:var(--btn-primary-bg-hover); }
+    img{ max-width:100%; }
+    [hidden]{ display:none!important; }
+    button{ font-family:inherit; }
+    input[type="radio"], input[type="checkbox"]{ accent-color:var(--form-control-selected); }
+
+    .gnb{ background:var(--header-bg); border-bottom:1px solid var(--header-line); display:flex; align-items:center; height:52px; padding-inline:var(--sp-20); gap:var(--sp-24); color:var(--header-fc); flex-shrink:0; }
+    .gnb__logo{ font-size:var(--fs-16); font-weight:800; letter-spacing:.2px; display:flex; align-items:center; gap:6px; white-space:nowrap; }
+    .gnb__logo .mark{ width:20px; height:20px; border-radius:5px; background:linear-gradient(135deg,var(--p-brand-500),var(--p-brand-100)); display:inline-block; }
+    .gnb__menu{ display:flex; align-items:stretch; height:100%; gap:var(--sp-24); flex:1; overflow-x:auto; }
+    .gnb__menu button{ background:none; border:0; color:var(--p-slate-350); font-size:var(--fs-14); font-weight:700; cursor:pointer; padding:0; height:100%; white-space:nowrap; position:relative; }
+    .gnb__menu button[aria-current="page"]{ color:var(--header-fc); }
+    .gnb__menu button[aria-current="page"]::after{ content:""; position:absolute; left:0; right:0; bottom:0; height:2px; background:var(--p-base-white); }
+    .gnb__utils{ display:flex; align-items:center; gap:var(--sp-16); flex-shrink:0; }
+    .gnb__icons{ display:flex; align-items:center; gap:14px; }
+    .gnb__icons .ico{ width:18px; height:18px; display:grid; place-items:center; color:var(--header-icon); position:relative; }
+    .gnb__icons .ico svg{ width:16px; height:16px; }
+    .gnb__icons .ico .badge{ position:absolute; top:-7px; right:-9px; background:var(--badge-bg); color:var(--badge-fc); font-size:9px; font-weight:800; line-height:1; padding:2.5px 4px; border-radius:8px; min-width:14px; text-align:center; }
+    .gnb__user{ display:flex; align-items:center; gap:6px; font-size:var(--fs-12); color:var(--header-fc); font-weight:700; white-space:nowrap; }
+    .gnb__user svg{ width:14px; height:14px; color:var(--header-icon); }
+    .gnb__clock{ display:flex; align-items:center; gap:5px; font-size:var(--fs-11); color:var(--p-slate-350); font-variant-numeric:tabular-nums; white-space:nowrap; }
+
+    .pagetabbar{ background:var(--pagetab-bg); display:flex; align-items:stretch; height:34px; padding-inline:var(--sp-8); flex-shrink:0; }
+    .pagetabbar__nav{ display:flex; align-items:center; color:var(--pagetab-btn-fc); padding-inline:6px; }
+    .pagetabbar__nav svg{ width:14px; height:14px; }
+    .pagetabbar__tabs{ display:flex; align-items:stretch; gap:2px; flex:1; overflow-x:auto; }
+    .pagetab{ display:flex; align-items:center; gap:8px; padding-inline:14px; font-size:var(--fs-12); font-weight:700; background:var(--pagetab-inactive-bg); color:var(--pagetab-inactive-fc); border-bottom:2px solid var(--pagetab-inactive-line); white-space:nowrap; }
+    .pagetab[data-home]{ padding-inline:12px; }
+    .pagetab[data-active]{ background:var(--pagetab-active-bg); color:var(--pagetab-active-fc); border-bottom-color:var(--pagetab-active-line); }
+    .pagetab button{ background:none; border:0; color:inherit; opacity:.7; font-size:11px; line-height:1; padding:0; }
+    .pagetabbar__close{ display:flex; align-items:center; padding-inline:8px; color:var(--pagetab-btn-fc); }
+    .pagetabbar__close svg{ width:14px; height:14px; }
+
+    .dash{ flex:1; min-height:0; display:flex; flex-direction:column; overflow:hidden; padding:var(--sp-16) var(--sp-20); }
+    .dash-layout{ display:flex; gap:var(--sp-16); align-items:stretch; flex:1; min-height:0; }
+    .dash-main{ flex:1; min-width:0; display:flex; flex-direction:column; gap:var(--sp-16); min-height:0; }
+    .dash-side{ flex:0 0 420px; min-width:320px; display:flex; border-left:1px solid var(--border-division); padding-left:var(--sp-16); }
+    .dash-side > .card{ flex:1; min-width:0; min-height:0; }
+    .dash-side > .card > .card__body{ flex:1; min-height:0; overflow-y:auto; }
+
+    .cardrow{ display:flex; gap:var(--sp-12); align-items:flex-start; flex-wrap:wrap; flex-shrink:0; }
+    .cardrow > .card{ flex:1 1 0; min-width:280px; }
+    .cardstack{ display:flex; flex-direction:column; gap:var(--sp-16); flex:1 1 0; min-width:280px; }
+    .card{ background:var(--bg-base); border:1px solid var(--border-division); border-radius:var(--rad-md); overflow:hidden; display:flex; flex-direction:column; }
+    .card--flat{ border:0; border-radius:0; background:transparent; }
+    .card--flat .card__head{ padding-inline:0; padding-bottom:0; }
+    .card--flat .card__body{ padding-inline:0; padding-top:var(--sp-8); }
+    .card--flat .card__foot{ padding-inline:0; padding-bottom:0; }
+    .cardstack > .card--flat:not(:first-child) .card__head{ padding-top:0; }
+    .cardstack > .card--flat:not(:last-child) .card__body:last-child{ padding-bottom:0; }
+    .cardrow > .card--flat, .cardrow > .cardstack{ padding-right:var(--sp-16); }
+    .cardrow > .card--flat:last-child, .cardrow > .cardstack:last-child{ padding-right:0; }
+    .card__head{ background:var(--bg-base); color:var(--text-secondary); font-size:var(--fs-12); font-weight:800; min-height:28px; padding:6px var(--sp-12); display:flex; align-items:center; justify-content:space-between; gap:8px; flex-wrap:wrap; }
+    .card__head > span:first-child{ color:var(--text-tit); display:flex; align-items:center; gap:6px; }
+    .card__head > span:first-child:only-child{ align-self:flex-end; }
+    .card__head > span:first-child::before{ content:""; width:3px; height:12px; background:var(--text-tit); border-radius:2px; flex-shrink:0; }
+    .card__head .card__actions{ display:flex; align-items:center; gap:10px; font-weight:400; color:var(--text-secondary); }
+    .card__tabs{ display:flex; height:24px; gap:2px; align-items:center; }
+    .card__tabs button{ background:none; border:0; border-radius:var(--rad-sm); color:var(--text-tertiary); font-size:var(--fs-12); font-weight:700; padding-inline:var(--sp-12); height:100%; }
+    .card__tabs button[aria-selected="true"]{ background:var(--btn-primary-bg); color:var(--btn-primary-fg); }
+    .card__body{ padding:var(--sp-12); flex:1; min-width:0; }
+    .card__foot{ padding:0 var(--sp-12) var(--sp-12); display:flex; gap:6px; flex-wrap:wrap; }
+
+    .group-bar{ background:var(--table-header-bg-group); color:var(--table-header-text); font-weight:700; font-size:var(--fs-11); padding:4px 8px; border:1px solid var(--table-header-border-group); margin:0; }
+    .metagrid{ margin:0; display:grid; grid-template-columns:auto 1fr auto 1fr; font-size:var(--fs-11); border-top:1px solid var(--table-border); border-left:1px solid var(--table-border); }
+    .group-bar + .metagrid{ border-top:0; }
+    .metagrid dt{ background:var(--table-header-bg); color:var(--table-header-text); font-weight:700; padding:4px 8px; border-bottom:1px solid var(--table-border); border-right:1px solid var(--table-border); display:flex; align-items:center; white-space:nowrap; }
+    .metagrid dd{ margin:0; padding:4px 8px; border-bottom:1px solid var(--table-border); border-right:1px solid var(--table-border); display:flex; align-items:center; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:var(--text-secondary); }
+    .metagrid dd[data-span]{ grid-column:span 3; }
+    .fieldvalue-ic{ display:flex; align-items:center; justify-content:space-between; gap:4px; }
+    .fieldvalue-ic .icon-sq{ width:20px; height:20px; flex-shrink:0; }
+
+    .metatable{ width:100%; border-collapse:collapse; font-size:var(--fs-11); border-top:1px solid var(--table-border); border-left:1px solid var(--table-border); }
+    .metatable th, .metatable td{ height:var(--row-h-monitoring); border-bottom:1px solid var(--table-border); border-right:1px solid var(--table-border); padding:4px 8px; text-align:left; font-weight:400; }
+    .metatable th.group{ background:var(--table-header-bg-group); color:var(--table-header-text); font-weight:700; text-align:center; vertical-align:middle; white-space:nowrap; width:1%; }
+    .metatable td.label{ background:var(--table-header-bg); color:var(--table-header-text); font-weight:700; white-space:nowrap; width:1%; }
+    .metatable td.value{ color:var(--text-secondary); }
+
+    .subtabs{ display:flex; gap:2px; }
+    .subtabs button{ background:var(--tabletab-inactive-bg); color:var(--tabletab-inactive-fc); border:1px solid var(--tabletab-inactive-line); font-size:var(--fs-12); font-weight:700; height:26px; padding-inline:14px; border-radius:var(--rad-sm) var(--rad-sm) 0 0; white-space:nowrap; }
+    .subtabs--compact button{ height:22px; padding-inline:8px; font-size:var(--fs-11); }
+    .subtabs button[aria-selected="true"]{ background:var(--tabletab-active-bg); color:var(--tabletab-active-fc); border-color:var(--tabletab-active-bg); }
+    .gridtabs2{ display:flex; gap:2px; }
+    .gridtabs2 button{ background:var(--gridtab2-inactive-bg); color:var(--gridtab2-inactive-fc); border:1px solid var(--gridtab2-inactive-line); font-size:var(--fs-12); font-weight:700; height:26px; padding-inline:14px; border-radius:var(--rad-sm); }
+    .gridtabs2 button[aria-selected="true"]{ background:var(--gridtab2-active-bg); color:var(--gridtab2-active-fc); border-color:var(--gridtab2-active-bg); }
+
+    .btn{ height:32px; padding:0 18px; border-radius:var(--rad-sm); font-size:var(--fs-13); font-weight:800; display:inline-flex; align-items:center; gap:6px; border:1px solid transparent; }
+    .btn--primary{ background:var(--btn-primary-bg); color:var(--btn-primary-fg); }
+    .btn--search{ background:var(--btn-search-bg); color:var(--btn-search-fg); }
+    .btn--default{ background:var(--btn-default-bg); color:var(--btn-default-fg); border-color:var(--btn-default-border); }
+    .btn--sm{ height:26px; padding:0 10px; font-size:var(--fs-11); font-weight:700; border-radius:var(--rad-sm); }
+
+    .icon-sq{ width:24px; height:24px; display:inline-grid; place-items:center; border:1px solid var(--btn-default-border); border-radius:var(--rad-sm); background:var(--btn-default-bg); color:var(--text-secondary); flex-shrink:0; }
+    .icon-sq svg{ width:12px; height:12px; }
+    .icon-sq--round{ border-radius:50%; }
+
+    .tablewrap{ overflow-x:auto; border-radius:var(--rad-sm); border:1px solid transparent; }
+    table{ width:100%; border-collapse:collapse; font-size:var(--fs-12); }
+    thead th{ font-weight:700; height:var(--row-h-default); padding:0 8px; white-space:nowrap; text-align:center; border-bottom:1px solid transparent; border-right:1px solid transparent; }
+    thead th:last-child{ border-right:0; }
+    tbody td{ height:var(--row-h-default); padding:0 8px; text-align:center; white-space:nowrap; border-bottom:1px solid transparent; border-right:1px solid transparent; }
+    tbody td:last-child{ border-right:0; }
+    .tablewrap.grid{ border-color:var(--grid-header-border); }
+    .tablewrap.grid thead th{ background:var(--grid-header-bg); color:var(--grid-header-text); border-bottom-color:var(--grid-header-border); border-right-color:var(--grid-header-border); }
+    .tablewrap.grid tbody td{ color:var(--grid-row-text); border-bottom-color:var(--grid-border); border-right-color:var(--grid-border); }
+    .tablewrap.grid tbody tr{ background:var(--grid-row-bg); }
+    .tablewrap.grid tbody tr[data-selected]{ background:var(--grid-row-bg-selected); }
+    .tablewrap.grid--dense thead th, .tablewrap.grid--dense tbody td{ height:var(--row-h-monitoring); font-size:var(--fs-11); }
+    th.sortable{ cursor:pointer; }
+    th.sortable .sort-ic{ display:inline-flex; flex-direction:column; gap:0; margin-left:2px; vertical-align:middle; color:var(--grid-header-icon); }
+    th.sortable .sort-ic svg{ width:7px; height:7px; }
+    .text-error{ color:var(--feedback-error); font-weight:700; }
+    .text-link{ color:var(--text-link); }
+    .pill{ display:inline-block; padding:2px 8px; border-radius:10px; font-size:var(--fs-11); font-weight:700; }
+    .pill--done{ background:var(--chip-g-bg); color:var(--chip-g-fc); }
+    .pill--wip{ background:var(--chip-bg); color:var(--chip-fc); }
+
+    .filterline{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:8px; }
+    .filterline .field-label{ width:auto; padding-top:0; font-size:var(--fs-11); }
+    .filterline select, .filterline input{ height:24px; font-size:var(--fs-11); }
+    .filterline--tint{ background:var(--bg-separation); padding:6px 8px; border-radius:var(--rad-sm); }
+    .field-label{ width:64px; flex-shrink:0; font-size:var(--fs-12); font-weight:700; color:var(--form-label-text); padding-top:7px; }
+    .checkbox-label{ display:inline-flex; align-items:center; gap:4px; font-size:var(--fs-12); color:var(--form-label-text); font-weight:400; }
+    .countnote{ font-size:var(--fs-11); color:var(--text-tertiary); font-weight:700; }
+    select, .input, input[type="date"], input[type="text"]{ height:30px; border:1px solid var(--form-input-border); border-radius:var(--rad-sm); background:var(--form-input-bg); color:var(--form-input-text); font-size:var(--fs-12); font-family:inherit; padding:0 8px; }
+    select{ min-width:96px; appearance:none; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23555555' stroke-width='1.4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 8px center; padding-right:22px; }
+    .rowcheck{ width:16px; height:16px; accent-color:var(--form-control-selected); }
+
+    .section-divider{ height:0; border-top:1px solid var(--p-gray-200); border-bottom:3px solid var(--p-gray-100); flex-shrink:0; margin-left:calc(-1 * var(--sp-20)); margin-right:calc(-1 * var(--sp-16)); }
+    .grid-section{ flex:1; min-height:160px; display:flex; flex-direction:column; }
+    .grid-section .tablewrap{ flex:1; min-height:0; overflow-y:auto; }
+
+    .actionbar{ border-top:1px solid var(--border-default); flex-shrink:0; }
+    .actionbar__toggle{ display:flex; align-items:center; gap:4px; background:none; border:0; color:var(--text-tertiary); font-size:var(--fs-11); font-weight:700; padding:8px var(--sp-8) 8px 0; }
+    .actionbar__toggle svg{ width:10px; height:10px; }
+    .actionbar__tabs{ display:flex; align-items:flex-end; gap:0; margin-top:var(--sp-8); margin-bottom:10px; }
+    .actionbar__tabs .scrollnav{ display:flex; align-items:center; color:var(--text-tertiary); padding-inline:4px; flex-shrink:0; }
+    .actionbar__tabs .scrollnav svg{ width:14px; height:14px; }
+    .actionbar__tablist{ display:flex; gap:2px; overflow-x:auto; flex:1; scrollbar-width:none; -ms-overflow-style:none; }
+    .actionbar__tablist::-webkit-scrollbar{ display:none; }
+    .actionbar__tablist button{ background:var(--gridtab2-inactive-bg); color:var(--gridtab2-inactive-fc); border:1px solid var(--gridtab2-inactive-line); border-radius:var(--rad-sm); font-size:var(--fs-12); font-weight:700; height:26px; padding-inline:14px; white-space:nowrap; }
+    .actionbar__tablist button[aria-selected="true"]{ background:var(--gridtab2-active-bg); color:var(--gridtab2-active-fc); border-color:var(--gridtab2-active-bg); }
+    #actionContent{ height:208px; overflow-y:auto; }
+    .actionpanel{ padding-top:0; }
+    .bottomrow{ display:flex; gap:var(--sp-16); align-items:flex-start; }
+    .bottomleft{ flex:1; min-width:0; }
+    .memopanel{ width:300px; flex-shrink:0; border:1px solid var(--border-division); border-radius:var(--rad-md); padding:var(--sp-12); display:flex; flex-direction:column; gap:8px; }
+    .memopanel__head{ display:flex; align-items:center; justify-content:space-between; background:var(--bg-separation); padding:8px; border-radius:var(--rad-sm); }
+    .memopanel textarea{ height:70px; resize:none; border:1px solid var(--form-input-border); border-radius:var(--rad-sm); padding:8px; font:inherit; font-size:var(--fs-11); color:var(--form-input-text); }
+    .memopanel__foot{ text-align:right; font-size:var(--fs-11); color:var(--text-tertiary); }
+
+    .statrow{ display:flex; align-items:stretch; gap:0; border:1px solid var(--border-division); border-radius:var(--rad-md); overflow:hidden; }
+    .stat{ flex:1; padding:8px 10px; display:flex; flex-direction:column; gap:2px; border-right:1px solid var(--border-division); min-width:0; }
+    .stat:last-child{ border-right:0; }
+    .stat__label{ font-size:var(--fs-11); color:var(--text-tertiary); font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .stat__num{ font-size:var(--fs-18); font-weight:800; color:var(--text-primary); font-variant-numeric:tabular-nums; display:flex; align-items:baseline; gap:4px; }
+    .stat__num .stat__pct{ font-size:var(--fs-11); font-weight:700; color:var(--feedback-success); }
+    .stat--muted .stat__num{ color:var(--text-tertiary); }
+    .section-subhead{ display:flex; align-items:center; justify-content:space-between; margin:var(--sp-12) 0 6px; }
+    .section-subhead .tit-mini{ font-size:var(--fs-13); font-weight:800; color:var(--text-primary); }
+    .section-subhead .tit-mini small{ font-weight:400; color:var(--text-tertiary); margin-left:4px; }
+  </style>
+</helmet>
+
+<header class="gnb">
+  <div class="gnb__logo"><span class="mark"></span>롯데카드 FDS</div>
+  <nav class="gnb__menu">
+    <button type="button" aria-current="page">운영관리</button>
+    <button type="button">모니터링</button>
+    <button type="button">실적현황</button>
+    <button type="button">CASE관리</button>
+    <button type="button">리스트</button>
+    <button type="button">정보유출</button>
+    <button type="button">코드</button>
+  </nav>
+  <div class="gnb__utils">
+    <div class="gnb__icons">
+      <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.1-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .3 2 .6 2.9a2 2 0 0 1-.5 2.1L8 10a16 16 0 0 0 6 6l1.3-1.2a2 2 0 0 1 2.1-.5c.9.3 1.9.5 2.9.6a2 2 0 0 1 1.7 2z"/></svg></span>
+      <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.1-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7"/></svg></span>
+      <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1v-6h3zM3 19a2 2 0 0 0 2 2h1v-6H3z"/></svg></span>
+      <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1"/></svg></span>
+      <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
+      <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg><span class="badge">99</span></span>
+      <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span>
+      <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></span>
+    </div>
+    <div class="gnb__user"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>박길동</div>
+    <div class="gnb__clock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg><span>14:22:10</span></div>
+  </div>
+</header>
+
+<div class="pagetabbar">
+  <div class="pagetabbar__nav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></div>
+  <div class="pagetabbar__nav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></div>
+  <div class="pagetabbar__tabs">
+    <div class="pagetab" data-home>Home</div>
+    <div class="pagetab" data-active>현금융통회원조회 <button type="button">✕</button></div>
+  </div>
+  <div class="pagetabbar__close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg></div>
+</div>
+
+<main class="dash">
+<div class="dash-layout">
+<div class="dash-main">
+
+  <div class="cardrow">
+    <div class="card card--flat" style="flex:1.6 1 0;">
+      <div class="card__head">
+        <div class="subtabs subtabs--compact">
+          <button type="button" aria-selected="false">현금융통회원심사</button>
+          <button type="button" aria-selected="true">현금융통회원조회</button>
+        </div>
+        <div class="card__actions">
+          <button type="button" class="btn btn--default btn--sm" style="height:22px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:12px;height:12px;"><circle cx="12" cy="12" r="9"/><path d="M14 9a3 3 0 1 0 0 6"/></svg>CLEAR</button>
+        </div>
+      </div>
+      <div class="card__body">
+        <dl class="metagrid">
+          <dt>성명(소지자)</dt><dd>내용</dd>
+          <dt>성명(발급자)</dt><dd class="fieldvalue-ic">내용<span class="icon-sq"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></span></dd>
+          <dt>주민번호(소지자)</dt><dd>내용</dd>
+          <dt>주민번호(발급자)</dt><dd>내용</dd>
+          <dt>고객번호</dt><dd>1001293686</dd>
+          <dt>회원등급</dt><dd>99</dd>
+          <dt>성별/나이</dt><dd>여성(여)/49</dd>
+          <dt>카드구분</dt><dd>본인</dd>
+          <dt>신용등급</dt><dd>일반</dd>
+          <dt>카드상품명</dt><dd>롯데 포인트 플러스 그랜드 C</dd>
+          <dt>회원상태</dt><dd class="text-error">거중</dd>
+          <dt>결졔연소득</dt><dd>34,000천원</dd>
+          <dt>K-DSR비율</dt><dd>0%</dd>
+          <dt>회원한도</dt><dd class="fieldvalue-ic">내용<span class="icon-sq"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></span></dd>
+          <dt>발급일자</dt><dd>2017-11-27</dd>
+          <dt>카드개설정보</dt><dd class="fieldvalue-ic">내용<span class="icon-sq"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></span></dd>
+          <dt>유효기간</dt><dd>2022-11</dd>
+          <dt>대출정보</dt><dd class="fieldvalue-ic">내용<span class="icon-sq"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></span></dd>
+          <dt>직장명</dt><dd>내용</dd>
+          <dt>미도래확정금액</dt><dd class="fieldvalue-ic">내용<span class="icon-sq"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></span></dd>
+          <dt>부서</dt><dd>내용</dd>
+          <dt>한도조회이력</dt><dd class="fieldvalue-ic">내용<span class="icon-sq"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></span></dd>
+          <dt>직위</dt><dd>과장</dd>
+          <dt>연체이력</dt><dd>내용</dd>
+          <dt>카드상태/결제일</dt><dd>정상 / 24</dd>
+          <dt>현금융통적발이력</dt><dd>내용</dd>
+          <dt>결제은행/계좌</dt><dd>기업은행 / 79087*******02</dd>
+          <dt>Fraud담당자</dt><dd>내용</dd>
+          <dt>Account</dt><dd data-span>내용</dd>
+          <dt>자택주소</dt><dd data-span>내용</dd>
+          <dt>직장주소</dt><dd data-span>내용</dd>
+          <dt>이메일주소</dt><dd data-span>vq*****@nate.com</dd>
+        </dl>
+      </div>
+      <div class="card__foot">
+        <button type="button" class="btn btn--default btn--sm">SMS발송금지</button>
+        <button type="button" class="btn btn--default btn--sm">SMS</button>
+        <button type="button" class="btn btn--default btn--sm">Pop-up</button>
+        <button type="button" class="btn btn--default btn--sm">Watch</button>
+        <button type="button" class="btn btn--default btn--sm">Filter</button>
+        <button type="button" class="btn btn--default btn--sm">B/L조치</button>
+        <button type="button" class="btn btn--default btn--sm">한도조치</button>
+        <button type="button" class="btn btn--default btn--sm">CRM주의메모</button>
+        <button type="button" class="btn btn--primary btn--sm">등록</button>
+      </div>
+    </div>
+
+    <div class="card card--flat" style="flex:1.3 1 0;">
+      <div class="card__head">
+        <div class="subtabs subtabs--compact">
+          <button type="button" aria-selected="true">가맹점정보</button>
+          <button type="button" aria-selected="false">요약정보</button>
+          <button type="button" aria-selected="false">하위사업자정보</button>
+        </div>
+      </div>
+      <div class="card__body">
+        <div class="group-bar">해외</div>
+        <dl class="metagrid">
+          <dt>가맹점번호</dt><dd>112233445566024</dd>
+          <dt>가맹점명</dt><dd>SGDdiscountMer</dd>
+          <dt>업종(MCC)코드</dt><dd>7011</dd>
+          <dt>업종(MCC)명</dt><dd>LODGING-HOTELS, MO…</dd>
+          <dt>국가</dt><dd>싱가포르</dd>
+          <dt>도시명</dt><dd>SGP SGP</dd>
+          <dt>단독가맹점여부</dt><dd>N</dd>
+          <dt>마지막매출일자</dt><dd>2026-07-20</dd>
+          <dt>사고건수</dt><dd>0건 / 0건</dd>
+          <dt>사고금액</dt><dd>0원 / 0원</dd>
+          <dt>승인방법별사고건수</dt><dd data-span>S : 0건 / 0건 (0건)</dd>
+          <dt>당사이용건수</dt><dd>233건</dd>
+          <dt>당사승인금액</dt><dd>0원</dd>
+        </dl>
+      </div>
+      <div class="card__foot">
+        <button type="button" class="btn btn--default btn--sm">선거절가맹점</button>
+        <button type="button" class="btn btn--default btn--sm">가맹점BLOCK</button>
+        <button type="button" class="btn btn--default btn--sm">Pop-up</button>
+        <button type="button" class="btn btn--default btn--sm">Watch</button>
+        <button type="button" class="btn btn--default btn--sm">Filter</button>
+      </div>
+    </div>
+
+    <div class="cardstack" style="flex:1.1 1 0;">
+      <div class="card card--flat">
+        <div class="card__head" style="padding-inline-end:0; flex-wrap:nowrap; gap:6px;">
+          <div class="subtabs subtabs--compact">
+            <button type="button" aria-selected="true">FDS주의메모</button>
+            <button type="button" aria-selected="false">CRM주의메모</button>
+          </div>
+          <div class="card__actions">
+            <button type="button" class="btn btn--default btn--sm" style="height:20px; padding-inline:8px; flex-shrink:0;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:9px;height:9px;"><path d="M12 5v14M5 12h14"/></svg>더보기</button>
+          </div>
+        </div>
+        <div class="card__body">
+          <div class="radiobar">
+            <label class="checkbox-label"><input type="radio" name="fdsMemoTarget"> 인당</label>
+            <label class="checkbox-label"><input type="radio" name="fdsMemoTarget" checked> 카드당</label>
+          </div>
+          <div class="tablewrap grid grid--dense">
+            <table>
+              <thead><tr><th style="width:40px">No</th><th>등록일자</th><th>등록시간</th><th>내용</th></tr></thead>
+              <tbody>
+                <tr><td>15</td><td></td><td></td><td></td></tr>
+                <tr><td>14</td><td></td><td></td><td></td></tr>
+                <tr><td>13</td><td></td><td></td><td></td></tr>
+                <tr><td>12</td><td></td><td></td><td></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="card card--flat">
+        <div class="card__head"><span>Call조치및긴급</span></div>
+        <div class="card__body">
+          <table class="metatable">
+            <tbody>
+              <tr>
+                <th class="group" rowspan="4">회원</th>
+                <td class="label">발급자명</td><td class="value">내용</td>
+                <td class="label">발급자hp</td><td class="value">내용</td>
+              </tr>
+              <tr>
+                <td class="label">소지자명</td><td class="value">내용</td>
+                <td class="label">소지자hp</td><td class="value">내용</td>
+              </tr>
+              <tr>
+                <td class="label">sms신청</td><td class="value">Y</td>
+                <td class="label">법인sms</td><td class="value">내용</td>
+              </tr>
+              <tr>
+                <td class="label">자택전화</td><td class="value">내용</td>
+                <td class="label">직장전화</td><td class="value">내용</td>
+              </tr>
+              <tr>
+                <th class="group">가맹점</th>
+                <td class="label">가맹점전화</td><td class="value">내용</td>
+                <td class="label">가맹점주hp</td><td class="value">내용</td>
+              </tr>
+              <tr>
+                <th class="group">기타</th>
+                <td class="label">기타</td><td class="value">내용</td>
+                <td class="label">연락처상세</td><td class="value">내용</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card__foot">
+          <button type="button" class="btn btn--default btn--sm">카드BLOCK</button>
+          <button type="button" class="btn btn--default btn--sm">MY FDS</button>
+          <button type="button" class="btn btn--default btn--sm">분실등록</button>
+          <button type="button" class="btn btn--default btn--sm">SMS발송</button>
+          <button type="button" class="btn btn--default btn--sm">정보변경</button>
+          <button type="button" class="btn btn--default btn--sm">CRM선거절제외</button>
+          <button type="button" class="btn btn--default btn--sm">경찰청통보</button>
+          <button type="button" class="btn btn--default btn--sm">본인인증예외</button>
+          <button type="button" class="btn btn--default btn--sm">현금융통선거절예외</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <section class="grid-section">
+    <div class="filterline" style="justify-content:space-between;">
+      <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+        <div class="gridtabs2">
+          <button type="button" aria-selected="true">통합</button>
+          <button type="button" aria-selected="false">국내</button>
+          <button type="button" aria-selected="false">온라인</button>
+          <button type="button" aria-selected="false">해외</button>
+          <button type="button" aria-selected="false">금융</button>
+        </div>
+        <label class="checkbox-label"><input type="radio" name="txnScope" checked> 인당</label>
+        <label class="checkbox-label"><input type="radio" name="txnScope"> 카드당</label>
+        <label class="checkbox-label"><input type="checkbox" class="rowcheck"> 그리드순서저장</label>
+      </div>
+      <div style="display:flex;gap:6px;">
+        <button type="button" class="btn btn--default btn--sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:12px;height:12px;"><path d="M12 4v10m0 0 4-4m-4 4-4-4"/><path d="M4 18h16"/></svg>엑셀출력</button>
+        <button type="button" class="btn btn--default btn--sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:10px;height:10px;"><path d="M12 5v14M5 12h14"/></svg>더보기</button>
+      </div>
+    </div>
+    <div class="tablewrap grid grid--dense">
+      <table>
+        <thead>
+          <tr>
+            <th>No</th>
+            <th class="sortable">업무구분<span class="sort-ic"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 5l5 6H7z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 19l-5-6h10z"/></svg></span></th>
+            <th class="sortable">카드번호<span class="sort-ic"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 5l5 6H7z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 19l-5-6h10z"/></svg></span></th>
+            <th class="sortable">거래유형<span class="sort-ic"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 5l5 6H7z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 19l-5-6h10z"/></svg></span></th>
+            <th class="sortable">카드구분<span class="sort-ic"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 5l5 6H7z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 19l-5-6h10z"/></svg></span></th>
+            <th class="sortable">카드종류<span class="sort-ic"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 5l5 6H7z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 19l-5-6h10z"/></svg></span></th>
+            <th>SCORE</th><th>RULE</th><th>선거절/본인인증RULE</th><th>선거절/본인인증예외RULE</th>
+            <th>머신러닝스코어</th><th>머신러닝사유코드</th><th>승인유형</th><th>거절사유</th><th>승인사유</th>
+            <th>배분예외RULE</th><th>출입국정보</th><th>승인일시</th>
+            <th class="sortable">가맹점명<span class="sort-ic"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 5l5 6H7z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 19l-5-6h10z"/></svg></span></th>
+            <th>국가명</th><th>도시명</th><th>동일가맹점승인최종여부</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>해외</td><td class="text-link">C0914</td><td>신판</td><td>본인</td><td>신용</td><td>0</td><td>RJ400</td><td></td><td></td><td></td><td></td><td class="text-error" style="font-weight:700;">승인거절</td><td>위험거래 승인반도승인</td><td></td><td></td><td>T</td><td>26-07-23 09:56:311</td><td>SGDdiscour</td><td>싱가포르</td><td>SGP S</td><td></td></tr>
+          <tr data-selected><td>2</td><td>해외</td><td class="text-link">C0914</td><td>신판</td><td>본인</td><td>신용</td><td>0</td><td>F101</td><td></td><td></td><td></td><td></td><td style="font-weight:700;">승인</td><td>상승인/정상칠반도승인</td><td></td><td></td><td>T</td><td>26-07-23 09:49:230</td><td>UNIONPAY</td><td>중국</td><td>CHN</td><td></td></tr>
+          <tr><td>3</td><td>해외</td><td class="text-link">C0914</td><td>신판</td><td>본인</td><td>신용</td><td>0</td><td>RJ400</td><td></td><td></td><td></td><td></td><td class="text-error" style="font-weight:700;">승인거절</td><td>위험거래 승인반도승인</td><td></td><td></td><td>T</td><td>26-07-23 09:48:457</td><td>Test Merch</td><td>홍콩</td><td>HK H</td><td></td></tr>
+          <tr><td>4</td><td>해외</td><td class="text-link">C0914</td><td>신판</td><td>본인</td><td>신용</td><td>0</td><td>RJ400</td><td></td><td></td><td></td><td></td><td class="text-error" style="font-weight:700;">승인거절</td><td>위험거래 승인반도승인</td><td></td><td></td><td>T</td><td>26-07-22 09:32:263</td><td>MOP test m</td><td>홍콩</td><td></td><td></td></tr>
+          <tr><td>5</td><td>해외</td><td class="text-link">C0914</td><td>신판</td><td>본인</td><td>신용</td><td>0</td><td>RJ400,RJ002</td><td></td><td></td><td></td><td></td><td class="text-error" style="font-weight:700;">승인거절</td><td>위험거래 승인반도승인</td><td></td><td></td><td>T</td><td>26-07-22 09:32:094</td><td>MOP test m</td><td>마다가스</td><td>test M</td><td></td></tr>
+          <tr><td>6</td><td>해외</td><td class="text-link">C0914</td><td>신판</td><td>본인</td><td>신용</td><td>0</td><td>RJ400</td><td></td><td></td><td></td><td></td><td class="text-error" style="font-weight:700;">승인거절</td><td>위험거래 승인반도승인</td><td></td><td></td><td>T</td><td>26-07-22 09:31:394</td><td>MOP test m</td><td>마다가스</td><td>test M</td><td></td></tr>
+          <tr><td>7</td><td>해외</td><td class="text-link">C0914</td><td>신판</td><td>본인</td><td>신용</td><td>0</td><td>RJ400,RJ002</td><td></td><td></td><td></td><td></td><td class="text-error" style="font-weight:700;">승인거절</td><td>위험거래 승인반도승인</td><td></td><td></td><td>T</td><td>26-07-22 09:29:092</td><td>SGDdiscour</td><td>싱가포르</td><td>SGP S</td><td></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <div class="actionbar">
+    <div class="actionbar__tabs">
+      <button type="button" class="actionbar__toggle" aria-expanded="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m6 15 6-6 6 6"/></svg>조치 영역 접기</button>
+      <div class="actionbar__tablist">
+        <button type="button" aria-selected="true">회원메모</button>
+        <button type="button" aria-selected="false">가맹점메모</button>
+        <button type="button" aria-selected="false">컨택</button>
+        <button type="button" aria-selected="false">조치</button>
+        <button type="button" aria-selected="false">모바일발송</button>
+        <button type="button" aria-selected="false">모바일발송현황</button>
+        <button type="button" aria-selected="false">카드정보조회</button>
+        <button type="button" aria-selected="false">B/L조치</button>
+        <button type="button" aria-selected="false">한도조치</button>
+        <button type="button" aria-selected="false">간편메모</button>
+        <button type="button" aria-selected="false">CRM(통합)</button>
+        <button type="button" aria-selected="false">CRM(상담)</button>
+        <button type="button" aria-selected="false">입금</button>
+        <button type="button" aria-selected="false">할부</button>
+        <button type="button" aria-selected="false">대부업자정보</button>
+        <button type="button" aria-selected="false">hp인명부조회</button>
+      </div>
+      <span class="scrollnav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></span>
+      <span class="scrollnav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></span>
+    </div>
+    <div id="actionContent">
+      <div class="actionpanel">
+        <div class="bottomrow">
+          <div class="bottomleft">
+            <div class="filterline filterline--tint" style="justify-content:space-between;">
+              <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+                <label class="checkbox-label"><input type="radio" name="memoTarget1"> 인당</label>
+                <label class="checkbox-label"><input type="radio" name="memoTarget1" checked> 카드당</label>
+                <label class="checkbox-label"><input type="checkbox" class="rowcheck"> 녹취메모</label>
+                <select style="min-width:110px"><option>카드번호</option></select>
+                <input type="text" class="input" value="6259049700000914" style="width:150px">
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;">
+                <span class="countnote">조회 건수 : 4</span>
+                <button type="button" class="btn btn--search btn--sm">조회</button>
+                <button type="button" class="btn btn--default btn--sm">다음</button>
+              </div>
+            </div>
+            <div class="tablewrap grid grid--dense">
+              <table>
+                <thead>
+                  <tr>
+                    <th style="width:32px">No</th><th>등록일자</th><th>등록시간</th><th>업무구분</th><th>카드번호</th>
+                    <th>카드구분</th><th>메모구분</th><th>메모내용</th><th>주의여부</th><th>등록자</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>15</td><td>2026-07-23</td><td>16:12:17</td><td>FDS</td><td>6259-0497-0000-0914</td><td>본인</td><td>기타</td><td style="text-align:left">카드Block 전체 blocking(사고위험일시보류:사고위험)</td><td>N</td><td>이효근</td></tr>
+                  <tr><td>14</td><td>2026-07-23</td><td>16:05:11</td><td>FDS</td><td>6259-0497-0000-0914</td><td>본인</td><td>회원통화</td><td style="text-align:left">.</td><td>N</td><td>이효근</td></tr>
+                  <tr><td>13</td><td>2026-07-23</td><td>16:05:09</td><td>FDS</td><td>6259-0497-0000-0914</td><td>본인</td><td>회원통화</td><td style="text-align:left">.</td><td>N</td><td>이효근</td></tr>
+                  <tr><td>12</td><td>2026-07-23</td><td>16:05:07</td><td>FDS</td><td>6259-0497-0000-0914</td><td>본인</td><td>회원통화</td><td style="text-align:left">.</td><td>N</td><td>이효근</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="memopanel">
+            <div class="memopanel__head">
+              <div style="display:flex;gap:10px;">
+                <label class="checkbox-label"><input type="radio" name="memoTarget2"> 인당</label>
+                <label class="checkbox-label"><input type="radio" name="memoTarget2" checked> 카드당</label>
+              </div>
+              <div style="display:flex;gap:6px;align-items:center;">
+                <button type="button" class="btn btn--search btn--sm">등록</button>
+                <button type="button" class="btn btn--default btn--sm">삭제</button>
+                <span class="icon-sq icon-sq--round"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-2.6-6.4"/><path d="M21 3v6h-6"/></svg></span>
+              </div>
+            </div>
+            <div class="filterline" style="margin-bottom:0;">
+              <label class="field-label">업무구분</label>
+              <select style="flex:1;min-width:0;"><option>FDS</option></select>
+              <label class="field-label">메모구분</label>
+              <select style="flex:1;min-width:0;"><option>회원통화</option></select>
+            </div>
+            <textarea placeholder="메모를 입력해주세요"></textarea>
+            <div class="memopanel__foot">0 / 250</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+  <aside class="dash-side">
+    <div class="card card--flat">
+      <div class="card__head" style="padding-inline-end:8px;">
+        <div class="card__tabs">
+          <button type="button" aria-selected="true">실시간</button>
+          <button type="button" aria-selected="false">검색</button>
+        </div>
+        <div class="card__actions">
+          <label class="checkbox-label" style="color:inherit;"><input type="checkbox" class="rowcheck" checked> 자동갱신(3초)</label>
+          <span class="icon-sq icon-sq--round"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-2.6-6.4"/><path d="M21 3v6h-6"/></svg></span>
+          <span class="icon-sq icon-sq--round"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/></svg></span>
+        </div>
+      </div>
+      <div class="card__body">
+        <div class="statrow">
+          <div class="stat"><span class="stat__label">전체(완료율)</span><span class="stat__num">12 <span class="stat__pct">(0%)</span></span></div>
+          <div class="stat stat--muted"><span class="stat__label">조사대기</span><span class="stat__num">5</span></div>
+          <div class="stat"><span class="stat__label">조사중</span><span class="stat__num">3</span></div>
+          <div class="stat"><span class="stat__label">조사완료</span><span class="stat__num">4</span></div>
+          <div class="stat"><span class="stat__label">예외적발</span><span class="stat__num" style="color:var(--feedback-error);">0</span></div>
+        </div>
+
+        <div class="section-subhead">
+          <span class="tit-mini">긴급 <small>(당일0건 / 31영업일 1건)</small></span>
+          <div style="display:flex;align-items:center;gap:6px;">
+            <select style="min-width:60px;height:24px;font-size:var(--fs-11);"><option>전체</option></select>
+            <select style="min-width:70px;height:24px;font-size:var(--fs-11);"><option>전체</option></select>
+            <span class="icon-sq"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M6 12h12M10 18h4"/></svg></span>
+          </div>
+        </div>
+        <div class="tablewrap grid grid--dense">
+          <table>
+            <thead><tr><th>상태</th><th>탐지룰</th><th>업무구분</th><th>스코어</th><th>ML스코어</th><th>모델</th></tr></thead>
+            <tbody>
+              <tr><td><span class="pill pill--wip">조사중</span></td><td>TST003</td><td>업무구분</td><td>스코어</td><td>ML스코어</td><td>모델</td></tr>
+              <tr><td><span class="pill pill--wip">조사중</span></td><td>TST003</td><td>업무구분</td><td>스코어</td><td>ML스코어</td><td>모델</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="section-subhead">
+          <span class="tit-mini">일반 <small>(당일0건 / 31영업일 1건)</small></span>
+        </div>
+        <div class="tablewrap grid grid--dense">
+          <table>
+            <thead><tr><th>상태</th><th>탐지룰</th><th>업무구분</th><th>스코어</th><th>ML스코어</th><th>모델</th></tr></thead>
+            <tbody>
+              <tr><td><span class="pill pill--done">조사대기</span></td><td>TST003</td><td>업무구분</td><td>스코어</td><td>ML스코어</td><td>모델</td></tr>
+              <tr><td><span class="pill pill--done">조사대기</span></td><td>TST003</td><td>업무구분</td><td>스코어</td><td>ML스코어</td><td>모델</td></tr>
+              <tr><td><span class="pill pill--done">조사대기</span></td><td>TST003</td><td>업무구분</td><td>스코어</td><td>ML스코어</td><td>모델</td></tr>
+              <tr><td><span class="pill pill--done">조사대기</span></td><td>TST003</td><td>업무구분</td><td>스코어</td><td>ML스코어</td><td>모델</td></tr>
+              <tr><td><span class="pill pill--done">조사대기</span></td><td>TST003</td><td>업무구분</td><td>스코어</td><td>ML스코어</td><td>모델</td></tr>
+              <tr><td><span class="pill pill--done">조사대기</span></td><td>TST003</td><td>업무구분</td><td>스코어</td><td>ML스코어</td><td>모델</td></tr>
+              <tr><td><span class="pill pill--done">조사대기</span></td><td>TST003</td><td>업무구분</td><td>스코어</td><td>ML스코어</td><td>모델</td></tr>
+              <tr><td><span class="pill pill--done">조사대기</span></td><td>TST003</td><td>업무구분</td><td>스코어</td><td>ML스코어</td><td>모델</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+</div>
+</main>
+</x-dc>
+</body>
+</html>

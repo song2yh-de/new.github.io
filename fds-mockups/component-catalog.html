@@ -1,0 +1,417 @@
+<!doctype html>
+<title>FDS_2026 · 컴포넌트 카탈로그</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="tokens.css" />
+<link rel="stylesheet" href="components.css" />
+<style>
+/* 이 페이지 전용 — 카탈로그 레이아웃 자체는 재사용 컴포넌트가 아니므로 components.css에 넣지 않는다 */
+body{ flex-direction:row; }
+.cat-nav{
+  flex:0 0 200px; height:100vh; position:sticky; top:0; overflow-y:auto;
+  background:var(--bg-subtle); border-right:1px solid var(--border-division);
+  padding:var(--sp-16) var(--sp-12);
+}
+.cat-nav__tit{ font-size:var(--fs-13); font-weight:800; color:var(--text-tit); margin:0 0 var(--sp-12); }
+.cat-nav a{
+  display:block; padding:5px 8px; border-radius:var(--rad-sm); font-size:var(--fs-12);
+  color:var(--text-secondary); text-decoration:none;
+}
+.cat-nav a:hover{ background:var(--bg-muted); }
+.cat-main{ flex:1; min-width:0; padding:var(--sp-24) var(--sp-24) 120px; max-width:1080px; }
+.cat-main h1{ font-size:var(--fs-22); font-weight:800; color:var(--text-primary); margin:0 0 4px; }
+.cat-main > p.lede{ color:var(--text-tertiary); font-size:var(--fs-13); margin:0 0 var(--sp-24); }
+.cat-section{ margin-bottom:40px; padding-top:8px; border-top:1px solid var(--border-division); }
+.cat-section:first-of-type{ border-top:0; }
+.cat-section__tit{ font-size:var(--fs-16); font-weight:800; color:var(--text-tit); margin:0 0 4px; }
+.cat-section__desc{ font-size:var(--fs-12); color:var(--text-tertiary); margin:0 0 var(--sp-16); line-height:1.6; }
+.cat-block{ margin-bottom:var(--sp-20); }
+.cat-block__label{
+  display:flex; align-items:center; gap:8px; font-size:var(--fs-11); font-weight:700; color:var(--text-tertiary);
+  margin-bottom:8px; font-family:'SFMono-Regular',Consolas,monospace;
+}
+.cat-block__label code{
+  background:var(--p-gray-100); color:var(--p-gray-800); padding:1px 6px; border-radius:3px; font-weight:700;
+}
+.cat-stage{
+  border:1px solid var(--border-division); border-radius:var(--rad-md); padding:var(--sp-16);
+  background:var(--bg-base); display:flex; flex-wrap:wrap; align-items:flex-start; gap:var(--sp-12);
+}
+.cat-stage--col{ flex-direction:column; align-items:stretch; }
+.cat-note{ margin-top:6px; font-size:var(--fs-11); color:var(--text-tertiary); }
+</style>
+
+<nav class="cat-nav" aria-label="컴포넌트 목차">
+  <div class="cat-nav__tit">FDS_2026 카탈로그</div>
+  <a href="#buttons">버튼</a>
+  <a href="#forms">폼 컨트롤</a>
+  <a href="#tabs">탭 종류</a>
+  <a href="#table-grid">테이블 / 그리드</a>
+  <a href="#metapanel">라벨:값 패널</a>
+  <a href="#cards">카드</a>
+  <a href="#chips">칩 / 상태 표시</a>
+  <a href="#actionbar">조치영역 패턴</a>
+  <a href="#layout">레이아웃 패턴</a>
+  <a href="#misc">기타 유틸</a>
+</nav>
+
+<main class="cat-main">
+  <h1>컴포넌트 카탈로그</h1>
+  <p class="lede">새 화면을 만들기 전에 이 페이지에서 재사용 가능한 컴포넌트를 먼저 찾아 조합할 것. 새로 만들기 전에 여기 없는지 확인 — 없다면 <code>components.css</code>에 추가하고 이 페이지에도 예시를 추가한다. 판단 기준은 <code>design-corrections.md</code> 참고.</p>
+
+  <!-- ============================================================ 버튼 -->
+  <section class="cat-section" id="buttons">
+    <h2 class="cat-section__tit">버튼</h2>
+    <p class="cat-section__desc">조회류=<code>btn--search</code>, 강조=<code>btn--primary</code>, 일반=<code>btn--default</code>, 아이콘 전용=<code>btn--icon</code>. 밀도 높은 영역엔 <code>btn--sm</code> 추가.</p>
+
+    <div class="cat-block">
+      <div class="cat-block__label"><code>.btn.btn--search</code> / <code>.btn--primary</code> / <code>.btn--default</code></div>
+      <div class="cat-stage">
+        <button class="btn btn--search" type="button">조회</button>
+        <button class="btn btn--primary" type="button">저장</button>
+        <button class="btn btn--default" type="button">취소</button>
+        <button class="btn btn--default btn--sm" type="button">작게(btn--sm)</button>
+      </div>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-block__label"><code>.btn.btn--icon</code></div>
+      <div class="cat-stage">
+        <span class="btn btn--icon" title="엑셀"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></span>
+        <span class="icon-sq" title="새로고침"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-3-6.7"/></svg></span>
+        <span class="icon-sq icon-sq--round" title="핀"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/></svg></span>
+      </div>
+      <p class="cat-note">브랜드 풀컬러 아이콘(예: 엑셀 로고)은 14px 기본 사이즈를 그대로 쓰지 말고 전용 클래스로 오버라이드할 것 — components.css 205행 주석 참고.</p>
+    </div>
+  </section>
+
+  <!-- ============================================================ 폼 -->
+  <section class="cat-section" id="forms">
+    <h2 class="cat-section__tit">폼 컨트롤 / 검색영역</h2>
+    <p class="cat-section__desc"><code>.searchform</code> + <code>.field-row</code>(라벨 64px + body) 조합이 기본 검색폼 패턴.</p>
+
+    <div class="cat-block">
+      <div class="cat-block__label"><code>.searchform</code></div>
+      <div class="cat-stage cat-stage--col">
+        <div class="searchform">
+          <div class="field-row">
+            <span class="field-label">회원번호</span>
+            <div class="field-body">
+              <input class="input" type="text" placeholder="입력" />
+              <label class="checkbox-label"><input type="checkbox" />포함검색</label>
+            </div>
+          </div>
+          <div class="field-row">
+            <span class="field-label">기간</span>
+            <div class="field-body">
+              <div class="daterange"><input type="date" /><span>~</span><input type="date" /></div>
+              <div class="seg">
+                <button type="button" aria-pressed="true">1개월</button>
+                <button type="button">3개월</button>
+                <button type="button">전체</button>
+              </div>
+            </div>
+          </div>
+          <div class="btnbar"><button class="btn btn--search" type="button">조회</button></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-block__label"><code>select</code> / <code>.input</code> 단독</div>
+      <div class="cat-stage">
+        <select><option>업무구분 선택</option></select>
+        <input class="input" type="text" placeholder="플레이스홀더" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ 탭 -->
+  <section class="cat-section" id="tabs">
+    <h2 class="cat-section__tit">탭 종류 (용도별로 다름 — 헷갈리지 말 것)</h2>
+    <p class="cat-section__desc">겉모양이 비슷해 보여도 위치/토큰이 다르다. 새 탭이 필요하면 반드시 아래 중 용도가 맞는 것을 골라 쓸 것.</p>
+
+    <div class="cat-block">
+      <div class="cat-block__label"><code>.subtabs</code> — 인라인 서브탭 (국내/해외류, 테이블 바로 위에 캡핑)</div>
+      <div class="cat-stage">
+        <div class="subtabs">
+          <button type="button" aria-selected="true">국내</button>
+          <button type="button">해외</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-block__label"><code>.areatabs</code> — 하단 전환 탭 (회원메모/가맹점메모류, 밑줄 강조)</div>
+      <div class="cat-stage">
+        <div class="areatabs">
+          <button type="button" aria-selected="true">회원메모</button>
+          <button type="button">가맹점메모</button>
+          <button type="button">상담이력</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-block__label"><code>.gridtabs2</code> — 옅은 브랜드 필 (조치영역 탭류)</div>
+      <div class="cat-stage">
+        <div class="gridtabs2">
+          <button type="button" aria-selected="true">통합</button>
+          <button type="button">국내</button>
+          <button type="button">온라인</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-block__label"><code>.card__tabs</code> — 카드 헤더 안 탭</div>
+      <div class="cat-stage">
+        <div class="card" style="width:260px">
+          <div class="card__head">
+            <span>FDS주의메모</span>
+            <div class="card__tabs">
+              <button type="button" aria-selected="true">인당</button>
+              <button type="button">카드당</button>
+            </div>
+          </div>
+          <div class="card__body" style="font-size:var(--fs-11);color:var(--text-tertiary)">본문 영역</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ 테이블/그리드 -->
+  <section class="cat-section" id="table-grid">
+    <h2 class="cat-section__tit">테이블 / 그리드</h2>
+    <p class="cat-section__desc"><b>판단 기준</b>: row를 선택/체크할 수 있으면 <code>grid</code>, 정적 라벨:값이면 <code>table</code>. grid만 hover가 붙는다 (design-corrections.md 1번).</p>
+
+    <div class="cat-block">
+      <div class="cat-block__label"><code>.tablewrap.grid</code> — 선택 가능한 레코드 리스트</div>
+      <div class="cat-stage cat-stage--col">
+        <div class="tablewrap grid">
+          <table>
+            <thead><tr><th>번호</th><th class="sortable">회원명<span class="sort-ic"><svg viewBox="0 0 8 8"><path d="M1 5l3-3 3 3" fill="none" stroke="currentColor"/></svg></span></th><th>상태</th></tr></thead>
+            <tbody>
+              <tr data-selected><td>1</td><td>홍길동</td><td><span class="pill pill--wip">진행중</span></td></tr>
+              <tr><td>2</td><td>김철수</td><td><span class="pill pill--done">완료</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="cat-note">행에 마우스를 올리면 hover 배경이 생긴다 — 정적 테이블엔 절대 이 클래스를 쓰지 말 것.</p>
+      </div>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-block__label"><code>.tablewrap.table</code> — 정적 조회 테이블</div>
+      <div class="cat-stage">
+        <div class="tablewrap table">
+          <table>
+            <thead><tr><th>항목</th><th>값</th></tr></thead>
+            <tbody><tr><td>합계</td><td>1,234</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-block__label"><code>.tablewrap.grid--dense</code> — 모니터링용 고밀도 (row-h-monitoring)</div>
+      <div class="cat-stage">
+        <div class="tablewrap grid grid--dense">
+          <table>
+            <thead><tr><th>시간</th><th>내용</th></tr></thead>
+            <tbody><tr><td>10:21</td><td>긴급 알림 발생</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ 라벨:값 패널 -->
+  <section class="cat-section" id="metapanel">
+    <h2 class="cat-section__tit">라벨:값 요약 패널</h2>
+    <p class="cat-section__desc">전부 <code>table</code> 분류. 좌측 그룹 라벨이 rowspan으로 필요하면 <code>.metatable</code>, 아니면 <code>.metagrid</code>/<code>.resultmeta</code>.</p>
+
+    <div class="cat-block">
+      <div class="cat-block__label"><code>&lt;dl class="resultmeta"&gt;</code> — 4열 여유형</div>
+      <div class="cat-stage">
+        <dl class="resultmeta" style="margin:0">
+          <dt>회원명</dt><dd>홍길동</dd>
+          <dt>회원번호</dt><dd>1234567890</dd>
+        </dl>
+      </div>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-block__label"><code>&lt;dl class="metagrid"&gt;</code> — 고밀도형 (가맹점정보류)</div>
+      <div class="cat-stage">
+        <dl class="metagrid" style="width:100%">
+          <dt>가맹점명</dt><dd>OO마트</dd><dt>가맹점번호</dt><dd>998877</dd>
+          <dt>주소</dt><dd data-span>서울시 강남구 ...</dd>
+        </dl>
+      </div>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-block__label"><code>.metatable</code> — rowspan 그룹 라벨 필요할 때</div>
+      <div class="cat-stage">
+        <table class="metatable" style="width:100%">
+          <tbody>
+            <tr><th class="group" rowspan="2">회원</th><td class="label">회원명</td><td class="value">홍길동</td><td class="label">연락처</td><td class="value">010-0000-0000</td></tr>
+            <tr><td class="label">회원번호</td><td class="value">1234567890</td><td class="label">가입일</td><td class="value">2020-01-01</td></tr>
+            <tr><th class="group">가맹점</th><td class="label">가맹점전화</td><td class="value">02-000-0000</td><td class="label">가맹점주hp</td><td class="value">010-1111-2222</td></tr>
+          </tbody>
+        </table>
+        <p class="cat-note">CSS grid는 auto-flow와 명시적 rowspan을 함께 쓰기 어려워서 진짜 rowspan이 필요한 경우만 쓴다.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ 카드 -->
+  <section class="cat-section" id="cards">
+    <h2 class="cat-section__tit">카드</h2>
+    <p class="cat-section__desc"><code>.cardrow</code>(가로 배치) 안에 <code>.card</code>(박스형, 대시보드용) 또는 <code>.card--flat</code>(테두리 없이 타이틀+선만, 메인 레벨 정보 패널용)을 배치. 여러 개를 세로로 쌓을 땐 <code>.cardstack</code>으로 감싼다.</p>
+
+    <div class="cat-block">
+      <div class="cat-block__label"><code>.card</code> — 박스형</div>
+      <div class="cat-stage">
+        <div class="card" style="width:260px">
+          <div class="card__head"><span>카드 타이틀</span><span class="card__actions"><button class="linklike" type="button">더보기</button></span></div>
+          <div class="card__body" style="font-size:var(--fs-11)">본문 내용</div>
+          <div class="card__foot"><button class="btn btn--default btn--sm" type="button">확인</button></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-block__label"><code>.card--flat</code> — 테두리 없이 타이틀만 (메인 레벨 정보 패널)</div>
+      <div class="cat-stage">
+        <div class="card card--flat" style="width:260px">
+          <div class="card__head"><span>FDS회원정보</span></div>
+          <div class="card__body" style="font-size:var(--fs-11)">본문 내용 (타이틀→본문 간격 8px)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-block__label"><code>.cardrow</code> + <code>.cardstack</code> — 조합 레이아웃 (2번째 칼럼에 카드 2개 쌓기)</div>
+      <div class="cat-stage">
+        <div class="cardrow" style="width:100%">
+          <div class="card card--flat"><div class="card__head"><span>가맹점정보</span></div><div class="card__body" style="font-size:var(--fs-11)">단일 카드</div></div>
+          <div class="cardstack" style="display:flex;flex-direction:column;gap:var(--sp-16)">
+            <div class="card card--flat"><div class="card__head"><span>FDS주의메모</span></div><div class="card__body" style="font-size:var(--fs-11)">카드 A</div></div>
+            <div class="card card--flat"><div class="card__head"><span>Call조치및긴급</span></div><div class="card__body" style="font-size:var(--fs-11)">카드 B (gap 16px로만 간격 결정 — head/foot padding은 0으로 상쇄됨)</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ 칩/상태 -->
+  <section class="cat-section" id="chips">
+    <h2 class="cat-section__tit">칩 / 상태 표시</h2>
+    <div class="cat-block">
+      <div class="cat-block__label"><code>.pill.pill--wip</code> / <code>.pill--done</code></div>
+      <div class="cat-stage">
+        <span class="pill pill--wip">진행중</span>
+        <span class="pill pill--done">완료</span>
+      </div>
+    </div>
+    <div class="cat-block">
+      <div class="cat-block__label"><code>.lab-hl</code> / <code>.lab-value</code> — 검사결과 값 강조(H/L)</div>
+      <div class="cat-stage">
+        <span class="lab-value h">125 <span class="lab-hl h">H</span></span>
+        <span class="lab-value l">32 <span class="lab-hl l">L</span></span>
+        <span class="refrange">(참고치 60~100)</span>
+      </div>
+    </div>
+    <div class="cat-block">
+      <div class="cat-block__label"><code>.statrow</code> / <code>.stat</code> — KPI 타일</div>
+      <div class="cat-stage" style="width:100%">
+        <div class="statrow" style="width:100%">
+          <div class="stat"><span class="stat__label">긴급</span><span class="stat__num">12<span class="stat__pct">+3</span></span></div>
+          <div class="stat stat--muted"><span class="stat__label">처리완료</span><span class="stat__num">108</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ 조치영역 -->
+  <section class="cat-section" id="actionbar">
+    <h2 class="cat-section__tit">조치영역 패턴 (여러 화면 공용 — components.css에서 한 번만 정의)</h2>
+    <p class="cat-section__desc">회원메모 등 조치영역을 쓰는 화면은 이 마크업 구조를 그대로 재사용한다. 이 패턴을 로컬 <code>&lt;style&gt;</code>에서 다시 정의하지 말 것.</p>
+    <div class="cat-block">
+      <div class="cat-block__label"><code>.actionbar</code> &gt; <code>.actionbar__tabs</code> + <code>.actionpanel</code> &gt; <code>.bottomrow</code>(<code>.bottomleft</code> + <code>.memopanel</code>)</div>
+      <div class="cat-stage cat-stage--col">
+        <div class="actionbar">
+          <button class="actionbar__toggle" type="button" aria-expanded="true">조치영역 <svg viewBox="0 0 10 10"><path d="M2 3l3 3 3-3" fill="none" stroke="currentColor"/></svg></button>
+          <div class="actionbar__tabs">
+            <div class="actionbar__tablist">
+              <button type="button" aria-selected="true">회원메모</button>
+              <button type="button">가맹점메모</button>
+            </div>
+          </div>
+          <div class="actionpanel">
+            <div class="bottomrow">
+              <div class="bottomleft">
+                <div class="filterline--tint" style="display:flex;gap:8px;align-items:center;margin-bottom:8px">
+                  <label class="checkbox-label"><input type="radio" name="cat-demo" checked />인당</label>
+                  <label class="checkbox-label"><input type="radio" name="cat-demo" />카드당</label>
+                  <input class="input" type="text" placeholder="검색" style="flex:1" />
+                  <button class="btn btn--search btn--sm" type="button">조회</button>
+                </div>
+                <div class="tablewrap grid"><table><thead><tr><th>일시</th><th>내용</th></tr></thead><tbody><tr><td>09-17</td><td>메모 내용</td></tr></tbody></table></div>
+              </div>
+              <div class="memopanel">
+                <div class="memopanel__head"><span style="font-size:var(--fs-11);font-weight:700">메모 작성</span></div>
+                <select><option>업무구분</option></select>
+                <textarea placeholder="내용 입력"></textarea>
+                <div class="memopanel__foot">0/500</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ 레이아웃 -->
+  <section class="cat-section" id="layout">
+    <h2 class="cat-section__tit">레이아웃 패턴</h2>
+    <p class="cat-section__desc">새 화면을 만들 때 이 중 화면 성격에 맞는 걸 고른다. 좌/우 2분할이 아닌 새 패턴이 필요하면 <code>components.css</code>에 클래스를 추가하고, 화면 파일 안에서 인라인으로 새로 짜지 않는다.</p>
+    <div class="cat-block">
+      <div class="cat-block__label"><code>.grid2</code> — 메인(좌, 카드없음) + 서브(우, 회색풀블리드+흰카드) · 목록→상세 흐름</div>
+      <p class="cat-note">예: fds-screen.html (수진자검사결과 조회). template.html 참고.</p>
+    </div>
+    <div class="cat-block">
+      <div class="cat-block__label"><code>.dash-layout</code> &gt; <code>.dash-main</code>(카드 여러 개 세로) + <code>.dash-side</code>(고정폭, 선구분, 화면 끝까지 항상 떠있음)</div>
+      <p class="cat-note">예: merchant-info-screen.html / cash-advance-screen.html의 배분영역(실시간 모니터링).</p>
+    </div>
+    <div class="cat-block">
+      <div class="cat-block__label"><code>.cardrow</code> — 밀도 높은 다중 패널 대시보드 (정보 조회형)</div>
+      <p class="cat-note">위 "카드" 섹션 예시 참고.</p>
+    </div>
+  </section>
+
+  <!-- ============================================================ 기타 -->
+  <section class="cat-section" id="misc">
+    <h2 class="cat-section__tit">기타 유틸</h2>
+    <div class="cat-block">
+      <div class="cat-block__label"><code>.section-divider</code> — 진한 1px + 옅은 3px 2단 구분선</div>
+      <div class="cat-stage cat-stage--col" style="padding:0">
+        <div style="padding:12px 16px;font-size:11px;color:var(--text-tertiary)">원장영역</div>
+        <div class="section-divider"></div>
+        <div style="padding:12px 16px;font-size:11px;color:var(--text-tertiary)">그리드영역</div>
+      </div>
+    </div>
+    <div class="cat-block">
+      <div class="cat-block__label"><code>.group-bar</code> — metagrid 위 그룹 타이틀 바</div>
+      <div class="cat-stage cat-stage--col">
+        <div class="group-bar">국내</div>
+        <dl class="metagrid" style="width:100%"><dt>건수</dt><dd>120</dd><dt>금액</dt><dd>3,200,000</dd></dl>
+      </div>
+    </div>
+  </section>
+</main>

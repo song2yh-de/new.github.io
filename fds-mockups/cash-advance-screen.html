@@ -1,0 +1,542 @@
+<!doctype html>
+<title>현금융통회원조회</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="tokens.css" />
+<link rel="stylesheet" href="components.css" />
+<style>
+  /* 이 화면 전용 보조 스타일 — 재사용 가능성이 확인되면 components.css로 승격 */
+  .cardstack{ display:flex; flex-direction:column; gap:var(--sp-16); flex:1 1 0; min-width:280px; }
+  .filterline{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:8px; }
+  .filterline .field-label{ width:auto; padding-top:0; font-size:var(--fs-11); }
+  .filterline select, .filterline input{ height:24px; font-size:var(--fs-11); }
+  .countnote{ font-size:var(--fs-11); color:var(--text-tertiary); font-weight:700; }
+  .text-error{ color:var(--feedback-error); font-weight:700; }
+  .text-link{ color:var(--text-link); }
+  .fieldvalue-ic{ display:flex; align-items:center; justify-content:space-between; gap:4px; }
+  .fieldvalue-ic .icon-sq{ width:20px; height:20px; flex-shrink:0; }
+
+  /* 조치영역 열림/닫힘에 따라 그리드 영역이 줄었다 늘었다 하는 구조 (가맹점정보 조회 화면과 동일 패턴) */
+  html, body{ height:100%; }
+  body{ min-height:0; }
+  .dash{ flex:1; min-height:0; display:flex; flex-direction:column; overflow:hidden; }
+  .dash-layout{ flex:1; min-height:0; }
+  .dash-main{ min-height:0; }
+  .cardrow, .section-divider{ flex-shrink:0; }
+  .grid-section{ flex:1; min-height:160px; display:flex; flex-direction:column; }
+  .grid-section .tablewrap{ flex:1; min-height:0; overflow-y:auto; }
+  .actionbar{ flex-shrink:0; }
+  #actionContent{ height:208px; overflow-y:auto; }
+
+  /* 조치영역(.actionpanel/.memopanel 등) + 배분영역(.dash-side 내부 스크롤 체인) 공통 스타일은
+     components.css에 있다 — 여기서 재정의하지 말 것 */
+</style>
+
+<header class="gnb">
+  <div class="gnb__logo"><span class="mark" aria-hidden="true"></span>롯데카드 FDS</div>
+  <nav class="gnb__menu" aria-label="주 메뉴">
+    <button type="button" aria-current="page">운영관리</button>
+    <button type="button">모니터링</button>
+    <button type="button">실적현황</button>
+    <button type="button">CASE관리</button>
+    <button type="button">리스트</button>
+    <button type="button">정보유출</button>
+    <button type="button">코드</button>
+  </nav>
+  <div class="gnb__utils">
+    <div class="gnb__icons">
+      <span class="ico" title="전화상담"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.1-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .3 2 .6 2.9a2 2 0 0 1-.5 2.1L8 10a16 16 0 0 0 6 6l1.3-1.2a2 2 0 0 1 2.1-.5c.9.3 1.9.5 2.9.6a2 2 0 0 1 1.7 2z"/></svg></span>
+      <span class="ico" title="발신"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.1-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7"/></svg></span>
+      <span class="ico" title="헤드셋"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1v-6h3zM3 19a2 2 0 0 0 2 2h1v-6H3z"/></svg></span>
+      <span class="ico" title="수신"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1"/></svg></span>
+      <span class="ico" title="메신저"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
+      <span class="ico" title="알림"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg><span class="badge">99</span></span>
+      <span class="ico" title="쪽지"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span>
+      <span class="ico" title="문서함"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></span>
+    </div>
+    <div class="gnb__user">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      박길동
+    </div>
+    <div class="gnb__clock">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+      <span>14:22:10</span>
+    </div>
+  </div>
+</header>
+
+<div class="pagetabbar">
+  <div class="pagetabbar__nav" title="이전"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></div>
+  <div class="pagetabbar__nav" title="다음"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></div>
+  <div class="pagetabbar__tabs">
+    <div class="pagetab" data-home>Home</div>
+    <div class="pagetab" data-active>현금융통회원조회 <button type="button" aria-label="탭 닫기">✕</button></div>
+  </div>
+  <div class="pagetabbar__close" title="전체 닫기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg></div>
+</div>
+
+<main class="dash">
+<div class="dash-layout">
+<div class="dash-main">
+
+  <!-- ===================== 상단: 정보 카드 3열 ===================== -->
+  <div class="cardrow">
+
+    <!-- 카드1: 현금융통회원심사 / 현금융통회원조회 -->
+    <div class="card card--flat" style="flex:1.6 1 0;">
+      <div class="card__head">
+        <div class="subtabs subtabs--compact" role="tablist">
+          <button type="button" role="tab" aria-selected="false">현금융통회원심사</button>
+          <button type="button" role="tab" aria-selected="true">현금융통회원조회</button>
+        </div>
+        <div class="card__actions">
+          <button type="button" class="btn btn--default btn--sm" style="height:22px;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:12px;height:12px;"><circle cx="12" cy="12" r="9"/><path d="M14 9a3 3 0 1 0 0 6"/></svg>CLEAR
+          </button>
+        </div>
+      </div>
+      <div class="card__body">
+        <dl class="metagrid">
+          <dt>성명(소지자)</dt><dd>내용</dd>
+          <dt>성명(발급자)</dt><dd class="fieldvalue-ic">내용<span class="icon-sq" title="조회"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></span></dd>
+          <dt>주민번호(소지자)</dt><dd>내용</dd>
+          <dt>주민번호(발급자)</dt><dd>내용</dd>
+          <dt>고객번호</dt><dd>1001293686</dd>
+          <dt>회원등급</dt><dd>99</dd>
+          <dt>성별/나이</dt><dd>여성(여)/49</dd>
+          <dt>카드구분</dt><dd>본인</dd>
+          <dt>신용등급</dt><dd>일반</dd>
+          <dt>카드상품명</dt><dd>롯데 포인트 플러스 그랜드 C</dd>
+          <dt>회원상태</dt><dd class="text-error">거중</dd>
+          <dt>결졔연소득</dt><dd>34,000천원</dd>
+          <dt>K-DSR비율</dt><dd>0%</dd>
+          <dt>회원한도</dt><dd class="fieldvalue-ic">내용<span class="icon-sq" title="조회"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></span></dd>
+          <dt>발급일자</dt><dd>2017-11-27</dd>
+          <dt>카드개설정보</dt><dd class="fieldvalue-ic">내용<span class="icon-sq" title="조회"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></span></dd>
+          <dt>유효기간</dt><dd>2022-11</dd>
+          <dt>대출정보</dt><dd class="fieldvalue-ic">내용<span class="icon-sq" title="조회"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></span></dd>
+          <dt>직장명</dt><dd>내용</dd>
+          <dt>미도래확정금액</dt><dd class="fieldvalue-ic">내용<span class="icon-sq" title="조회"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></span></dd>
+          <dt>부서</dt><dd>내용</dd>
+          <dt>한도조회이력</dt><dd class="fieldvalue-ic">내용<span class="icon-sq" title="조회"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></span></dd>
+          <dt>직위</dt><dd>과장</dd>
+          <dt>연체이력</dt><dd>내용</dd>
+          <dt>카드상태/결제일</dt><dd>정상 / 24</dd>
+          <dt>현금융통적발이력</dt><dd>내용</dd>
+          <dt>결제은행/계좌</dt><dd>기업은행 / 79087*******02</dd>
+          <dt>Fraud담당자</dt><dd>내용</dd>
+          <dt>Account</dt><dd data-span>내용</dd>
+          <dt>자택주소</dt><dd data-span>내용</dd>
+          <dt>직장주소</dt><dd data-span>내용</dd>
+          <dt>이메일주소</dt><dd data-span>vq*****@nate.com</dd>
+        </dl>
+      </div>
+      <div class="card__foot">
+        <button type="button" class="btn btn--default btn--sm">SMS발송금지</button>
+        <button type="button" class="btn btn--default btn--sm">SMS</button>
+        <button type="button" class="btn btn--default btn--sm">Pop-up</button>
+        <button type="button" class="btn btn--default btn--sm">Watch</button>
+        <button type="button" class="btn btn--default btn--sm">Filter</button>
+        <button type="button" class="btn btn--default btn--sm">B/L조치</button>
+        <button type="button" class="btn btn--default btn--sm">한도조치</button>
+        <button type="button" class="btn btn--default btn--sm">CRM주의메모</button>
+        <button type="button" class="btn btn--primary btn--sm">등록</button>
+      </div>
+    </div>
+
+    <!-- 카드2: 가맹점정보 -->
+    <div class="card card--flat" style="flex:1.3 1 0;">
+      <div class="card__head">
+        <div class="subtabs subtabs--compact" role="tablist">
+          <button type="button" role="tab" aria-selected="true">가맹점정보</button>
+          <button type="button" role="tab" aria-selected="false">요약정보</button>
+          <button type="button" role="tab" aria-selected="false">하위사업자정보</button>
+        </div>
+      </div>
+      <div class="card__body">
+        <div class="group-bar">해외</div>
+        <dl class="metagrid">
+          <dt>가맹점번호</dt><dd>112233445566024</dd>
+          <dt>가맹점명</dt><dd>SGDdiscountMer</dd>
+          <dt>업종(MCC)코드</dt><dd>7011</dd>
+          <dt>업종(MCC)명</dt><dd>LODGING-HOTELS, MO…</dd>
+          <dt>국가</dt><dd>싱가포르</dd>
+          <dt>도시명</dt><dd>SGP SGP</dd>
+          <dt>단독가맹점여부</dt><dd>N</dd>
+          <dt>마지막매출일자</dt><dd>2026-07-20</dd>
+          <dt>사고건수</dt><dd>0건 / 0건</dd>
+          <dt>사고금액</dt><dd>0원 / 0원</dd>
+          <dt>승인방법별사고건수</dt><dd data-span>S : 0건 / 0건 (0건)</dd>
+          <dt>당사이용건수</dt><dd>233건</dd>
+          <dt>당사승인금액</dt><dd>0원</dd>
+        </dl>
+      </div>
+      <div class="card__foot">
+        <button type="button" class="btn btn--default btn--sm">선거절가맹점</button>
+        <button type="button" class="btn btn--default btn--sm">가맹점BLOCK</button>
+        <button type="button" class="btn btn--default btn--sm">Pop-up</button>
+        <button type="button" class="btn btn--default btn--sm">Watch</button>
+        <button type="button" class="btn btn--default btn--sm">Filter</button>
+      </div>
+    </div>
+
+    <!-- 카드3 스택: FDS주의메모 + Call조치및긴급 -->
+    <div class="cardstack" style="flex:1.1 1 0;">
+      <div class="card card--flat">
+        <div class="card__head" style="padding-inline-end:0; flex-wrap:nowrap; gap:6px;">
+          <div class="subtabs subtabs--compact" role="tablist">
+            <button type="button" role="tab" aria-selected="true">FDS주의메모</button>
+            <button type="button" role="tab" aria-selected="false">CRM주의메모</button>
+          </div>
+          <div class="card__actions">
+            <button type="button" class="btn btn--default btn--sm" style="height:20px; padding-inline:8px; flex-shrink:0;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:9px;height:9px;"><path d="M12 5v14M5 12h14"/></svg>더보기
+            </button>
+          </div>
+        </div>
+        <div class="card__body">
+          <div class="radiobar">
+            <label class="checkbox-label"><input type="radio" name="fdsMemoTarget" /> 인당</label>
+            <label class="checkbox-label"><input type="radio" name="fdsMemoTarget" checked /> 카드당</label>
+          </div>
+          <div class="tablewrap grid grid--dense">
+            <table>
+              <thead><tr><th style="width:40px">No</th><th>등록일자</th><th>등록시간</th><th>내용</th></tr></thead>
+              <tbody id="memoNoticeRows"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="card card--flat">
+        <div class="card__head"><span>Call조치및긴급</span></div>
+        <div class="card__body">
+          <table class="metatable">
+            <tbody>
+              <tr>
+                <th class="group" rowspan="4">회원</th>
+                <td class="label">발급자명</td><td class="value">내용</td>
+                <td class="label">발급자hp</td><td class="value">내용</td>
+              </tr>
+              <tr>
+                <td class="label">소지자명</td><td class="value">내용</td>
+                <td class="label">소지자hp</td><td class="value">내용</td>
+              </tr>
+              <tr>
+                <td class="label">sms신청</td><td class="value">Y</td>
+                <td class="label">법인sms</td><td class="value">내용</td>
+              </tr>
+              <tr>
+                <td class="label">자택전화</td><td class="value">내용</td>
+                <td class="label">직장전화</td><td class="value">내용</td>
+              </tr>
+              <tr>
+                <th class="group">가맹점</th>
+                <td class="label">가맹점전화</td><td class="value">내용</td>
+                <td class="label">가맹점주hp</td><td class="value">내용</td>
+              </tr>
+              <tr>
+                <th class="group">기타</th>
+                <td class="label">기타</td><td class="value">내용</td>
+                <td class="label">연락처상세</td><td class="value">내용</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card__foot">
+          <button type="button" class="btn btn--default btn--sm">카드BLOCK</button>
+          <button type="button" class="btn btn--default btn--sm">MY FDS</button>
+          <button type="button" class="btn btn--default btn--sm">분실등록</button>
+          <button type="button" class="btn btn--default btn--sm">SMS발송</button>
+          <button type="button" class="btn btn--default btn--sm">정보변경</button>
+          <button type="button" class="btn btn--default btn--sm">CRM선거절제외</button>
+          <button type="button" class="btn btn--default btn--sm">경찰청통보</button>
+          <button type="button" class="btn btn--default btn--sm">본인인증예외</button>
+          <button type="button" class="btn btn--default btn--sm">현금융통선거절예외</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- ===================== 중단: 통합/국내/온라인/해외/금융 거래내역 그리드 ===================== -->
+  <section class="grid-section">
+    <div class="filterline" style="justify-content:space-between;">
+      <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+        <div class="gridtabs2" role="tablist">
+          <button type="button" role="tab" aria-selected="true">통합</button>
+          <button type="button" role="tab" aria-selected="false">국내</button>
+          <button type="button" role="tab" aria-selected="false">온라인</button>
+          <button type="button" role="tab" aria-selected="false">해외</button>
+          <button type="button" role="tab" aria-selected="false">금융</button>
+        </div>
+        <label class="checkbox-label"><input type="radio" name="txnScope" checked /> 인당</label>
+        <label class="checkbox-label"><input type="radio" name="txnScope" /> 카드당</label>
+        <label class="checkbox-label"><input type="checkbox" class="rowcheck" /> 그리드순서저장</label>
+      </div>
+      <div style="display:flex;gap:6px;">
+        <button type="button" class="btn btn--default btn--sm">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:12px;height:12px;"><path d="M12 4v10m0 0 4-4m-4 4-4-4"/><path d="M4 18h16"/></svg>엑셀출력
+        </button>
+        <button type="button" class="btn btn--default btn--sm">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:10px;height:10px;"><path d="M12 5v14M5 12h14"/></svg>더보기
+        </button>
+      </div>
+    </div>
+    <div class="tablewrap grid grid--dense">
+      <table>
+        <thead>
+          <tr id="txnHeadRow"></tr>
+        </thead>
+        <tbody id="txnRows"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ===================== 하단: 조치 영역 (기본 열림) ===================== -->
+  <div class="actionbar">
+    <div class="actionbar__tabs">
+      <button type="button" class="actionbar__toggle" id="actionToggle" aria-expanded="true" aria-controls="actionContent">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m6 15 6-6 6 6"/></svg>조치 영역 접기
+      </button>
+      <div class="actionbar__tablist" role="tablist">
+        <button type="button" role="tab" aria-selected="true" data-tab="member-memo">회원메모</button>
+        <button type="button" role="tab" aria-selected="false" data-tab="merchant-memo">가맹점메모</button>
+        <button type="button" role="tab" aria-selected="false" data-tab="contact">컨택</button>
+        <button type="button" role="tab" aria-selected="false" data-tab="action">조치</button>
+        <button type="button" role="tab" aria-selected="false" data-tab="mobile-send">모바일발송</button>
+        <button type="button" role="tab" aria-selected="false" data-tab="mobile-status">모바일발송현황</button>
+        <button type="button" role="tab" aria-selected="false" data-tab="card-info">카드정보조회</button>
+        <button type="button" role="tab" aria-selected="false" data-tab="bl-action">B/L조치</button>
+        <button type="button" role="tab" aria-selected="false" data-tab="limit-action">한도조치</button>
+        <button type="button" role="tab" aria-selected="false" data-tab="quick-memo">간편메모</button>
+        <button type="button" role="tab" aria-selected="false" data-tab="crm-all">CRM(통합)</button>
+        <button type="button" role="tab" aria-selected="false" data-tab="crm-counsel">CRM(상담)</button>
+        <button type="button" role="tab" aria-selected="false" data-tab="deposit">입금</button>
+        <button type="button" role="tab" aria-selected="false" data-tab="installment">할부</button>
+        <button type="button" role="tab" aria-selected="false" data-tab="loanshark-info">대부업자정보</button>
+        <button type="button" role="tab" aria-selected="false" data-tab="hp-list">hp인명부조회</button>
+      </div>
+      <span class="scrollnav" id="tabScrollPrev" title="이전"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></span>
+      <span class="scrollnav" id="tabScrollNext" title="다음"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></span>
+    </div>
+    <div id="actionContent">
+
+      <!-- 패널: 회원메모 -->
+      <div class="actionpanel" data-panel="member-memo">
+        <div class="bottomrow">
+          <div class="bottomleft">
+            <div class="filterline filterline--tint" style="justify-content:space-between;">
+              <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+                <label class="checkbox-label"><input type="radio" name="memoTarget1" /> 인당</label>
+                <label class="checkbox-label"><input type="radio" name="memoTarget1" checked /> 카드당</label>
+                <label class="checkbox-label"><input type="checkbox" class="rowcheck" /> 녹취메모</label>
+                <select style="min-width:110px"><option>카드번호</option></select>
+                <input type="text" class="input" value="6259049700000914" style="width:150px" />
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;">
+                <span class="countnote">조회 건수 : 4</span>
+                <button type="button" class="btn btn--search btn--sm">조회</button>
+                <button type="button" class="btn btn--default btn--sm">다음</button>
+              </div>
+            </div>
+            <div class="tablewrap grid grid--dense">
+              <table>
+                <thead>
+                  <tr>
+                    <th style="width:32px">No</th><th>등록일자</th><th>등록시간</th><th>업무구분</th><th>카드번호</th>
+                    <th>카드구분</th><th>메모구분</th><th>메모내용</th><th>주의여부</th><th>등록자</th>
+                  </tr>
+                </thead>
+                <tbody id="memberMemoRows"></tbody>
+              </table>
+            </div>
+          </div>
+          <div class="memopanel">
+            <div class="memopanel__head">
+              <div style="display:flex;gap:10px;">
+                <label class="checkbox-label"><input type="radio" name="memoTarget2" /> 인당</label>
+                <label class="checkbox-label"><input type="radio" name="memoTarget2" checked /> 카드당</label>
+              </div>
+              <div style="display:flex;gap:6px;align-items:center;">
+                <button type="button" class="btn btn--search btn--sm">등록</button>
+                <button type="button" class="btn btn--default btn--sm">삭제</button>
+                <span class="icon-sq icon-sq--round" title="새로고침"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-2.6-6.4"/><path d="M21 3v6h-6"/></svg></span>
+              </div>
+            </div>
+            <div class="filterline" style="margin-bottom:0;">
+              <label class="field-label">업무구분</label>
+              <select style="flex:1;min-width:0;"><option>FDS</option></select>
+              <label class="field-label">메모구분</label>
+              <select style="flex:1;min-width:0;"><option>회원통화</option></select>
+            </div>
+            <textarea maxlength="250" placeholder="메모를 입력해주세요"></textarea>
+            <div class="memopanel__foot"><span id="memberMemoLen">0</span> / 250</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 그 외 탭 공통 자리표시 -->
+      <div class="actionpanel" data-panel="__placeholder" hidden style="color:var(--text-tertiary); font-size:var(--fs-12);">
+        콘텐츠 준비 중입니다.
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+  <!-- ===================== 우측: 배분 영역 (화면 우측 전체 높이, 기존 화면과 동일한 형태 그대로 재사용) ===================== -->
+  <aside class="dash-side" id="allocationArea">
+    <div class="card card--flat">
+      <div class="card__head" style="padding-inline-end:8px;">
+        <div class="card__tabs">
+          <button type="button" aria-selected="true">실시간</button>
+          <button type="button" aria-selected="false">검색</button>
+        </div>
+        <div class="card__actions">
+          <label class="checkbox-label" style="color:inherit;"><input type="checkbox" class="rowcheck" checked /> 자동갱신(3초)</label>
+          <span class="icon-sq icon-sq--round" title="새로고침"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-2.6-6.4"/><path d="M21 3v6h-6"/></svg></span>
+          <span class="icon-sq icon-sq--round" title="고정"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/></svg></span>
+        </div>
+      </div>
+      <div class="card__body">
+        <div class="statrow">
+          <div class="stat"><span class="stat__label">전체(완료율)</span><span class="stat__num">12 <span class="stat__pct">(0%)</span></span></div>
+          <div class="stat stat--muted"><span class="stat__label">조사대기</span><span class="stat__num">5</span></div>
+          <div class="stat"><span class="stat__label">조사중</span><span class="stat__num">3</span></div>
+          <div class="stat"><span class="stat__label">조사완료</span><span class="stat__num">4</span></div>
+          <div class="stat"><span class="stat__label">예외적발</span><span class="stat__num" style="color:var(--feedback-error);">0</span></div>
+        </div>
+
+        <div class="section-subhead">
+          <span class="tit-mini">긴급 <small>(당일0건 / 31영업일 1건)</small></span>
+          <div style="display:flex;align-items:center;gap:6px;">
+            <select style="min-width:60px;height:24px;font-size:var(--fs-11);"><option>전체</option></select>
+            <select style="min-width:70px;height:24px;font-size:var(--fs-11);"><option>전체</option></select>
+            <span class="icon-sq" title="정렬"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M6 12h12M10 18h4"/></svg></span>
+          </div>
+        </div>
+        <div class="tablewrap grid grid--dense">
+          <table>
+            <thead><tr><th>상태</th><th>탐지룰</th><th>업무구분</th><th>스코어</th><th>ML스코어</th><th>모델</th></tr></thead>
+            <tbody id="urgentRows"></tbody>
+          </table>
+        </div>
+
+        <div class="section-subhead">
+          <span class="tit-mini">일반 <small>(당일0건 / 31영업일 1건)</small></span>
+        </div>
+        <div class="tablewrap grid grid--dense">
+          <table>
+            <thead><tr><th>상태</th><th>탐지룰</th><th>업무구분</th><th>스코어</th><th>ML스코어</th><th>모델</th></tr></thead>
+            <tbody id="generalRows"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+</div>
+</main>
+
+<script>
+  document.getElementById('memoNoticeRows').innerHTML = [15,14,13,12].map(function(n){
+    return '<tr><td>'+n+'</td><td></td><td></td><td></td></tr>';
+  }).join('');
+
+  function caseRow(status,cls){
+    return '<tr><td><span class="pill '+cls+'">'+status+'</span></td><td>TST003</td><td>업무구분</td><td>스코어</td><td>ML스코어</td><td>모델</td></tr>';
+  }
+  document.getElementById('urgentRows').innerHTML = caseRow('조사중','pill--wip') + caseRow('조사중','pill--wip');
+  document.getElementById('generalRows').innerHTML = new Array(8).fill(0).map(function(){ return caseRow('조사대기','pill--done'); }).join('');
+
+  const txnCols = [
+    ['No',false],['업무구분',true],['카드번호',true],['거래유형',true],['카드구분',true],['카드종류',true],
+    ['SCORE',false],['RULE',false],['선거절/본인인증RULE',false],['선거절/본인인증예외RULE',false],
+    ['머신러닝스코어',false],['머신러닝사유코드',false],['승인유형',false],['거절사유',false],['승인사유',false],
+    ['배분예외RULE',false],['출입국정보',false],['승인일시',false],['가맹점명',true],['국가명',false],['도시명',false],['동일가맹점승인최종여부',false],
+  ];
+  const sortIcon = '<span class="sort-ic"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 5l5 6H7z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 19l-5-6h10z"/></svg></span>';
+  document.getElementById('txnHeadRow').innerHTML = txnCols.map(function(c){
+    return '<th'+(c[1]?' class="sortable"':'')+'>'+c[0]+(c[1]?sortIcon:'')+'</th>';
+  }).join('');
+
+  const txns = [];
+  const rows = [
+    { no:1, biz:'해외', card:'C0914', txnType:'신판', cardType:'본인', cardKind:'신용', rule:'RJ400', approval:'승인거절', reason:'위험거래 승인반도승인', approvedAt:'26-07-23 09:56:311', merchant:'SGDdiscour', country:'싱가포르', city:'SGP S' },
+    { no:2, biz:'해외', card:'C0914', txnType:'신판', cardType:'본인', cardKind:'신용', rule:'F101', approval:'승인', reason:'상승인/정상칠반도승인', approvedAt:'26-07-23 09:49:230', merchant:'UNIONPAY', country:'중국', city:'CHN', highlight:true },
+    { no:3, biz:'해외', card:'C0914', txnType:'신판', cardType:'본인', cardKind:'신용', rule:'RJ400', approval:'승인거절', reason:'위험거래 승인반도승인', approvedAt:'26-07-23 09:48:457', merchant:'Test Merch', country:'홍콩', city:'HK H' },
+    { no:4, biz:'해외', card:'C0914', txnType:'신판', cardType:'본인', cardKind:'신용', rule:'RJ400', approval:'승인거절', reason:'위험거래 승인반도승인', approvedAt:'26-07-22 09:32:263', merchant:'MOP test m', country:'홍콩', city:'' },
+    { no:5, biz:'해외', card:'C0914', txnType:'신판', cardType:'본인', cardKind:'신용', rule:'RJ400,RJ002', approval:'승인거절', reason:'위험거래 승인반도승인', approvedAt:'26-07-22 09:32:094', merchant:'MOP test m', country:'마다가스', city:'test M' },
+    { no:6, biz:'해외', card:'C0914', txnType:'신판', cardType:'본인', cardKind:'신용', rule:'RJ400', approval:'승인거절', reason:'위험거래 승인반도승인', approvedAt:'26-07-22 09:31:394', merchant:'MOP test m', country:'마다가스', city:'test M' },
+    { no:7, biz:'해외', card:'C0914', txnType:'신판', cardType:'본인', cardKind:'신용', rule:'RJ400,RJ002', approval:'승인거절', reason:'위험거래 승인반도승인', approvedAt:'26-07-22 09:29:092', merchant:'SGDdiscour', country:'싱가포르', city:'SGP S' },
+  ];
+  document.getElementById('txnRows').innerHTML = rows.map(function(t){
+    const cls = t.approval==='승인거절' ? 'text-error' : '';
+    return '<tr'+(t.highlight?' data-selected':'')+'>'+
+      '<td>'+t.no+'</td><td>'+t.biz+'</td><td class="text-link">'+t.card+'</td>'+
+      '<td>'+t.txnType+'</td><td>'+t.cardType+'</td><td>'+t.cardKind+'</td>'+
+      '<td>0</td><td>'+t.rule+'</td><td></td><td></td>'+
+      '<td></td><td></td>'+
+      '<td class="'+cls+'" style="font-weight:700;">'+t.approval+'</td><td>'+t.reason+'</td><td></td>'+
+      '<td></td><td>T</td><td>'+t.approvedAt+'</td><td>'+t.merchant+'</td><td>'+t.country+'</td><td>'+t.city+'</td><td></td>'+
+    '</tr>';
+  }).join('');
+
+  const actionToggle = document.getElementById('actionToggle');
+  const actionContent = document.getElementById('actionContent');
+
+  function setActionOpen(open){
+    actionContent.hidden = !open;
+    actionToggle.setAttribute('aria-expanded', String(open));
+    actionToggle.lastChild.textContent = open ? '조치 영역 접기' : '조치 영역 열기';
+  }
+  actionToggle.addEventListener('click', function(){
+    setActionOpen(actionContent.hidden);
+  });
+
+  const actionTabs = document.querySelectorAll('.actionbar__tablist button');
+  const actionPanels = document.querySelectorAll('.actionpanel');
+  actionTabs.forEach(function(tabBtn){
+    tabBtn.addEventListener('click', function(){
+      actionTabs.forEach(function(b){ b.setAttribute('aria-selected', String(b === tabBtn)); });
+      var key = tabBtn.dataset.tab;
+      var target = document.querySelector('.actionpanel[data-panel="' + key + '"]') || document.querySelector('.actionpanel[data-panel="__placeholder"]');
+      actionPanels.forEach(function(p){ p.hidden = (p !== target); });
+      if(actionContent.hidden) setActionOpen(true);
+    });
+  });
+
+  // 패널: 회원메모 그리드
+  const memberMemos = [
+    ['15','2026-07-23','16:12:17','FDS','6259-0497-0000-0914','본인','기타','카드Block 전체 blocking(사고위험일시보류:사고위험)','N','이효근'],
+    ['14','2026-07-23','16:05:11','FDS','6259-0497-0000-0914','본인','회원통화','.','N','이효근'],
+    ['13','2026-07-23','16:05:09','FDS','6259-0497-0000-0914','본인','회원통화','.','N','이효근'],
+    ['12','2026-07-23','16:05:07','FDS','6259-0497-0000-0914','본인','회원통화','.','N','이효근'],
+  ];
+  document.getElementById('memberMemoRows').innerHTML = memberMemos.map(function(r){
+    return '<tr>' + r.map(function(v,i){ return '<td' + (i===7?' style="text-align:left"':'') + '>' + v + '</td>'; }).join('') + '</tr>';
+  }).join('');
+
+  // 조치영역 탭 리스트: 가로 스크롤바 숨기고 좌우 화살표 버튼으로만 넘기기
+  const tabScrollPrev = document.getElementById('tabScrollPrev');
+  const tabScrollNext = document.getElementById('tabScrollNext');
+  const tabList = document.querySelector('.actionbar__tablist');
+  const TAB_SCROLL_STEP = 240;
+
+  function updateTabScrollNav(){
+    var max = tabList.scrollWidth - tabList.clientWidth;
+    tabScrollPrev.setAttribute('data-disabled', String(tabList.scrollLeft <= 0));
+    tabScrollNext.setAttribute('data-disabled', String(tabList.scrollLeft >= max - 1));
+  }
+  tabScrollPrev.addEventListener('click', function(){ tabList.scrollBy({ left: -TAB_SCROLL_STEP, behavior: 'smooth' }); });
+  tabScrollNext.addEventListener('click', function(){ tabList.scrollBy({ left: TAB_SCROLL_STEP, behavior: 'smooth' }); });
+  tabList.addEventListener('scroll', updateTabScrollNav);
+  window.addEventListener('resize', updateTabScrollNav);
+  updateTabScrollNav();
+</script>

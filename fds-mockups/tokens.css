@@ -1,0 +1,122 @@
+/* =========================================================
+   롯데카드 FDS_2026 · Design Tokens
+   원본: design.md (Figma Variables) + design-corrections.md 정정사항 반영판
+   — 이 파일은 값만 담는다. 컴포넌트 스타일은 components.css에 있다. —
+   ========================================================= */
+:root{
+  color-scheme: light;
+
+  /* -- Primitives (subset actually consumed) -------------- */
+  --p-brand-900:#142343; --p-brand-850:#1e325c; --p-brand-800:#19326b;
+  --p-brand-700:#0e37aa; --p-brand-600:#113fe4; --p-brand-500:#2b55f4;
+  --p-brand-100:#bacbfc; --p-brand-50:#e0e8ff; --p-brand-30:#ecf1fe; --p-brand-10:#f4f6fb;
+
+  --p-gray-900:#111111; --p-gray-850:#222222; --p-gray-825:#353739; --p-gray-800:#333333;
+  --p-gray-700:#555555; --p-gray-650:#5f6368; --p-gray-600:#666666; --p-gray-500:#777777;
+  --p-gray-400:#888888; --p-gray-300:#9e9e9e; --p-gray-250:#a9a9a9; --p-gray-200:#bbbbbb;
+  --p-gray-150:#cecece; --p-gray-120:#d6d6d6; --p-gray-100:#e2e2e2; --p-gray-85:#f7f7f7;
+  --p-gray-75:#f2f2f2; --p-gray-50:#f6f6f6; --p-gray-25:#fafafa;
+
+  --p-slate-650:#3d475f; --p-slate-350:#a9adb9; --p-slate-300:#b0b5c1; --p-slate-200:#d0d6db; --p-slate-100:#e3e6eb;
+
+  --p-blue-600:#265fba;
+
+  --p-base-white:#ffffff; --p-base-white-90:#ffffffe5; --p-base-white-50:#ffffff80; --p-base-white-30:#ffffff4d;
+
+  --p-error-50:#ffe8e8;  --p-error-500:#e82323; --p-error-600:#cc3333; --p-error-700:#b32525;
+  --p-warning-50:#fcf9ec; --p-warning-500:#f6bc00; --p-warning-700:#eda200;
+  --p-info-50:#f4f9ff; --p-info-500:#4c79d4; --p-info-700:#1549b3;
+  --p-success-300:#c1e9c4; --p-success-700:#10b21b;
+  --p-red-400:#f15d5d; --p-red-50:#fdf2f2;
+  --p-orange-50:#fff4e9; --p-cyan-50:#e0f6fd; --p-lime-50:#f2ffe2;
+
+  /* -- Semantic --------------------------------------------- */
+  --text-primary:var(--p-gray-900); --text-secondary:var(--p-gray-850); --text-tertiary:var(--p-gray-500);
+  --text-disabled:var(--p-gray-400); --text-inverse:var(--p-base-white); --text-link:var(--p-brand-700);
+  --text-tit:var(--p-blue-600); --text-label:var(--p-gray-700);
+
+  --bg-base:var(--p-base-white); --bg-subtle:var(--p-gray-50); --bg-muted:var(--p-gray-100);
+  --bg-inverse:var(--p-brand-900); --bg-separation:var(--p-brand-10);
+
+  --border-default:var(--p-gray-200); --border-strong:var(--p-gray-300); --border-focus:var(--p-brand-500); --border-division:var(--p-gray-120);
+
+  --action-primary:#64728c; --action-primary-hover:var(--p-brand-700); --action-secondary:var(--p-brand-50); --action-search:var(--p-brand-800);
+  --action-destructive:var(--p-error-500); --action-destructive-hover:var(--p-error-700);
+
+  --feedback-error:var(--p-error-500); --feedback-error-bg:var(--p-error-50);
+  --feedback-warning:var(--p-warning-500); --feedback-warning-bg:var(--p-warning-50);
+  --feedback-info:var(--p-info-500); --feedback-info-bg:var(--p-info-50);
+  --feedback-success:var(--p-success-700); --feedback-success-bg:var(--p-success-300);
+
+  --btn-primary-bg:var(--p-brand-700); --btn-primary-bg-hover:var(--action-primary-hover); --btn-primary-fg:var(--text-inverse);
+  --btn-search-bg:var(--action-search); --btn-search-bg-hover:var(--p-brand-900); --btn-search-fg:var(--text-inverse);
+  --btn-secondary-bg:var(--p-brand-50); --btn-secondary-fg:var(--p-brand-500); --btn-secondary-fg-hover:var(--p-brand-700); --btn-secondary-border:var(--p-brand-500);
+  --btn-default-bg:var(--bg-base); --btn-default-bg-hover:var(--bg-muted); --btn-default-fg:var(--p-gray-850); --btn-default-border:var(--border-default);
+  --btn-disabled-bg:var(--p-gray-50); --btn-disabled-fg:var(--p-gray-200); --btn-disabled-border:var(--p-gray-100);
+  --btn-icon-bg:var(--p-brand-10); --btn-icon-fg:var(--p-gray-600); --btn-icon-border:var(--p-gray-200);
+
+  --form-input-bg:var(--bg-base); --form-input-bg-disabled:var(--bg-muted);
+  --form-input-border:var(--border-default); --form-input-border-focus:var(--border-focus); --form-input-border-muted:var(--p-gray-200);
+  --form-input-text:var(--text-secondary); --form-input-text-placeholder:var(--text-tertiary);
+  --form-control-border:var(--p-gray-500); --form-control-selected:var(--action-primary);
+  --form-label-text:var(--text-primary);
+  --form-select-caret:var(--text-secondary);
+
+  /* Table — 라벨:값 형태의 요약/메타 정보 패널 전용 (design-corrections.md 1번)
+     header/bg-group·border-group은 그룹(병합) 헤더용, header/text는 기본·그룹 공통 (text-group 없음) */
+  --table-header-bg:var(--p-brand-10); --table-header-bg-group:var(--p-slate-100);
+  --table-header-text:var(--text-secondary); --table-header-required:var(--p-error-500);
+  --table-header-border:var(--p-slate-200); --table-header-border-group:var(--p-slate-200); /* border-group 값은 확정 대기, 우선 border와 동일 */
+  --table-row-bg:var(--bg-base); --table-row-bg-selected:var(--feedback-warning-bg); --table-row-text:var(--text-secondary);
+  --table-row-text-error:var(--feedback-error); --table-row-text-blue:var(--p-brand-600,#113fe4);
+  --table-border:var(--p-gray-100);
+
+  /* Grid — 헤더+행으로 된 레코드 리스트(선택·체크 가능) 전용 (design-corrections.md 1번) */
+  --grid-header-bg:var(--p-slate-100); --grid-header-text:var(--p-gray-800); --grid-header-icon:var(--p-gray-300);
+  --grid-header-border:var(--p-gray-150); /* alias: gray/150, 원본 spec은 direct hex(#cecece)였음 */
+  --grid-row-bg:var(--bg-base); --grid-row-bg-selected:var(--p-orange-50); --grid-row-text:var(--text-secondary);
+  --grid-row-bg-error:var(--feedback-error-bg); --grid-row-text-error:var(--feedback-error);
+  --grid-row-bg-blue:var(--p-cyan-50); --grid-row-text-blue:var(--p-info-700);
+  --grid-row-bg-green:var(--p-lime-50);
+  --grid-border:var(--p-gray-100);
+
+  /* Chip — 상태 표시 (design-corrections.md 6번) */
+  --chip-fc:var(--p-brand-600); --chip-bg:var(--p-brand-50);
+  --chip-g-fc:var(--p-gray-600); --chip-g-bg:var(--p-gray-100);
+
+  --header-bg:var(--p-brand-900); --header-line:#000000; --header-bar:var(--p-slate-650);
+  --header-fc:var(--p-base-white); --header-icon:var(--p-slate-350); --header-icon-hover:var(--p-base-white);
+  --header-logout-bg:#0c1425; --header-tooltip-bg:var(--p-base-white-90); --header-tooltip-line:var(--p-gray-825);
+  --header-call-bg:#263f73;
+  --header-2depth-bg:var(--p-base-white); --header-2depth-fc:var(--p-gray-850); --header-2depth-hover-bg:var(--p-gray-75); --header-2depth-select:#113fe4;
+
+  --pagetab-bg:var(--p-brand-850); --pagetab-active-bg:var(--p-brand-900); --pagetab-active-line:var(--p-base-white-50); --pagetab-active-fc:var(--p-base-white);
+  --pagetab-inactive-bg:var(--p-brand-800); --pagetab-inactive-line:var(--p-base-white-30); --pagetab-inactive-fc:var(--p-slate-350);
+  --pagetab-btn-bg:var(--p-brand-800); --pagetab-btn-line:var(--p-slate-300); --pagetab-btn-fc:#bdc0c9;
+
+  --tabletab-active-bg:var(--p-blue-600); --tabletab-active-fc:var(--text-inverse);
+  --tabletab-inactive-fc:var(--p-gray-400); --tabletab-inactive-bg:var(--bg-base); --tabletab-inactive-line:var(--p-gray-100);
+
+  /* Grid-tab 2 (design.md 4장) */
+  --gridtab2-active-bg:var(--p-brand-30); --gridtab2-active-fc:var(--p-brand-700);
+  --gridtab2-inactive-fc:var(--p-gray-400); --gridtab2-inactive-bg:var(--bg-base); --gridtab2-inactive-line:var(--p-gray-100);
+
+  --badge-bg:var(--p-error-500); --badge-fc:var(--p-base-white);
+
+  --search-bg:var(--p-gray-25); --search-border:var(--p-gray-100);
+
+  /* Area-tab — 카드/그리드 하단 전환용 밑줄 탭 (design.md 4장) */
+  --areatab-bg:var(--p-base-white); --areatab-active-line:var(--p-brand-500);
+  --areatab-active-fc:var(--p-brand-700); --areatab-inactive-fc:var(--p-gray-250);
+
+  /* Card 타이틀은 별도 토큰 없이 text-tit을 그대로 재사용한다 — .tit과 동일한 "타이틀 레벨" */
+
+  --fs-30:1.875rem; --fs-26:1.625rem; --fs-22:1.375rem; --fs-18:1.125rem; --fs-16:1rem;
+  --fs-14:0.875rem; --fs-13:0.8125rem; --fs-12:0.75rem; --fs-11:0.6875rem; --fs-10:0.625rem;
+
+  --sp-4:4px; --sp-8:8px; --sp-12:12px; --sp-16:16px; --sp-20:20px; --sp-24:24px;
+  --rad-sm:4px; --rad-md:6px; --rad-lg:8px;
+  --row-h-default:36px; --row-h-monitoring:26px;
+
+  --font-base:'Noto Sans KR', 'NanumSquare Neo', 'Malgun Gothic', -apple-system, sans-serif;
+}

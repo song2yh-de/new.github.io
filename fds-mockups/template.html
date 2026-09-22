@@ -1,0 +1,106 @@
+<!doctype html>
+<title>새 화면 템플릿</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="tokens.css" />
+<link rel="stylesheet" href="components.css" />
+
+<!--
+  새 화면 작업 가이드
+  =====================================================================
+  1. GNB / Page-tab: 아래 마크업을 그대로 복사하고, 메뉴 aria-current="page"와
+     탭 라벨/활성 탭(data-active)만 화면에 맞게 바꾼다. 구조는 손대지 않는다.
+
+  2. 본문 레이아웃: 이 화면은 design-corrections.md 8번의
+     "메인 화면(좌) + 서브 화면(우)" 2분할 패턴(.grid2)을 기본 골격으로 담았다.
+     - 좌우 2분할이 아닌 화면(예: 등록·상세형, 일정형)이 필요하면
+       components.css에 새 레이아웃 클래스를 추가해서 확장한다.
+       (화면 파일 안에서 인라인으로 새로 짜지 말 것 — 재사용성이 깨진다.)
+
+  3. 컴포넌트 선택 기준 (design-corrections.md 1번):
+     - 라벨:값 형태의 정적 요약/메타 정보         → .tablewrap.table + <dl class="resultmeta">
+     - 헤더+행으로 된 선택/체크 가능한 레코드 리스트 → .tablewrap.grid + <table>
+     - 버튼: 조회류=.btn--search, 강조=.btn--primary, 일반=.btn--default, 아이콘 전용=.btn--icon
+     - 상태 표시: 완료류=.pill.pill--done(회색), 진행중류=.pill.pill--wip(브랜드)
+
+  4. 타이틀: 메인 섹션은 <h2 class="tit">, 리스트/서브 타이틀은 <h3 class="subtit">.
+     클래스 자체가 margin:0으로 UA 기본 마진을 리셋하므로 별도 처리 불필요
+     (design-corrections.md 9-1 — 새 heading 태그를 추가할 때도 이 습관 유지할 것).
+
+  5. 완성 후 반드시 픽셀/DOM 실측으로 검증할 것 (design-corrections.md 12번).
+  =====================================================================
+-->
+
+<header class="gnb">
+  <div class="gnb__logo"><span class="mark" aria-hidden="true"></span>롯데카드 FDS</div>
+  <nav class="gnb__menu" aria-label="주 메뉴">
+    <button type="button">운영관리</button>
+    <button type="button">모니터링</button>
+    <button type="button">실적현황</button>
+    <button type="button" aria-current="page">CASE관리</button>
+    <button type="button">리스트</button>
+    <button type="button">정보유출</button>
+    <button type="button">코드</button>
+  </nav>
+  <div class="gnb__utils">
+    <div class="gnb__icons">
+      <span class="ico" title="전화상담"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.1-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .3 2 .6 2.9a2 2 0 0 1-.5 2.1L8 10a16 16 0 0 0 6 6l1.3-1.2a2 2 0 0 1 2.1-.5c.9.3 1.9.5 2.9.6a2 2 0 0 1 1.7 2z"/></svg></span>
+      <span class="ico" title="발신"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.1-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7"/></svg></span>
+      <span class="ico" title="헤드셋"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1v-6h3zM3 19a2 2 0 0 0 2 2h1v-6H3z"/></svg></span>
+      <span class="ico" title="수신"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1"/></svg></span>
+      <span class="ico" title="메신저"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
+      <span class="ico" title="알림"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg><span class="badge">0</span></span>
+      <span class="ico" title="쪽지"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span>
+      <span class="ico" title="문서함"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></span>
+    </div>
+    <div class="gnb__user">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      사용자명
+    </div>
+    <div class="gnb__clock">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+      <span>00:00:00</span>
+    </div>
+  </div>
+</header>
+
+<div class="pagetabbar">
+  <div class="pagetabbar__nav" title="이전"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></div>
+  <div class="pagetabbar__nav" title="다음"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></div>
+  <div class="pagetabbar__tabs">
+    <div class="pagetab" data-home>Home</div>
+    <div class="pagetab" data-active>새 화면명 <button type="button" aria-label="탭 닫기">✕</button></div>
+  </div>
+  <div class="pagetabbar__close" title="전체 닫기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg></div>
+</div>
+
+<main class="shell">
+  <div class="grid2">
+
+    <!-- 좌측: 메인 화면(카드 없음) — 검색/목록류 콘텐츠를 여기에 -->
+    <section class="surface--flat" aria-labelledby="mainTit">
+      <div class="panel-head">
+        <h2 class="tit" id="mainTit">타이틀</h2>
+      </div>
+
+      <!-- 여기에 검색폼(.searchform) / 목록(.tablewrap.grid) 등을 채운다 -->
+
+    </section>
+
+    <!-- 우측: 서브 화면(회색 풀블리드 + 흰 카드) — 상세/결과류 콘텐츠를 여기에 -->
+    <div class="subscreen">
+      <section class="panel" aria-labelledby="subTit">
+        <div class="panel-head">
+          <h2 class="tit" id="subTit">타이틀</h2>
+        </div>
+
+        <!-- 여기에 요약 패널(.resultmeta) / 상세 그리드(.tablewrap.grid) 등을 채운다 -->
+
+      </section>
+    </div>
+
+  </div>
+</main>
